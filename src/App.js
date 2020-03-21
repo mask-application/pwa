@@ -1,30 +1,32 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-// import { Link } from 'react-router-dom';
-// import { Router, browserHistory, Route } from 'react-router';
+import React from "react";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 import logo from './logo.svg';
 import './App.css';
 
-const Page = ({ title }) => (
+
+const Page = ({title}) => (
     <div className="App">
-      <div className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h2>{title}</h2>
-      </div>
-      <p className="App-intro">
-        This is the {title} page.
-      </p>
-      <p>
-        <Link to="/">Home</Link>
-      </p>
-      <p>
-        <Link to="/about">About</Link>
-      </p>
-      <p>
-        <Link to="/settings">Settings</Link>
-      </p>
+        <div className="App-header">
+            <img src={logo} className="App-logo" alt="logo"/>
+            <h2>{title}</h2>
+            <p>
+                <Link to="/">Hodme</Link>
+            </p>
+            <p>
+                <Link to="/about">About</Link>
+            </p>
+            <p>
+                <Link to="/settings">Settings</Link>
+            </p>
+        </div>
     </div>
 );
+
 
 const Home = (props) => (
     <Page title="Home"/>
@@ -35,19 +37,46 @@ const About = (props) => (
 );
 
 const Settings = (props) => (
-    <Page title="Settings"/>
+    <Page title="تنظیمات"/>
 );
 
-class App extends Component {
-  render() {
+
+export default function App() {
+    // برای یادگیری Router ها در React می‌تونید از پیوند زیر استفاده کنید:
+    // https://reacttraining.com/react-router/web/guides/quick-start
     return (
-        <Router history={browserHistory}>
-          <Route path="/" component={Home}/>
-          <Route path="/about" component={About}/>
-          <Route path="/settings" component={Settings}/>
+        <Router>
+            <div>
+                {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+                <Switch>
+                    <Route path="/">
+                        <Home/>
+                    </Route>
+                    <Route path="/about">
+                        <About/>
+                    </Route>
+                    <Route path="/users">
+                        <Users/>
+                    </Route>
+                    <Route path="/settings">
+                        <Settings/>
+                    </Route>
+                </Switch>
+            </div>
         </Router>
     );
-  }
+}
+//
+// function Home() {
+//     return <h2>Home</h2>;
+// }
+//
+// function About() {
+//     return <h2>About</h2>;
+// }
+
+function Users() {
+    return <h2>Users</h2>;
 }
 
-export default App;
