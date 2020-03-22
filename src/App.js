@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles';
-import logo from './logo.svg';
 import './App.css';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -26,11 +25,11 @@ function App() {
                 }}
                 className={"bottomNav"}
             >
-                <BottomNavigationAction label="آگاهی بخشی" icon={<Assignment/>}/>
-                <BottomNavigationAction label="خانواده" icon={<Group/>}/>
-                <BottomNavigationAction label="من" icon={<Person/>}/>
+                <BottomNavigationAction label="خانه" icon={<Home/>} />
                 <BottomNavigationAction label="نقشه" icon={<Map/>}/>
-                <BottomNavigationAction label="خانه" icon={<Home/>}/>
+                <BottomNavigationAction label="من" icon={<Person/>}/>
+                <BottomNavigationAction label="خانواده" icon={<Group/>}/>
+                <BottomNavigationAction label="آگاهی بخشی" icon={<Assignment/>}/>
             </BottomNavigation>
         </div>
     );
