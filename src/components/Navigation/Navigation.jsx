@@ -5,6 +5,34 @@ import { Home, Map, Person, People, Assignment } from "@material-ui/icons";
 
 import './Navigation.css';
 
+const routes = [
+    {
+        to: '/news',
+        label: 'آگاهی‌بخشی',
+        icon: <Assignment />,
+    },
+    {
+        to: '/family',
+        label: 'خانواده',
+        icon: <People />,
+    },
+    {
+        to: '/me',
+        label: 'من',
+        icon: <Person />,
+    },
+    {
+        to: '/map',
+        label: 'نقشه',
+        icon: <Map />,
+    },
+    {
+        to: '/home',
+        label: 'خانه',
+        icon: <Home />,
+    },
+];
+
 export default function Navigation() {
     const [selected, setSelected] = useState(4);
 
@@ -13,41 +41,14 @@ export default function Navigation() {
             value={selected}
             onChange={(e, val) => setSelected(val)}
         >
-            <BottomNavigationAction
-                component={Link}
-                to="/news"
-                showLabel={selected === 0}
-                label="آگاهی‌بخشی"
-                icon={<Assignment />}
-            />
-            <BottomNavigationAction
-                component={Link}
-                to="/family"
-                showLabel={selected === 1}
-                label="خانواده"
-                icon={<People />}
-            />
-            <BottomNavigationAction
-                component={Link}
-                to="/me"
-                showLabel={selected === 2}
-                label="من"
-                icon={<Person />}
-            />
-            <BottomNavigationAction
-                component={Link}
-                to="/map"
-                showLabel={selected === 3}
-                label="نقشه"
-                icon={<Map />}
-            />
-            <BottomNavigationAction
-                component={Link}
-                to="/home"
-                showLabel={selected === 4}
-                label="خانه"
-                icon={<Home />}
-            />
+            {routes.map((route, index) => (
+                <BottomNavigationAction
+                    key={index}
+                    component={Link}
+                    showLabel={selected === index}
+                    {...route}
+                />
+            ))}
         </BottomNavigation>
     );
 }
