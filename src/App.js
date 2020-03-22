@@ -3,80 +3,55 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Redirect,
 } from "react-router-dom";
-import logo from './logo.svg';
+import { ThemeProvider } from "@material-ui/core";
+
+import theme from './theme';
+import Navigation from './components/Navigation/Navigation';
+
 import './App.css';
-
-
-const Page = ({title}) => (
-    <div className="App">
-        <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo"/>
-            <h2>{title}</h2>
-            <p>
-                <Link to="/">Hodme</Link>
-            </p>
-            <p>
-                <Link to="/about">About</Link>
-            </p>
-            <p>
-                <Link to="/settings">Settings</Link>
-            </p>
-        </div>
-    </div>
-);
-
-
-const Home = (props) => (
-    <Page title="Home"/>
-);
-
-const About = (props) => (
-    <Page title="About"/>
-);
-
-const Settings = (props) => (
-    <Page title="تنظیمات"/>
-);
-
 
 export default function App() {
     // برای یادگیری Router ها در React می‌تونید از پیوند زیر استفاده کنید:
     // https://reacttraining.com/react-router/web/guides/quick-start
     return (
-        <Router>
-            <div>
-                {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-                <Switch>
-                    <Route path="/">
-                        <Home/>
-                    </Route>
-                    <Route path="/about">
-                        <About/>
-                    </Route>
-                    <Route path="/users">
-                        <Users/>
-                    </Route>
-                    <Route path="/settings">
-                        <Settings/>
-                    </Route>
-                </Switch>
-            </div>
-        </Router>
+        <ThemeProvider theme={theme}>
+            <Router>
+                <div className="app-container">
+                    <div className="app-content">
+                        <div>
+                            {/**
+                             * A <Switch> looks through its children <Route>s and
+                             * renders the first one that matches the current URL.
+                             */}
+                            <Switch>
+                                <Route path="/" exact>
+                                    <Redirect to="/home" />
+                                </Route>
+                                <Route path="/home" exact>
+                                    <h2>Home</h2>
+                                </Route>
+                                <Route path="/map" exact>
+                                    <h2>Map</h2>
+                                </Route>
+                                <Route path="/me" exact>
+                                    <h2>Me</h2>
+                                </Route>
+                                <Route path="/family" exact>
+                                    <h2>Family</h2>
+                                </Route>
+                                <Route path="/news" exact>
+                                    <h2>News</h2>
+                                </Route>
+                            </Switch>
+                        </div>
+                    </div>
+                    <div className="app-navigation">
+                        <Navigation />
+                    </div>
+                </div>
+            </Router>
+        </ThemeProvider>
     );
 }
-//
-// function Home() {
-//     return <h2>Home</h2>;
-// }
-//
-// function About() {
-//     return <h2>About</h2>;
-// }
-
-function Users() {
-    return <h2>Users</h2>;
-}
-
