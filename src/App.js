@@ -1,39 +1,57 @@
-import React, {useState} from 'react'
-import {makeStyles} from '@material-ui/core/styles';
-import logo from './logo.svg';
+import React from "react";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom";
+import { ThemeProvider } from "@material-ui/core";
+
+import theme from './theme';
+import Navigation from './components/Navigation/Navigation';
+
 import './App.css';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import {Home, Map, Person, Group, Assignment} from '@material-ui/icons';
 
-const useStyles = makeStyles({
-    root: {
-        width: "100%",
-    },
-});
-
-function App() {
-
-    const [value, setValue] = useState(0);
-    const classes = useStyles();
-
+export default function App() {
+    // برای یادگیری Router ها در React می‌تونید از پیوند زیر استفاده کنید:
+    // https://reacttraining.com/react-router/web/guides/quick-start
     return (
-        <div className="App">
-            <BottomNavigation
-                value={value}
-                onChange={(event, newValue) => {
-                    setValue(newValue);
-                }}
-                className={"bottomNav"}
-            >
-                <BottomNavigationAction label="آگاهی بخشی" icon={<Assignment/>}/>
-                <BottomNavigationAction label="خانواده" icon={<Group/>}/>
-                <BottomNavigationAction label="من" icon={<Person/>}/>
-                <BottomNavigationAction label="نقشه" icon={<Map/>}/>
-                <BottomNavigationAction label="خانه" icon={<Home/>}/>
-            </BottomNavigation>
-        </div>
+        <ThemeProvider theme={theme}>
+            <Router>
+                <div className="app-container">
+                    <div className="app-content">
+                        <div>
+                            {/**
+                             * A <Switch> looks through its children <Route>s and
+                             * renders the first one that matches the current URL.
+                             */}
+                            <Switch>
+                                <Route path="/" exact>
+                                    <Redirect to="/home" />
+                                </Route>
+                                <Route path="/home" exact>
+                                    <h2>Home</h2>
+                                </Route>
+                                <Route path="/map" exact>
+                                    <h2>Map</h2>
+                                </Route>
+                                <Route path="/me" exact>
+                                    <h2>Me</h2>
+                                </Route>
+                                <Route path="/family" exact>
+                                    <h2>Family</h2>
+                                </Route>
+                                <Route path="/news" exact>
+                                    <h2>News</h2>
+                                </Route>
+                            </Switch>
+                        </div>
+                    </div>
+                    <div className="app-navigation">
+                        <Navigation />
+                    </div>
+                </div>
+            </Router>
+        </ThemeProvider>
     );
 }
-
-export default App;
