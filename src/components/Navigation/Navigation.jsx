@@ -41,11 +41,10 @@ export default function Navigation() {
             value={selected}
             onChange={(e, val) => setSelected(val)}
         >
-            {routes.map((route, index) => (
+            {routes.map(route => (
                 <BottomNavigationAction
-                    key={index}
+                    key={route.to}
                     component={Link}
-                    showLabel={selected === index}
                     {...route}
                 />
             ))}
