@@ -1,11 +1,11 @@
 import React from "react";
-import "./FamilesActivitiesStyle.scss";
+import "./FamilyActivitiesStyle.scss";
 import {Button} from "@material-ui/core"
 
 export default function FamiliesActivities(){
     return (
         <div className={"FamiliesWrapper"}>
-           <Button/>
+            FamiliesActivities
         </div>
     )
 }

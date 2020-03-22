@@ -5,7 +5,7 @@ import {Button} from "@material-ui/core"
 export default function MyActivities(){
     return (
         <div className={"MyActivitiesWrapper"}>
-           <Button/>
+            MyActivities
         </div>
     )
 }

@@ -1,12 +1,12 @@
 import React, {Fragment} from "react";
-import Home from "../components/Home/Home";
+import FamilyActivities from "../components/FamilyActivities/FamiliyActivities";
 import Header from "../components/AppHeader/Header";
 
 function FamilyActivitiesPage() {
     return (
         <>
             <Header/>
-            <Home/>
+            <FamilyActivities/>
         </>
     )
 }

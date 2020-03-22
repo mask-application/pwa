@@ -1,6 +1,6 @@
 import * as LoginActions from "../../components/loginPage/LoginActions";
 import * as HomeActions from "../../components/Home/HomeActions";
-import * as FamiliesActivitiesActions from "../../components/FamilyActivities/FamiliesActivitiesActions";
+import * as FamilyActivitiesActions from "../../components/FamilyActivities/FamilyActivitiesActions";
 import * as InformingActions from "../../components/Informing/InformingActions";
 import * as MapActions from "../../components/Map/MapActions";
 import * as MyActivitiesActions from "../../components/MyActivities/MyActivitiesActions";
@@ -8,7 +8,7 @@ import * as MyActivitiesActions from "../../components/MyActivities/MyActivities
 export const ActionCreator = Object.assign({},
     LoginActions,
     HomeActions,
-    FamiliesActivitiesActions,
+    FamilyActivitiesActions,
     InformingActions,
     MapActions,
     MyActivitiesActions

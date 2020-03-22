@@ -1,12 +1,12 @@
 import React, {Fragment} from "react";
-import Home from "../components/Home/Home";
+import Map from "../components/Map/Map";
 import Header from "../components/AppHeader/Header";
 
 function MapPage() {
     return (
         <>
             <Header/>
-            <Home/>
+            <Map/>
         </>
     )
 }

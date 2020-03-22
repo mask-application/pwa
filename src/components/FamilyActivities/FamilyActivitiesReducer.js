@@ -2,7 +2,7 @@ const initialState = {
     test:true
 }
 
-export const FamiliesActivitiesReducer = (state = initialState , action) => {
+export const FamilyActivitiesReducer = (state = initialState , action) => {
     switch (action.type) {
         case "test":
             return {
