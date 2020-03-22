@@ -1,11 +1,10 @@
-import * as ActionTypes from "../../redux/actions/ActionTypes";
 const initialState = {
     test:true
 }
 
-export const LoginReducer = (state = initialState , action) => {
+export const FamiliesActivitiesReducer = (state = initialState , action) => {
     switch (action.type) {
-        case ActionTypes.LOGIN_SUCCESS:
+        case "test":
             return {
                 ...state,
                 test:false

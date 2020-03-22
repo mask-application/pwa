@@ -9,6 +9,8 @@ import { ThemeProvider } from "@material-ui/core";
 
 import theme from './theme';
 import Navigation from './components/Navigation/Navigation';
+import MyActivitiesPage from "./containers/MyActivitiesPage";
+import HomePage from "./containers/HomePage";
 
 import './App.css';
 
@@ -30,13 +32,13 @@ export default function App() {
                                     <Redirect to="/home" />
                                 </Route>
                                 <Route path="/home" exact>
-                                    <h2>Home</h2>
+                                    <HomePage/>
                                 </Route>
                                 <Route path="/map" exact>
                                     <h2>Map</h2>
                                 </Route>
                                 <Route path="/me" exact>
-                                    <h2>Me</h2>
+                                    <MyActivitiesPage/>
                                 </Route>
                                 <Route path="/family" exact>
                                     <h2>Family</h2>
