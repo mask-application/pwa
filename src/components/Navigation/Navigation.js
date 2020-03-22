@@ -7,19 +7,9 @@ import './Navigation.css';
 
 const routes = [
     {
-        to: '/news',
-        label: 'آگاهی‌بخشی',
-        icon: <Assignment />,
-    },
-    {
-        to: '/family',
-        label: 'خانواده',
-        icon: <People />,
-    },
-    {
-        to: '/me',
-        label: 'من',
-        icon: <Person />,
+        to: '/home',
+        label: 'خانه',
+        icon: <Home />,
     },
     {
         to: '/map',
@@ -27,14 +17,24 @@ const routes = [
         icon: <Map />,
     },
     {
-        to: '/home',
-        label: 'خانه',
-        icon: <Home />,
+        to: '/me',
+        label: 'من',
+        icon: <Person />,
+    },
+    {
+        to: '/family',
+        label: 'خانواده',
+        icon: <People />,
+    },
+    {
+        to: '/news',
+        label: 'آگاهی‌بخشی',
+        icon: <Assignment />,
     },
 ];
 
 export default function Navigation() {
-    const [selected, setSelected] = useState(4);
+    const [selected, setSelected] = useState(0);
 
     return (
         <BottomNavigation
