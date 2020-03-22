@@ -12,9 +12,9 @@ const routes = [
         icon: <Home />,
     },
     {
-        to: '/family',
-        label: 'خانواده',
-        icon: <People />,
+        to: '/map',
+        label: 'نقشه',
+        icon: <Map />,
     },
     {
         to: '/me',
@@ -22,9 +22,9 @@ const routes = [
         icon: <Person />,
     },
     {
-        to: '/map',
-        label: 'نقشه',
-        icon: <Map />,
+        to: '/family',
+        label: 'خانواده',
+        icon: <People />,
     },
     {
         to: '/news',
