@@ -16,6 +16,7 @@ import FamilyActivitiesPage from "./containers/FamilyActivitiesPage";
 import InformingPage from "./containers/InformingPage";
 
 import './App.css';
+import './_App.scss';
 
 export default function App() {
     // برای یادگیری Router ها در React می‌تونید از پیوند زیر استفاده کنید:
