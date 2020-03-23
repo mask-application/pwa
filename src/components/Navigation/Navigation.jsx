@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import { Home, Map, Person, People, Assignment } from "@material-ui/icons";
 
@@ -7,9 +7,19 @@ import './Navigation.css';
 
 const routes = [
     {
-        to: '/home',
-        label: 'خانه',
-        icon: <Home />,
+        to: '/news',
+        label: 'آگاهی‌بخشی',
+        icon: <Assignment />,
+    },
+    {
+        to: '/family',
+        label: 'خانواده',
+        icon: <People />,
+    },
+    {
+        to: '/me',
+        label: 'من',
+        icon: <Person />,
     },
     {
         to: '/map',
@@ -17,31 +27,17 @@ const routes = [
         icon: <Map />,
     },
     {
-        to: '/my-activities',
-        label: 'من',
-        icon: <Person />,
-    },
-    {
-        to: '/family-activities',
-        label: 'خانواده',
-        icon: <People />,
-    },
-    {
-        to: '/informing',
-        label: 'آگاهی‌بخشی',
-        icon: <Assignment />,
+        to: '/home',
+        label: 'خانه',
+        icon: <Home />,
     },
 ];
 
-export default withRouter(function Navigation({ location }) {
-    const currentRoute = routes.findIndex(route => route.to === location.pathname);
-    const [selected, setSelected] = useState(currentRoute);
-    if (selected !== currentRoute) {
-        setSelected(currentRoute);
-    }
+export default function Navigation() {
+    const location = useLocation();
 
     return (
-        <BottomNavigation value={selected}>
+        <BottomNavigation value={location.path}>
             {routes.map(route => (
                 <BottomNavigationAction
                     key={route.to}
@@ -51,4 +47,4 @@ export default withRouter(function Navigation({ location }) {
             ))}
         </BottomNavigation>
     );
-});
+}
