@@ -5,12 +5,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
 import Store from "./redux/Store";
+import {intl} from "./intl";
+import {RawIntlProvider} from "react-intl";
 
 ReactDOM.render(
     <Provider store={Store}>
-        <React.StrictMode>
-        <App/>
-        </React.StrictMode>
+        <RawIntlProvider value={intl.reactIntl}>
+            <React.StrictMode>
+            <App/>
+            </React.StrictMode>
+        </RawIntlProvider>
     </Provider>,
   document.getElementById('root')
 );
