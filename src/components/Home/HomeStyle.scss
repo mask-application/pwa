@@ -1,5 +1,14 @@
 .HomeWrapper{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  padding: 1rem;
+  grid-template-columns: 50% 50%;
+
+  .MuiPaper-root.link {
+    margin: .25rem;
+    text-decoration: none;
+
+    .MuiSvgIcon-root {
+      font-size: 4rem;
+    }
+  }
 }
