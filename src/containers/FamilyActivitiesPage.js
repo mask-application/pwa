@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import FamilyActivities from "../components/FamilyActivities/FamiliyActivities";
+import FamilyActivities from "../components/FamilyActivities/FamilyActivities";
 import Header from "../components/AppHeader/Header";
 
 function FamilyActivitiesPage() {
