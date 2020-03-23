@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import { Home, Map, Person, People, Assignment } from "@material-ui/icons";
 
@@ -7,19 +7,9 @@ import './Navigation.css';
 
 const routes = [
     {
-        to: '/news',
-        label: 'آگاهی‌بخشی',
-        icon: <Assignment />,
-    },
-    {
-        to: '/family',
-        label: 'خانواده',
-        icon: <People />,
-    },
-    {
-        to: '/me',
-        label: 'من',
-        icon: <Person />,
+        to: '/home',
+        label: 'خانه',
+        icon: <Home />,
     },
     {
         to: '/map',
@@ -27,20 +17,31 @@ const routes = [
         icon: <Map />,
     },
     {
-        to: '/home',
-        label: 'خانه',
-        icon: <Home />,
+        to: '/my-activities',
+        label: 'من',
+        icon: <Person />,
+    },
+    {
+        to: '/family-activities',
+        label: 'خانواده',
+        icon: <People />,
+    },
+    {
+        to: '/informing',
+        label: 'آگاهی‌بخشی',
+        icon: <Assignment />,
     },
 ];
 
-export default function Navigation() {
-    const [selected, setSelected] = useState(4);
+export default withRouter(function Navigation({ location }) {
+    const currentRoute = routes.findIndex(route => route.to === location.pathname);
+    const [selected, setSelected] = useState(currentRoute);
+    if (selected !== currentRoute) {
+        setSelected(currentRoute);
+    }
 
     return (
-        <BottomNavigation
-            value={selected}
-            onChange={(e, val) => setSelected(val)}
-        >
+        <BottomNavigation value={selected}>
             {routes.map(route => (
                 <BottomNavigationAction
                     key={route.to}
@@ -50,4 +51,4 @@ export default function Navigation() {
             ))}
         </BottomNavigation>
     );
-}
+});

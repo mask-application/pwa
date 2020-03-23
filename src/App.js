@@ -41,13 +41,13 @@ export default function App() {
                                 <Route path="/map" exact>
                                     <MapPage/>
                                 </Route>
-                                <Route path="/me" exact>
+                                <Route path="/my-activities" exact>
                                     <MyActivitiesPage/>
                                 </Route>
-                                <Route path="/family" exact>
+                                <Route path="/family-activities" exact>
                                     <FamilyActivitiesPage/>
                                 </Route>
-                                <Route path="/news" exact>
+                                <Route path="/informing" exact>
                                     <InformingPage/>
                                 </Route>
                             </Switch>

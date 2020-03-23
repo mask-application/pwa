@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import Informing from "../components/Informing/Informing";
 import Header from "../components/AppHeader/Header";
 
