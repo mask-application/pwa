@@ -1,7 +1,7 @@
 import React from "react";
 import "./HeaderStyle.scss";
 import {PersianLan} from "../../constants/Strings";
-import {AppBar, Toolbar , IconButton, Typography} from "@material-ui/core";
+import {AppBar, Toolbar, Typography} from "@material-ui/core";
 
 export default function Header(props) {
     return (
