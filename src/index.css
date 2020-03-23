@@ -16,3 +16,81 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/*#region commons-classNames*/
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.perfect-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-around {
+  justify-content: space-around;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.force-ltr {
+  direction: ltr !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.flex-filler {
+  flex-grow: 1;
+}
+
+.double-growth {
+  flex-grow: 2 !important;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.scrollable {
+  overflow: auto;
+}
+
+.scrollable-x {
+  overflow-x: auto;
+}
+
+.scrollable-y {
+  overflow-y: auto;
+}
+/*#endregion*/
