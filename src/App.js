@@ -19,45 +19,39 @@ import './App.css';
 import './_App.scss';
 
 export default function App() {
-    // برای یادگیری Router ها در React می‌تونید از پیوند زیر استفاده کنید:
-    // https://reacttraining.com/react-router/web/guides/quick-start
     return (
-        <ThemeProvider theme={theme}>
-            <Router>
-                <div className="app-container">
-                    <div className="app-content">
-                        <div>
-                            {/**
-                             * A <Switch> looks through its children <Route>s and
-                             * renders the first one that matches the current URL.
-                             */}
-                            <Switch>
-                                <Route path="/" exact>
-                                    <Redirect to="/home" />
-                                </Route>
-                                <Route path="/home" exact>
-                                    <HomePage/>
-                                </Route>
-                                <Route path="/map" exact>
-                                    <MapPage/>
-                                </Route>
-                                <Route path="/my-activities" exact>
-                                    <MyActivitiesPage/>
-                                </Route>
-                                <Route path="/family-activities" exact>
-                                    <FamilyActivitiesPage/>
-                                </Route>
-                                <Route path="/informing" exact>
-                                    <InformingPage/>
-                                </Route>
-                            </Switch>
-                        </div>
-                    </div>
-                    <div className="app-navigation">
-                        <Navigation />
-                    </div>
+        <div className="app-container">
+            <div className="app-content">
+                <div>
+                    {/**
+                     * A <Switch> looks through its children <Route>s and
+                     * renders the first one that matches the current URL.
+                     */}
+                    <Switch>
+                        <Route path="/" exact>
+                            <Redirect to="/home" />
+                        </Route>
+                        <Route path="/home" exact>
+                            <HomePage/>
+                        </Route>
+                        <Route path="/map" exact>
+                            <MapPage/>
+                        </Route>
+                        <Route path="/my-activities" exact>
+                            <MyActivitiesPage/>
+                        </Route>
+                        <Route path="/family-activities" exact>
+                            <FamilyActivitiesPage/>
+                        </Route>
+                        <Route path="/informing" exact>
+                            <InformingPage/>
+                        </Route>
+                    </Switch>
                 </div>
-            </Router>
-        </ThemeProvider>
+            </div>
+            <div className="app-navigation">
+                <Navigation />
+            </div>
+        </div>
     );
 }
