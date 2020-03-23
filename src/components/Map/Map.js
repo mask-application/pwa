@@ -4,7 +4,7 @@ import {Button} from "@material-ui/core"
 
 export default function Map(){
     return (
-        <div className={"MapWrapper"}>
+        <div className={`contentWrapper MapWrapper`}>
            Map
         </div>
     )

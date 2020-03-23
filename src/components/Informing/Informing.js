@@ -4,7 +4,7 @@ import {Button} from "@material-ui/core"
 
 export default function Informing(){
     return (
-        <div className={"InformingWrapper"}>
+        <div className={`contentWrapper InformingWrapper`}>
             Informing
         </div>
     )

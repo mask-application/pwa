@@ -9,6 +9,15 @@
   flex-grow: 1;
 }
 
+.contentWrapper{
+    height: calc(100% - 48px);
+}
+
+.app-content > div{
+  /*background-color: dodgerblue;*/
+  height: 100%;
+}
+
 .app-navigation {
   box-shadow: 0 0 7px #ccc;
 }

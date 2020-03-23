@@ -1,7 +1,13 @@
 .MyActivitiesWrapper{
-  //background-color: brown;
+  //background-color: greenyellow;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-grow: 1;
+  height: 100%;
+
+  .test{
+    position: absolute;
+    bottom: 10px;
+  }
+
 }
