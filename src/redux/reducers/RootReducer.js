@@ -7,9 +7,9 @@ import { FamilyActivitiesReducer } from "../../components/FamilyActivities/Famil
 import { MyActivitiesReducer } from "../../components/MyActivities/MyActivitiesReducer";
 
 export default combineReducers({
-    LoginReducer,
-    HomeReducer,
-    InformingReducer,
-    FamilyActivitiesReducer,
-    MyActivitiesReducer,
+    Login: LoginReducer,
+    Home: HomeReducer,
+    Informing: InformingReducer,
+    FamilyActivities: FamilyActivitiesReducer,
+    MyActivities: MyActivitiesReducer,
 });

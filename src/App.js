@@ -1,13 +1,6 @@
 import React from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-} from "react-router-dom";
-import { ThemeProvider } from "@material-ui/core";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import theme from './theme';
 import Navigation from './components/Navigation/Navigation';
 import MyActivitiesPage from "./containers/MyActivitiesPage";
 import HomePage from "./containers/HomePage";
@@ -32,19 +25,19 @@ export default function App() {
                             <Redirect to="/home" />
                         </Route>
                         <Route path="/home" exact>
-                            <HomePage/>
+                            <HomePage />
                         </Route>
                         <Route path="/map" exact>
-                            <MapPage/>
+                            <MapPage />
                         </Route>
                         <Route path="/my-activities" exact>
-                            <MyActivitiesPage/>
+                            <MyActivitiesPage />
                         </Route>
                         <Route path="/family-activities" exact>
-                            <FamilyActivitiesPage/>
+                            <FamilyActivitiesPage />
                         </Route>
                         <Route path="/informing" exact>
-                            <InformingPage/>
+                            <InformingPage />
                         </Route>
                     </Switch>
                 </div>
