@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import { Home, Map, Person, People, Assignment } from "@material-ui/icons";
 
@@ -7,10 +7,10 @@ import './Navigation.css';
 
 const routes = [
     {
-        to: '/home',
-        label: 'خانه',
-        icon: <Home />,
-    },
+    to: '/home',
+    label: 'خانه',
+    icon: <Home />,
+},
     {
         to: '/map',
         label: 'نقشه',
@@ -33,15 +33,11 @@ const routes = [
     },
 ];
 
-export default withRouter(function Navigation({ location }) {
-    const currentRoute = routes.findIndex(route => route.to === location.pathname);
-    const [selected, setSelected] = useState(currentRoute);
-    if (selected !== currentRoute) {
-        setSelected(currentRoute);
-    }
+export default function Navigation() {
+    const location = useLocation();
 
     return (
-        <BottomNavigation value={selected}>
+        <BottomNavigation value={location.path}>
             {routes.map(route => (
                 <BottomNavigationAction
                     key={route.to}
@@ -51,4 +47,4 @@ export default withRouter(function Navigation({ location }) {
             ))}
         </BottomNavigation>
     );
-});
+}

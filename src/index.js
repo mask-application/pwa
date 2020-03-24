@@ -5,12 +5,23 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
 import Store from "./redux/Store";
+import {intl} from "./intl";
+import {RawIntlProvider} from "react-intl";
+import theme from "./theme";
+import {BrowserRouter as Router} from "react-router-dom";
+import {ThemeProvider} from "@material-ui/core";
 
 ReactDOM.render(
     <Provider store={Store}>
-        <React.StrictMode>
-        <App/>
-        </React.StrictMode>
+        <RawIntlProvider value={intl.reactIntl}>
+            <React.StrictMode>
+                <ThemeProvider theme={theme}>
+                    <Router>
+                        <App/>
+                    </Router>
+                </ThemeProvider>
+            </React.StrictMode>
+        </RawIntlProvider>
     </Provider>,
   document.getElementById('root')
 );
