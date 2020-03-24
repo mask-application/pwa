@@ -7,29 +7,29 @@ import './Navigation.css';
 
 const routes = [
     {
-        to: '/news',
-        label: 'آگاهی‌بخشی',
-        icon: <Assignment />,
-    },
-    {
-        to: '/family',
-        label: 'خانواده',
-        icon: <People />,
-    },
-    {
-        to: '/me',
-        label: 'من',
-        icon: <Person />,
-    },
+    to: '/home',
+    label: 'خانه',
+    icon: <Home />,
+},
     {
         to: '/map',
         label: 'نقشه',
         icon: <Map />,
     },
     {
-        to: '/home',
-        label: 'خانه',
-        icon: <Home />,
+        to: '/my-activities',
+        label: 'من',
+        icon: <Person />,
+    },
+    {
+        to: '/family-activities',
+        label: 'خانواده',
+        icon: <People />,
+    },
+    {
+        to: '/informing',
+        label: 'آگاهی‌بخشی',
+        icon: <Assignment />,
     },
 ];
 

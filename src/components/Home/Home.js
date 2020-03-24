@@ -9,12 +9,12 @@ const buttons = [
     {
         icon: <Person style={{color: "#00ffba"}}/>,
         name: "me",
-        link: "/me",
+        link: "/my-activities",
     },
     {
         icon: <Group style={{color: "#00ffba"}}/>,
         name: "family",
-        link: "/family",
+        link: "/family-activities",
     },
     {
         icon: <Map style={{color: "#f1e200"}}/>,
@@ -24,7 +24,7 @@ const buttons = [
     {
         icon: <Assignment style={{color: "#f1e200"}}/>,
         name: "informing",
-        link: "/news",
+        link: "/informing",
     },
     {
         icon: <Room style={{color: "#ff006f"}}/>,
