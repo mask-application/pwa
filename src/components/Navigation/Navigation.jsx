@@ -1,7 +1,7 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
-import { Home, Map, Person, People, Assignment } from "@material-ui/icons";
+import {Link, useLocation} from "react-router-dom";
+import {BottomNavigation, BottomNavigationAction} from "@material-ui/core";
+import {Assignment, Home, Map, People, Person} from "@material-ui/icons";
 
 import './Navigation.css';
 
@@ -37,11 +37,12 @@ export default function Navigation() {
     const location = useLocation();
 
     return (
-        <BottomNavigation value={location.path}>
+        <BottomNavigation value={location.pathname}>
             {routes.map(route => (
                 <BottomNavigationAction
                     key={route.to}
                     component={Link}
+                    value={route.to}
                     {...route}
                 />
             ))}
