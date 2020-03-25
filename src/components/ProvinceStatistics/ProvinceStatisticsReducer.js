@@ -3,7 +3,7 @@ export const ProvinceStatisticsReducer = (state = {}, action) => {
     case "FETCH_REQUEST":
       return state;
     case "FETCH_SUCCESS":
-      return {...state, posts: action.payload};
+      return {...state, data: action.payload};
     default:
       return state;
   }

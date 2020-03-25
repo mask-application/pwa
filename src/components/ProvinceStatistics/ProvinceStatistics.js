@@ -19,10 +19,10 @@ class ProvinceStatistics extends Component {
     return (
       <ul>
         {
-          this.props.posts &&
-          this.props.posts.map((post) =>{
+          this.props.data &&
+          this.props.data.map((d) =>{
             return(
-              <li>{post.title}</li>
+              <li>{d.title}</li>
             )
           })
         }
@@ -33,7 +33,7 @@ class ProvinceStatistics extends Component {
 
 function mapStateToProps(state){
   return {
-    posts: state.posts
+    data: state.data
   }
 }
 
