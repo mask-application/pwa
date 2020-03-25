@@ -40,33 +40,31 @@ class ProvinceStatistics extends Component {
     return data;
   }
 
-  getObjectKeys(obj, sliceNum) {
-    return Object.keys(obj).slice(sliceNum);
+  getObjectKeys(obj) {
+    return Object.keys(obj);
   }
 
   initialDisplay(data) {
 
-    let columns = this.getObjectKeys(data[0], 1)
-    let daily_data = Object.assign(data, {columns: columns})
-    let series = d3.stack().keys(data.columns)(daily_data)
-
-    console.log(series[0])
-
-    let margin = ({top: 20, right: 30, bottom: 30, left: 40})
+    let margin = ({top: 20, right: 30, bottom: 30, left: 30});
     let width = window.innerWidth;
     let height = 200;
 
-    let x = d3.scaleUtc()
-      .domain(d3.extent(daily_data, d => d.date))
-      .range([margin.left, width - margin.right])
+    let columns = this.getObjectKeys(data[0]);
+    Object.assign(data, {columns: columns});
+    let series = d3.stack().keys(data.columns.slice(1))(data);
+
+    let x = d3.scaleLinear()
+      .domain(d3.extent(data, d => { return d.date}))
+      .range([margin.left, width - margin.right]);
 
     let y = d3.scaleLinear()
       .domain([0, d3.max(series, d => d3.max(d, d => d[1]))]).nice()
-      .range([height - margin.bottom, margin.top])
+      .range([height - margin.bottom, margin.top]);
 
     let xAxis = g => g
       .attr("transform", `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
+      .call(d3.axisBottom(x));
 
     let yAxis = g => g
       .attr("transform", `translate(${margin.left},0)`)
@@ -76,16 +74,16 @@ class ProvinceStatistics extends Component {
         .attr("x", 3)
         .attr("text-anchor", "start")
         .attr("font-weight", "bold")
-        .text(daily_data.y))
+        .text(data.y));
 
     let color = d3.scaleOrdinal()
-      .domain(daily_data.columns)
-      .range(d3.schemeCategory10)
+      .domain(data.columns)
+      .range(d3.schemeCategory10);
 
     let area = d3.area()
       .x(d => x(d.data.date))
       .y0(d => y(d[0]))
-      .y1(d => y(d[1]))
+      .y1(d => y(d[1]));
 
     let svg = d3.select(".svg-daily-behavior")
       .attr("width", width)
