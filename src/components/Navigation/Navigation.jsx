@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import { Home, Map, Person, People, Assignment } from "@material-ui/icons";
@@ -35,17 +35,13 @@ const routes = [
 
 export default function Navigation() {
     const location = useLocation();
-    const currentRoute = routes.findIndex(route => route.to === location.pathname);
-    const [selected, setSelected] = useState(currentRoute);
-    if (selected !== currentRoute) {
-        setSelected(currentRoute);
-    }
 
     return (
-        <BottomNavigation value={selected}>
+        <BottomNavigation value={location.pathname}>
             {routes.map(route => (
                 <BottomNavigationAction
                     key={route.to}
+                    value={route.to}
                     component={Link}
                     {...route}
                 />
