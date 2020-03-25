@@ -1,5 +1,40 @@
 .MapWrapper{
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: start;
+
+  .map-button-wrapper {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: calc(100% - 40px);
+    font-family: IRANSans, serif;
+
+  }
+
+  .map-button {
+    font: inherit;
+    background-color: #eb3b5d;
+    color: #fff;
+    height: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+
+    &:first-child {
+      margin-left: 20px;
+    }
+
+    &.type {
+      flex-grow: 1;
+    }
+  }
 }

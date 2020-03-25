@@ -20,4 +20,5 @@
 
 .app-navigation {
   box-shadow: 0 0 7px #ccc;
+  z-index: 1;
 }
