@@ -1,38 +1,39 @@
-function fetchDataRequest(){
-  return {
-    type: "FETCH_REQUEST"
-  }
-}
+export const FETCH_REQUEST   = 'FETCH_REQUEST';
+export const FETCH_SUCCESS   = 'FETCH_SUCCESS';
+export const FETCH_ERROR   = 'FETCH_ERROR';
 
-function fetchDataSuccess(payload) {
-  return {
-    type: "FETCH_SUCCESS",
-    payload
-  }
-}
+const fetchDataRequest = () => ({
+  type: FETCH_REQUEST
+});
 
-function fetchDataError() {
-  return {
-    type: "FETCH_ERROR"
-  }
-}
+const fetchDataSuccess = (payload) => ({
+  type: FETCH_SUCCESS,
+  payload
+});
+
+const fetchDataError = () => ({
+  type: FETCH_ERROR
+});
 
 export function fetchProvinceData() {
-  return (dispatch) => {
+  const URL = "https://cdn.covidapp.ir/data/infected.json";
+  return dispatch => {
     dispatch(fetchDataRequest());
-    return fetchData().then(([response, json]) =>{
-      if(response.status === 200){
-        dispatch(fetchDataSuccess(json))
-      }
-      else{
-        dispatch(fetchDataError())
-      }
-    })
-  }
+    return fetch(URL)
+      .then(handleErrors)
+      .then(res => res.json())
+      .then(json => {
+        dispatch(fetchDataSuccess(json));
+        return json;
+      })
+      .catch(error => dispatch(fetchDataError(error)));
+  };
 }
 
-function fetchData() {
-  const URL = "https://jsonplaceholder.typicode.com/posts";
-  return fetch(URL, { method: 'GET'})
-    .then( response => Promise.all([response, response.json()]));
+function handleErrors(response) {
+  console.log(response)
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
 }

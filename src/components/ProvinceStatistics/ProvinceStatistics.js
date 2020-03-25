@@ -5,35 +5,35 @@ import * as d3 from "d3";
 
 class ProvinceStatistics extends Component {
 
-  constructor(props) {
-    super(props);
-    this.componentDidMount = this.componentDidMount.bind(this);
-  }
-
-  // TODO : http://jsfiddle.net/cdagli/b2uq8704/6/ worked but my version doesn't work!
   componentDidMount() {
     this.props.fetchProvinceData();
   }
 
   render(){
     return (
-      <ul>
-        {
-          this.props.data &&
-          this.props.data.map((d) =>{
-            return(
-              <li>{d.title}</li>
-            )
-          })
+      <div>
+        {this.props.data !== undefined &&
+        <>
+          <h2>
+            dead : {this.props.data.dead[0]}
+          </h2>
+          <h2>
+            patient: {this.props.data.patients[0]}
+          </h2>
+          <h2>
+            recovered: {this.props.data.recovered[0]}
+          </h2>
+        </>
         }
-      </ul>
+      </div>
     )
   }
 }
 
 function mapStateToProps(state){
+  console.log(state.ProvinceStatisticsReducer.data.iran)
   return {
-    data: state.data
+    data: state.ProvinceStatisticsReducer.data.iran
   }
 }
 
