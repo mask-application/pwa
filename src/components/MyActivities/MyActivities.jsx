@@ -17,7 +17,7 @@ export default function MyActivities() {
     const dispatch = useDispatch();
 
     switch (state.page) {
-        case 'IDNEX':
+        case 'INDEX':
             return <div>شما وارد شدید!</div>;
         case 'NOT_SIGNED_UP':
             return <NotSignedUp onSignUpClick={() => dispatch(showSignUpPage())} />;
