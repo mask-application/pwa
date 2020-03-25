@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./ProvinceStatistics.css";
 import { connect } from "react-redux";
 import { fetchProvinceData } from "./ProvinceStatisticsActions";
 import * as d3 from "d3";
@@ -10,6 +11,7 @@ class ProvinceStatistics extends Component {
   constructor(props) {
     super(props);
 
+    this.translateNum = this.translateNum.bind(this);
     this.getObjectKeys = this.getObjectKeys.bind(this);
     this.initialDisplay = this.initialDisplay.bind(this);
     this.constructProperDataFormatArea = this.constructProperDataFormatArea.bind(this);
@@ -27,6 +29,16 @@ class ProvinceStatistics extends Component {
       let dataLine = this.constructProperDataFormatLine(patients, recovered, dead);
       this.initialDisplay(data, dataLine);
     }
+  }
+
+  translateNum(n) {
+    let num = JSON.parse('{"0":"۰","1":"۱","2":"۲","3":"۳","4":"۴","5":"۵","6":"۶","7":"۷","8":"۸","9":"۹"}');
+    return n.replace(/./g,function(c){
+      return (typeof num[c]==="undefined")?
+        ((/\d+/.test(c))?c:''):
+        num[c];
+    })
+    return num;
   }
 
   constructProperDataFormatArea(patients, recovered, dead) {
@@ -93,7 +105,7 @@ class ProvinceStatistics extends Component {
 
     let colorArea = d3.scaleOrdinal()
       .domain(dataArea.columns.slice(1))
-      .range(["rgba(255,65,105,0.5)", "rgba(0,255,186,0.5)", "rgba(0, 0, 0, 0.5)"]);
+      .range(["rgba(255,65,105,0.15)", "rgba(0,255,186,0.15)", "rgba(0, 0, 0, 0.3)"]);
 
     let colorLine = d3.scaleOrdinal()
       .domain(0, 2)
@@ -144,7 +156,14 @@ class ProvinceStatistics extends Component {
   }
 
   render(){
-    const { isLoaded, patients, dead, recovered } = this.props;
+    const { isLoaded, patients, recovered, dead } = this.props;
+    const dataLen = patients.length;
+    const patientsNum = this.translateNum(String(patients[dataLen-1]));
+    const patientsInc = this.translateNum(String(patients[dataLen-1]-patients[dataLen-2]));
+    const recoveredNum = this.translateNum(String(recovered[dataLen-1]));
+    const recoveredInc = this.translateNum(String(recovered[dataLen-1]-recovered[dataLen-2]));
+    const deadNum = this.translateNum(String(patients[dataLen-1]));
+    const deadInc = this.translateNum(String(dead[dataLen-1]-dead[dataLen-2]));
 
     if (!isLoaded) {
       // TODO
@@ -152,9 +171,20 @@ class ProvinceStatistics extends Component {
     }
 
     return (
-      <div>
-        <svg className='svg-daily-behavior' />
-      </div>
+      <>
+        <svg className='svg-daily-behavior'/>
+        <div className="statistics-text">
+          <h3>
+            {patientsNum}&nbsp;نفر مبتلا ({patientsInc}+)
+          </h3>
+          <h4>
+            {recoveredNum}&nbsp;نفر درمان شده ({recoveredInc}+)
+          </h4>
+          <h5>
+            {deadNum}&nbsp;نفر فوت شده ({deadInc}+)
+          </h5>
+        </div>
+      </>
     )
   }
 }

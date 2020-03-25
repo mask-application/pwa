@@ -1,0 +1,26 @@
+h3 {
+    color: #EB3B5D;
+    margin: 10px 0;
+    width: 100%;
+    text-align: left;
+}
+
+h4 {
+    color: #00FFBA;
+    margin: 10px 0;
+    width: 100%;
+    text-align: left;
+}
+
+h5 {
+    color: #5d5d5d;
+    margin: 10px 0;
+    width: 100%;
+    text-align: left;
+}
+
+.statistics-text {
+    position: absolute;
+    top: 50px;
+    left: 16px;
+}
