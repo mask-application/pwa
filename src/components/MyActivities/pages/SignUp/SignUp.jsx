@@ -28,10 +28,12 @@ export default function SignUp({ onBackClick, onSMSSent }) {
 
     function onSubmit() {
         if (!(/09\d{9}/.test(phone))) {
+            // TODO: Use proper notification
             alert('شماره همراه وارد شده صحیح نمی‌باشد.');
             return;
         }
         if (condition === '') {
+            // TODO: Use proper notification
             alert('وضعیت شرایط خاص را مشخص کنید.');
             return;
         }
@@ -58,6 +60,7 @@ export default function SignUp({ onBackClick, onSMSSent }) {
             })
             .catch(err => {
                 console.error(err);
+                // TODO: Use proper notification
                 alert('ارسال کد با خطا مواجه شد!');
                 setIsDialogOpen(false);
             });

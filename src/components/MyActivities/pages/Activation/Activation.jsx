@@ -44,6 +44,7 @@ export default function Activation({ onBackClick, onActivate }) {
             })
             .catch(err => {
                 console.error(err);
+                // TODO: Use proper notification
                 alert('ارسال کد با خطا مواجه شد!');
                 setIsDialogOpen(false);
             });
@@ -65,6 +66,7 @@ export default function Activation({ onBackClick, onActivate }) {
             })
             .catch(err => {
                 console.error(err);
+                // TODO: Use proper notification
                 alert('کد واردشده اشتباه است!');
                 setIsDialogOpen(false);
             });
