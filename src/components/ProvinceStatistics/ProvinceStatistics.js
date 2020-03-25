@@ -11,8 +11,9 @@ class ProvinceStatistics extends Component {
     super(props);
 
     this.getObjectKeys = this.getObjectKeys.bind(this);
-    this.constructProperDataFormat = this.constructProperDataFormat.bind(this);
     this.initialDisplay = this.initialDisplay.bind(this);
+    this.constructProperDataFormatArea = this.constructProperDataFormatArea.bind(this);
+    this.constructProperDataFormatLine = this.constructProperDataFormatLine.bind(this);
   }
 
   componentDidMount() {
@@ -22,21 +23,35 @@ class ProvinceStatistics extends Component {
   componentDidUpdate(prevProps) {
     if(this.props.isLoaded !== prevProps.isLoaded){
       const { isLoaded, patients, dead, recovered } = this.props;
-      let data = this.constructProperDataFormat(patients, dead, recovered);
-      this.initialDisplay(data);
+      let data = this.constructProperDataFormatArea(patients, recovered, dead);
+      let dataLine = this.constructProperDataFormatLine(patients, recovered, dead);
+      this.initialDisplay(data, dataLine);
     }
   }
 
-  constructProperDataFormat(patients, dead, recovered) {
+  constructProperDataFormatArea(patients, recovered, dead) {
     let data = [];
     for (let i = 0; i < patients.length; i++) {
       data.push({
         date: i,
         patient: patients[i],
-        dead: dead[i],
-        recovered: recovered[i]
+        recovered: recovered[i],
+        dead: dead[i]
       });
     }
+    return data;
+  }
+
+  constructProperDataFormatLine(patients, recovered, dead) {
+    let data = [];
+    let date = [];
+    for (let i = 0; i < patients.length; i++) {
+      date.push({i});
+    }
+    data.push({ name: "date", values: date });
+    data.push({ name: "patients", values: patients });
+    data.push({ name: "recovered", values: recovered });
+    data.push({ name: "dead", values: dead });
     return data;
   }
 
@@ -44,22 +59,22 @@ class ProvinceStatistics extends Component {
     return Object.keys(obj);
   }
 
-  initialDisplay(data) {
+  initialDisplay(dataArea, dataLine) {
 
-    let margin = ({top: 20, right: 30, bottom: 30, left: 30});
+    let margin = ({top: 20, right: 0, bottom: 30, left: 0});
     let width = window.innerWidth;
     let height = 200;
 
-    let columns = this.getObjectKeys(data[0]);
-    Object.assign(data, {columns: columns});
-    let series = d3.stack().keys(data.columns.slice(1))(data);
+    let columns = this.getObjectKeys(dataArea[0]);
+    Object.assign(dataArea, {columns: columns});
+    let series = d3.stack().keys(dataArea.columns.slice(1))(dataArea);
 
     let x = d3.scaleLinear()
-      .domain(d3.extent(data, d => { return d.date}))
+      .domain(d3.extent(dataArea, d => { return d.date}))
       .range([margin.left, width - margin.right]);
 
     let y = d3.scaleLinear()
-      .domain([0, d3.max(series, d => d3.max(d, d => d[1]))]).nice()
+      .domain([0, d3.max(series, d => d3.max(d, d => d[1]-d[0]))]).nice()
       .range([height - margin.bottom, margin.top]);
 
     let xAxis = g => g
@@ -74,16 +89,26 @@ class ProvinceStatistics extends Component {
         .attr("x", 3)
         .attr("text-anchor", "start")
         .attr("font-weight", "bold")
-        .text(data.y));
+        .text(dataArea.y));
 
-    let color = d3.scaleOrdinal()
-      .domain(data.columns)
-      .range(d3.schemeCategory10);
+    let colorArea = d3.scaleOrdinal()
+      .domain(dataArea.columns.slice(1))
+      .range(["rgba(255,65,105,0.5)", "rgba(0,255,186,0.5)", "rgba(0, 0, 0, 0.5)"]);
+
+    let colorLine = d3.scaleOrdinal()
+      .domain(0, 2)
+      .range(["rgb(235,59,93)", "rgb(0,255,186)", "rgba(0,0,0,0.5)"]);
 
     let area = d3.area()
       .x(d => x(d.data.date))
-      .y0(d => y(d[0]))
-      .y1(d => y(d[1]));
+      .y0(d => y(0))
+      .y1(d => y((d[1])-(d[0])))
+      .curve(d3.curveMonotoneX);
+
+    let line = d3.line()
+      .defined(d => !isNaN(d))
+      .x((d, i) => x(i))
+      .y(d => y(d));
 
     let svg = d3.select(".svg-daily-behavior")
       .attr("width", width)
@@ -94,16 +119,28 @@ class ProvinceStatistics extends Component {
       .selectAll("path")
       .data(series)
       .join("path")
-      .attr("fill", ({key}) => color(key))
+      .attr("fill", ({key}) => colorArea(key))
       .attr("d", area)
       .append("title")
       .text(({key}) => key);
 
     svg.append("g")
-      .call(xAxis);
+      .selectAll("path")
+      .data(dataLine.slice(1))
+      .join("path")
+      .style("mix-blend-mode", "multiply")
+      .attr("d", d => line(d.values))
+      .attr("fill", "none")
+      .attr("stroke", (d,i) => colorLine(i))
+      .attr("stroke-width", 1)
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round");
 
-    svg.append("g")
-      .call(yAxis);
+    // svg.append("g")
+    //   .call(xAxis);
+    //
+    // svg.append("g")
+    //   .call(yAxis);
   }
 
   render(){
@@ -126,8 +163,8 @@ function mapStateToProps(state){
   return {
     isLoaded: state.ProvinceStatisticsReducer.isLoaded,
     patients: state.ProvinceStatisticsReducer.patients,
-    dead: state.ProvinceStatisticsReducer.dead,
-    recovered: state.ProvinceStatisticsReducer.recovered
+    recovered: state.ProvinceStatisticsReducer.recovered,
+    dead: state.ProvinceStatisticsReducer.dead
   }
 }
 
