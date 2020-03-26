@@ -1,0 +1,21 @@
+h3 {
+    color: #EB3B5D;
+    margin: 10px 0;
+}
+
+h4 {
+    color: #00FFBA;
+    margin: 10px 0;
+}
+
+h5 {
+    color: #5d5d5d;
+    margin: 10px 0;
+}
+
+.statistics-text {
+    position: absolute;
+    top: 8%;
+    left: 4%;
+    text-align: left;
+}
