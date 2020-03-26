@@ -25,3 +25,31 @@ export const types = {
     //     comment: "",
     // }
 };
+
+export const defaultLocation = {
+    lat: 35.699609,
+    lng: 51.338293
+};
+
+// data format:
+// [
+// 		[
+// 			<zoomLevel number as key>
+// 			0.0024,
+// 			<polygons array as value>
+// 			[
+// 				{
+// 					color1: ...
+// 					matrix: [[[]]]
+// 				},
+// 				{
+// 					color2: ...
+// 					matrix: [[[]]]
+// 				},
+// 				...
+// 			]
+// 		],
+// 		[
+// 			...
+// 		]
+// ]

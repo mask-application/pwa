@@ -15,7 +15,22 @@
     padding: 20px;
     width: 100%;
     font-family: IRANSans, serif;
+  }
 
+  .map-comment-wrapper {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 90%;
+    bottom: 70px;
+    font-size: 10px;
+    background-color: white;
+    border-radius: 10px;
+    left: 50%;
+    transform: translate(-50%, 0)
   }
 
   .map-button {
@@ -61,11 +76,13 @@
 }
 
 .map-menu {
+  //TODO clean this shit
   top: 50% !important;
   left: 50% !important;
   margin-right: -50% !important;
   transform: translate(-50%, -50%) !important;
-  * {
+
+  .map-menu-item {
     font-family: IRANSans, serif;
   }
 }

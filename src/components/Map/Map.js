@@ -10,11 +10,6 @@ import * as constants from './constants/mapConstants'
 
 export default function Map() {
 
-	const defaultLocation = {
-		lat: 35.699609,
-		lng: 51.338293
-	};
-
 	const [type, setType] = useState(constants.types['patients'].key);
 	const [map, setMap] = useState(null);
 	const [data, setData] = useState([]);
@@ -27,7 +22,7 @@ export default function Map() {
 	const getCurrentPosition = () => {
 		return new Promise((resolve, reject) => {
 			if (!process.env.BROWSER) {
-				return resolve(defaultLocation);
+				return resolve(constants.defaultLocation);
 			}
 			if ('geolocation' in navigator && navigator.geolocation && typeof navigator.geolocation.getCurrentPosition === 'function') {
 				try {
@@ -62,34 +57,11 @@ export default function Map() {
 			}).addTo(map);
 	};
 
-  const clearPolygon = () => {
-    if(map) {
-      d3.selectAll(".leaflet-interactive").remove();
-    }
-  };
-
-	// data format:
-	// [
-	// 		[
-	// 			<zoomLevel number as key>
-	// 			0.0024,
-	// 			<polygons array as value>
-	// 			[
-	// 				{
-	// 					color1: ...
-	// 					matrix: [[[]]]
-	// 				},
-	// 				{
-	// 					color2: ...
-	// 					matrix: [[[]]]
-	// 				},
-	// 				...
-	// 			]
-	// 		],
-	// 		[
-	// 			...
-	// 		]
-	// ]
+	  const clearPolygon = () => {
+		if(map) {
+		  d3.selectAll(".leaflet-interactive").remove();
+		}
+	  };
 
 	const getData = result => {
 		const line = result.data;
@@ -145,7 +117,21 @@ export default function Map() {
 	}
 
 	useEffect(() => {
+			getMapTypeLists().then();
+			setMap(new window.L.Map('map', {
+				//FIXME CRITICAL set token
+				key        : 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
+				maptype    : 'dreamy',
+				poi        : true,
+				traffic    : false,
+				zoomControl: false,
+				center     : [35.699739, 51.338097],
+				zoom       : 14
+			}));
+		}, []
+	);
 
+	useEffect(() => {
 		let version;
 		if(list) {
 			const options = Object.values(list)[0] || [];
@@ -157,38 +143,6 @@ export default function Map() {
 		}
 		version && parseFile(`https://cdn.covidapp.ir/map/${type}.${version}.csv`);
 	}, [list, type]);
-
-	useEffect(() => {
-		getMapTypeLists().then();
-		setMap(new window.L.Map('map', {
-			//FIXME CRITICAL set token
-			key        : 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
-			maptype    : 'dreamy',
-			poi        : true,
-			traffic    : false,
-			zoomControl: false,
-			center     : [35.699739, 51.338097],
-			zoom       : 14
-		}));
-		}, []
-	);
-
-	useEffect(()=>{
-		map && map.on('zoom', function() {
-			const inverseZoomLevel = 10*Math.pow(2, -(map && map.getZoom())) ;
-			//TODO check the condition
-            for (let i = 0; i < zoomLevels.length - 1 ; i++) {
-            	if ( inverseZoomLevel < zoomLevels[i] ){
-            		setZoom(i);
-					break;
-				}
-            	else if (inverseZoomLevel >= zoomLevels[i] && inverseZoomLevel < zoomLevels[i+1]) {
-            		setZoom(i+1);
-            		break;
-				}
-			}
-		});
-	});
 
 	useEffect(() => {
 		data && setShowData(data[zoom]);
@@ -217,6 +171,23 @@ export default function Map() {
 		setAnchorEl(null);
 	};
 
+	useEffect(()=>{
+		map && map.on('zoom', function() {
+			const inverseZoomLevel = 10*Math.pow(2, -(map && map.getZoom())) ;
+			//TODO check the condition
+			for (let i = 0; i < zoomLevels.length - 1 ; i++) {
+				if ( inverseZoomLevel < zoomLevels[i] ){
+					setZoom(i);
+					break;
+				}
+				else if (inverseZoomLevel >= zoomLevels[i] && inverseZoomLevel < zoomLevels[i+1]) {
+					setZoom(i+1);
+					break;
+				}
+			}
+		});
+	});
+
 	const menu = (
 		<Menu
 			classes={{
@@ -228,7 +199,7 @@ export default function Map() {
 			onClose={() => closeMenu()}
 		>
 			{Object.keys(constants.types).map(type => (
-				<MenuItem onClick={() => closeMenu(constants.types[type].key)} >{constants.types[type].text}</MenuItem>
+				<MenuItem classes={{root: 'map-menu-item'}} onClick={() => closeMenu(constants.types[type].key)} >{constants.types[type].text}</MenuItem>
 			))}
 		</Menu>
 	);
@@ -250,6 +221,11 @@ export default function Map() {
 				height  : '100vh',
 				zIndex  : 0
 			}}/>
+			<div className='map-comment-wrapper'>
+				<div className='map-comment'>
+					{constants.types[type].comment}
+				</div>
+			</div>
 			{menu}
 		</div>
 	)
