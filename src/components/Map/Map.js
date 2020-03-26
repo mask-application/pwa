@@ -3,6 +3,7 @@ import "./MapStyle.scss";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import Papa from 'papaparse';
+import * as d3 from "d3";
 
 export default function Map() {
 
@@ -57,12 +58,11 @@ export default function Map() {
 			}).addTo(map);
 	};
 
-	const clearPolygon = () => {
-		//FIXME CRITICAL CRITICAL CRITICAL
-		if(map) {
-
-		}
-	};
+  const clearPolygon = () => {
+    if(map) {
+      d3.selectAll(".leaflet-interactive").remove();
+    }
+  };
 
 	// data format:
 	// [
