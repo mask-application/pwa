@@ -8,8 +8,8 @@ import * as d3 from "d3";
 export default function Map() {
 
 	const defaultLocation = {
-		lat: 35.7673886,
-		lng: 51.3193641
+		lat: 35.699609,
+		lng: 51.338293
 	};
 
 	//TODO initiate from constants
@@ -190,7 +190,7 @@ export default function Map() {
 	}, [zoom, data]);
 
 	useEffect(() => {
-		clearPolygon()
+		clearPolygon();
 		if (showData)
 			for (let key in showData[1]) {
 				drawPolygon(key, showData[1][key]);
@@ -200,12 +200,7 @@ export default function Map() {
 
 	const handleLocate = async () => {
 		const myLatLngLocation = await getCurrentPosition();
-		console.log(myLatLngLocation);
-		//TODO flyTo myLatLng (maybe FIXME!!!)
-		map.locate({
-			setView: true,
-			maxZoom: 16
-		});
+		map.flyTo(myLatLngLocation, 15);
 	};
 
 	const openModal = event => {
@@ -215,7 +210,7 @@ export default function Map() {
 	return (
 		<div className={`contentWrapper MapWrapper`}>
 			<div className="map-button-wrapper">
-				<button type='button' className='map-button' onClick={() => handleLocate()}><MyLocationIcon/></button>
+				<button type='button' className='map-button location' onClick={() => handleLocate()}><MyLocationIcon/></button>
 				<button type="button" disabled={true} name='type' className="map-button type" onClick={e => openModal(e)}>
 					{/*TODO read from state*/}
 					<div>نقشه شیوع کرونا</div>

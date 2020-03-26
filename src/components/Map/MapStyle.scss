@@ -4,6 +4,9 @@
   align-items: start;
 
   .map-button-wrapper {
+    button {
+      outline: none;
+    }
     position: absolute;
     z-index: 10;
     display: flex;
@@ -31,6 +34,12 @@
 
     &:first-child {
       margin-left: 20px;
+    }
+
+    &.location {
+      &:hover {
+        background-color: #b82e49;
+      }
     }
 
     &.type {
