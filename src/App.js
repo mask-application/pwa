@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+
 import Navigation from "./components/Navigation/Navigation";
 import MyActivitiesPage from "./containers/MyActivitiesPage";
 import HomePage from "./containers/HomePage";
@@ -7,6 +8,7 @@ import MapPage from "./containers/MapPage";
 import FamilyActivitiesPage from "./containers/FamilyActivitiesPage";
 import InformingPage from "./containers/InformingPage";
 
+// FIXME merge these two files to a sass file please
 import "./App.css";
 import "./_App.scss";
 

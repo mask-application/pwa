@@ -36,6 +36,8 @@ const routes = [
 export default function Navigation() {
   const location = useLocation();
 
+  // https://{domain-name}:{port}/{pathname}
+  // location.pathname returns pathname in url
   return (
     <BottomNavigation value={location.pathname}>
       {routes.map(route => (
