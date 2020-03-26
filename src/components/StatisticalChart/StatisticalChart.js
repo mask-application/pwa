@@ -63,7 +63,7 @@ class StatisticalChart extends Component {
 
     let margin = ({top: 20, right: 0, bottom: 30, left: 0});
     let width = window.innerWidth;
-    let height = 200;
+    let height = window.innerHeight*0.2 < 200 ? 200 : window.innerHeight*0.3;
 
     let columns = this.getObjectKeys(dataArea[0]);
     Object.assign(dataArea, {columns: columns});
