@@ -1,9 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 
-import { AppBar, Toolbar, IconButton, Typography, Button, TextField, Box, Dialog, CircularProgress } from '@material-ui/core';
-import { ArrowForward, Edit } from '@material-ui/icons';
+import {
+    AppBar,
+    Box,
+    Button,
+    CircularProgress,
+    Dialog,
+    IconButton,
+    TextField,
+    Toolbar,
+    Typography
+} from '@material-ui/core';
+import {ArrowForward, Edit} from '@material-ui/icons';
+import useTimer from "react-commons/dist/hooks/timer";
 
 import styles from './Activation.module.scss';
 
@@ -12,22 +23,15 @@ export default function Activation({ onBackClick, onActivate }) {
     const phone = useSelector(store => store.MyActivities.phone);
     const condition = useSelector(store => store.MyActivities.condition);
 
-    const [countdown, setCountdown] = useState(ttl);
+    const {i: countdown, start} = useTimer({ start: ttl });
+
     const [code, setCode] = useState('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [smsSent, setSmsSent] = useState(false);
 
     useEffect(() => {
-        if (countdown === 1) {
-            onBackClick();
-        }
-        else {
-            // TODO try to use a library for timer dear @alimo
-            setTimeout(() => {
-                setCountdown(countdown - 1);
-            }, 1000);
-        }
-    });
+        start();
+    }, [/*eslint-disable-line react-hooks/exhaustive-deps*/]);
 
     function sendActivationSMS() {
         setIsDialogOpen(true);
