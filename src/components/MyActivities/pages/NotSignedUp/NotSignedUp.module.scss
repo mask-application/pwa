@@ -1,0 +1,25 @@
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.description {
+  flex-grow: 1;
+  text-align: center;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 6rem !important;
+  margin-bottom: 2rem;
+}
+
+.spacer {
+  flex-grow: 1;
+}
