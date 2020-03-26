@@ -216,7 +216,7 @@ export default function Map() {
 		<div className={`contentWrapper MapWrapper`}>
 			<div className="map-button-wrapper">
 				<button type='button' className='map-button' onClick={() => handleLocate()}><MyLocationIcon/></button>
-				<button type="button" name='type' className="map-button type" onClick={e => openModal(e)}>
+				<button type="button" disabled={true} name='type' className="map-button type" onClick={e => openModal(e)}>
 					{/*TODO read from state*/}
 					<div>نقشه شیوع کرونا</div>
 					<ExpandMoreIcon/>
