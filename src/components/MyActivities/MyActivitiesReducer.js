@@ -1,3 +1,4 @@
+// TODO Explain about it - what is this token for?
 const token = localStorage.getItem('token');
 
 const initialState = {

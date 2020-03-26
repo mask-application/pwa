@@ -22,6 +22,7 @@ export default function Activation({ onBackClick, onActivate }) {
             onBackClick();
         }
         else {
+            // TODO try to use a library for timer dear @alimo
             setTimeout(() => {
                 setCountdown(countdown - 1);
             }, 1000);
@@ -44,7 +45,7 @@ export default function Activation({ onBackClick, onActivate }) {
             })
             .catch(err => {
                 console.error(err);
-                // TODO: Use proper notification
+                // FIXME: Use proper notification
                 alert('ارسال کد با خطا مواجه شد!');
                 setIsDialogOpen(false);
             });
@@ -66,7 +67,7 @@ export default function Activation({ onBackClick, onActivate }) {
             })
             .catch(err => {
                 console.error(err);
-                // TODO: Use proper notification
+                // FIXME: Use proper notification
                 alert('کد واردشده اشتباه است!');
                 setIsDialogOpen(false);
             });
@@ -83,12 +84,14 @@ export default function Activation({ onBackClick, onActivate }) {
                     >
                         <ArrowForward />
                     </IconButton>
+                    {/* #FIXME Use formattedMessage */}
                     <Typography variant="h6" color="inherit">
                         ثبت نام
                     </Typography>
                 </Toolbar>
             </AppBar>
             <div className={styles.container}>
+                {/* #FIXME Use formattedMessage */}
                 <Typography align="center">
                     کد فعال‌سازی ۵ رقمی که برای شما پیامک شد را وارد کنید.
                 </Typography>

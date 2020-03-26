@@ -9,8 +9,10 @@ import rtl from 'jss-rtl';
 import { ThemeProvider } from "@material-ui/core";
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
 
+// FIXME merge these styles and move them to a central style (Sass)
 import './index.css';
 import App from './App';
+
 import * as serviceWorker from './serviceWorker';
 import Store from "./redux/Store";
 import { intl } from "./intl";
