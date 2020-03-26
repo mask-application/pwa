@@ -12,13 +12,14 @@ export default function Map() {
 		lng: 51.3193641
 	};
 
-	const [map, setMap] = useState(null);
 	//TODO initiate from constants
 	const [type, setType] = useState('patients');
+	const [map, setMap] = useState(null);
 	const [data, setData] = useState([]);
 	const [zoomLevels, setZoomLevels] = useState([]);
 	const [zoom, setZoom] = useState(0);
 	const [showData, setShowData] = useState(null);
+	const [list, setList] = useState([]);
 
 	const getCurrentPosition = () => {
 		return new Promise((resolve, reject) => {
@@ -54,7 +55,7 @@ export default function Map() {
 				fillColor: `#${Number(color).toString(16)}`,
 				fill: true,
 				stroke: false,
-				fillOpacity: 0.5,
+				fillOpacity: 0.35,
 			}).addTo(map);
 	};
 
@@ -105,8 +106,8 @@ export default function Map() {
 					if(polygons[k][0] === color){
 						let points = [];
 						let temp = polygons[k].slice(1);
-						for (let kooft = 0 ; kooft < temp.length ; kooft +=2) {
-							points.push([temp[kooft], temp[kooft+1]])
+						for (let k = 0 ; k < temp.length ; k +=2) {
+							points.push([temp[k], temp[k+1]])
 						}
 						if (color in sameColor)
 							sameColor[color].push([points]);
@@ -128,8 +129,34 @@ export default function Map() {
 		})
 	};
 
+	function getMoviesFromApiAsync() {
+		return fetch('https://cdn.covidapp.ir/map/maps.json')
+			.then((response) => response.json())
+			.then((responseJson) => {
+				setList(responseJson);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}
+
 	useEffect(() => {
+		let version;
+		if(list) {
+			const options = Object.values(list)[0] || [];
+			for (let i = 0 ; i < options.length ; i++) {
+				if (((options)[i] || {}).id === 'patients') {
+					version = options[i].version;
+				}
+			}
+		}
+		version && parseFile(`https://cdn.covidapp.ir/map/patients.${version}.csv`);
+	}, [list]);
+
+	useEffect(() => {
+		getMoviesFromApiAsync().then();
 		setMap(new window.L.Map('map', {
+			//FIXME CRITICAL set token
 			key        : 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
 			maptype    : 'dreamy',
 			poi        : true,
@@ -138,7 +165,6 @@ export default function Map() {
 			center     : [35.699739, 51.338097],
 			zoom       : 14
 		}));
-		parseFile('https://cdn.covidapp.ir/map/patients.133.csv');
 		}, []
 	);
 
