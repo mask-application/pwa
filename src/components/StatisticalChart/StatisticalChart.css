@@ -14,8 +14,12 @@ h5 {
 }
 
 .statistics-text {
-    position: absolute;
-    top: 8%;
-    left: 4%;
+    padding-top: 2%;
+    padding-left: 4%;
     text-align: left;
+}
+
+.svg-daily-behavior {
+    position: relative;
+    top: -75px;
 }

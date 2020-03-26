@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
 }
 
 .app-content {
@@ -15,9 +14,14 @@
 
 .app-content > div{
   /*background-color: dodgerblue;*/
+  overflow: scroll;
   height: 100%;
 }
 
 .app-navigation {
   box-shadow: 0 0 7px #ccc;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as d3 from "d3";
 import { fetchData } from "./StatisticalChartActions";
 import StatisticalChartGuide from "./StatisticalChartGuide";
+import "./StatisticalChart.css";
 
 
 class StatisticalChart extends Component {
@@ -21,7 +22,7 @@ class StatisticalChart extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.isLoaded !== prevProps.isLoaded){
+    if(this.props.isLoaded === true){
       const { isLoaded, patients, dead, recovered } = this.props;
       let data = this.constructProperDataFormatArea(patients, recovered, dead);
       let dataLine = this.constructProperDataFormatLine(patients, recovered, dead);
@@ -60,8 +61,7 @@ class StatisticalChart extends Component {
   }
 
   drawChart(dataArea, dataLine) {
-
-    let margin = ({top: 20, right: 0, bottom: 30, left: 0});
+    let margin = ({top: 0, right: 0, bottom: 0, left: 0});
     let width = window.innerWidth;
     let height = window.innerHeight*0.2 < 200 ? 200 : window.innerHeight*0.3;
 
@@ -131,8 +131,8 @@ class StatisticalChart extends Component {
 
     return (
       <>
-        <svg className='svg-daily-behavior'/>
         <StatisticalChartGuide data={this.props}/>
+        <svg className='svg-daily-behavior'/>
       </>
     )
   }
