@@ -126,7 +126,7 @@ class StatisticalChart extends Component {
   render(){
     if (!this.props.isLoaded) {
       // TODO: spinner
-      return <div></div>;
+      return <div className="spinner"></div>;
     }
 
     return (
