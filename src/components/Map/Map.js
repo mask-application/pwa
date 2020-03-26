@@ -14,9 +14,9 @@ export default function Map() {
 	const [map, setMap] = useState(null);
 	//TODO initiate from constants
 	const [type, setType] = useState('patients');
-	const [data, setData] = useState(null);
+	const [data, setData] = useState([]);
 	//TODO  finding the range, save zoom levels here too
-	const [zoomLevels, setZoomLevels] = useState([0.000240, 0.001700, 0.012000, 0.082000, 0.560000 ]);
+	const [zoomLevels, setZoomLevels] = useState([]);
 	const [zoom, setZoom] = useState(0);
 	const [showData, setShowData] = useState(null);
 
@@ -72,13 +72,45 @@ export default function Map() {
 	// 		]
 	// ]
 
-	const drawPolygon = (polygons) => {
-		map && window.L.polygon(polygons.matrix, {color: `#${(polygons.color).toString(16)}`}).addTo(map);
+	const drawPolygon = (color, polygons) => {
+		map && polygons && window.L.polygon(polygons, {color: `#${Number(color).toString(16)}`}).addTo(map);
 	};
 
 	const getData = result => {
-		console.log('golnaz csv', result)
+		const line = result.data;
+		const lineNumber = line.length;
+		for (let i = 0 ; i < lineNumber ;) {
+			if (line[i].length === 1){
+				setZoomLevels(prevLevels =>[...prevLevels, result.data[i][0]]);
+				let j = i+1;
+				let polygons = [];
+				while (j < lineNumber && line[j].length > 1){
+					polygons.push(line[j]);
+					j++;
+				}
+				let sameColor = {};
+				for (let k = 0; k < polygons.length;) {
+					let color = polygons[0][0];
+					if(polygons[k][0] === color){
+						let points = [];
+						let temp = polygons[k].slice(1);
+						for (let kooft = 0 ; kooft < temp.length ; kooft +=2) {
+							points.push([temp[kooft], temp[kooft+1]])
+						}
+						if (color in sameColor)
+							sameColor[color].push([points]);
+						else sameColor[color] = [points];
+						polygons.splice(k, 1);
+						k = 0;
+					} else { k++; }
+				}
+				setData(prevData => [...prevData, [Number(line[i][0]), sameColor]]);
+				i = j;
+			}
+		}
 	};
+
+	useEffect(() => {console.log('golnaz', showData)}, [showData]);
 
 	const parseFile = (url) => {
 		Papa.parse(url, {
@@ -120,14 +152,14 @@ export default function Map() {
 	});
 
 	useEffect(() => {
-		data && setShowData(data.get(zoom));
+		data && setShowData(data[zoom]);
 	}, [zoom, data]);
 
 	useEffect(() => {
 		//draw polygons
-		if (showData )
-			for (let i = 0 ; i < showData.length ; i++) {
-				drawPolygon(showData[i]);
+		if (showData)
+			for (let key in showData[1]) {
+				drawPolygon(key, showData[1][key]);
 			}
 		}, [map, showData]
 	);
