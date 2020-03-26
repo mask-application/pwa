@@ -1,25 +1,23 @@
-import axios from 'axios';
-import isEmpty from 'lodash/isEmpty';
+import axios from "axios";
+import isEmpty from "lodash/isEmpty";
+import store from "../redux/Store";
 
-const API_V1_URL = "";
+const API_V1_URL = "http://api-dev.covidapp.ir/";
 
-import store from '../redux/Store';
-
-const client = axios.create({baseURL: API_V1_URL, json: true});
+const client = axios.create({ baseURL: API_V1_URL, json: true });
 
 const call = async (method, url, data = {}) => {
   const token = store.getState().user.token;
 
   const headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json"
   };
 
-  if (token !== '') {
+  if (token !== "") {
     headers.Authorization = `${token}`;
   }
 
-  const request = {headers, method, url};
+  const request = { headers, method, url };
 
   if (!isEmpty(data)) {
     request.data = data;
@@ -34,13 +32,15 @@ const call = async (method, url, data = {}) => {
   }
 };
 
-
+const main = {
+  profile: () => call("get", "user/profile")
+};
 
 export default {
-
-  delete: (url, data = {}) => call('delete', url, data),
-  get: (url, data = {}) => call('get', url, data),
-  patch: (url, data = {}) => call('patch', url, data),
-  post: (url, data = {}) => call('post', url, data),
-  put: (url, data = {}) => call('put', url, data),
+  main,
+  delete: (url, data = {}) => call("delete", url, data),
+  get: (url, data = {}) => call("get", url, data),
+  patch: (url, data = {}) => call("patch", url, data),
+  post: (url, data = {}) => call("post", url, data),
+  put: (url, data = {}) => call("put", url, data)
 };

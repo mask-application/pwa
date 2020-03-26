@@ -1,28 +1,29 @@
-
 .qrCode {
-   text-align: center;
-   margin-top: 20%;
+  text-align: center;
+
+  margin-top: 20%;
 }
 
 .qrCode > canvas {
-    width: 250px !important;
-    height: 250px !important;
+  width: 250px !important;
+  height: 250px !important;
 }
 
-.warning { 
-    bottom: 0;
-    position: fixed;
-    z-index: 999999;
-    background-color: #0e0f21;
-    padding: 20px;
-    text-align: center;
+.warning {
+  bottom: 0;
+  position: fixed;
+  z-index: 999999;
+  background-color: #0e0f21;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
 }
 
 .warning > p {
-    color:#fff;
-    margin-bottom: 20px;
+  color: #fff;
+  margin-bottom: 20px;
 }
 
 .warning > span {
-    color:#fff;
+  color: #fff;
 }
