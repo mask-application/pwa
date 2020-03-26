@@ -1,9 +1,8 @@
-// TODO Explain about it - what is this token for?
-const token = localStorage.getItem('token');
+
+
 
 const initialState = {
-    token,
-    page: token ? 'INDEX' : 'NOT_SIGNED_UP',
+    page: 'NOT_SIGNED_UP',
     phone: null,
     condition: null,
     ttl: null,
@@ -12,11 +11,13 @@ const initialState = {
 export function MyActivitiesReducer(state = initialState, action) {
     switch (action.type) {
         case 'SHOW_SIGN_UP_PAGE':
+            console.log('SIGN_UP');
             return {
                 ...state,
                 page: 'SIGN_UP',
             };
         case 'SHOW_NOT_SIGNED_UP_PAGE':
+            console.log('NOT_SIGN_UP');
             return {
                 ...state,
                 page: 'NOT_SIGNED_UP',
@@ -30,11 +31,9 @@ export function MyActivitiesReducer(state = initialState, action) {
                 ttl: action.ttl,
             };
         case 'ACTIVATE_USER':
-            localStorage.setItem('token', action.token);
             return {
                 ...state,
                 page: 'INDEX',
-                token: action.token,
             };
         default:
             return state;

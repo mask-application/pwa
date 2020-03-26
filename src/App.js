@@ -11,6 +11,7 @@ import InformingPage from "./containers/InformingPage";
 // FIXME merge these two files to a sass file please
 import "./App.css";
 import "./_App.scss";
+import QrCode from "./components/QrCode/QrCode";
 
 export default function App() {
   return (
@@ -34,12 +35,16 @@ export default function App() {
             <Route path="/my-activities" exact>
               <MyActivitiesPage />
             </Route>
+            <Route path="/my-activities/qr-code">
+              <QrCode />
+            </Route>
             <Route path="/family-activities" exact>
               <FamilyActivitiesPage />
             </Route>
             <Route path="/informing" exact>
               <InformingPage />
             </Route>
+            
           </Switch>
         </div>
       </div>

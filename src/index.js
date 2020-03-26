@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
+import {PersistGate} from 'redux-persist/integration/react';
 import { RawIntlProvider } from "react-intl";
 import { create } from 'jss';
 import rtl from 'jss-rtl';
@@ -14,7 +15,7 @@ import './index.css';
 import App from './App';
 
 import * as serviceWorker from './serviceWorker';
-import Store from "./redux/Store";
+import store, { persistor } from "./redux/Store";
 import { intl } from "./intl";
 import theme from "./theme";
 
@@ -22,7 +23,8 @@ import theme from "./theme";
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 ReactDOM.render(
-    <Provider store={Store}>
+    <Provider store={store}>
+        <PersistGate persistor={persistor}>
         <RawIntlProvider value={intl.reactIntl}>
             <React.StrictMode>
                 <ThemeProvider theme={theme}>
@@ -33,7 +35,7 @@ ReactDOM.render(
                     </StylesProvider>
                 </ThemeProvider>
             </React.StrictMode>
-        </RawIntlProvider>
+        </RawIntlProvider></PersistGate>
     </Provider>,
     document.getElementById('root')
 );

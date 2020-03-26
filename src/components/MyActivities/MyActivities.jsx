@@ -1,9 +1,10 @@
-import React from "react";
+import React,{ useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import NotSignedUp from './pages/NotSignedUp/NotSignedUp';
 import SignUp from './pages/SignUp/SignUp';
 import Activation from './pages/Activation/Activation';
+import Index from './pages/Index/Index';
 
 import {
     showSignUpPage,
@@ -20,12 +21,19 @@ import {
 
 export default function MyActivities() {
     const state = useSelector(store => store.MyActivities);
+    const user = useSelector(store => store.user);
     const dispatch = useDispatch();
+
+    useEffect(()=> {
+        if (user.loggedIn) {
+            dispatch(activateUser(user.token));
+        }
+    }, [user, dispatch]);
 
     switch (state.page) {
         case 'INDEX':
             // FIXME use formattedMessage from react-intl
-            return <div>شما وارد شدید!</div>;
+            return <Index/>;
         case 'NOT_SIGNED_UP':
             return <NotSignedUp onSignUpClick={() => dispatch(showSignUpPage())} />;
         case 'SIGN_UP':

@@ -16,9 +16,9 @@ import {
     Dialog,
     CircularProgress,
 } from '@material-ui/core';
-import { ArrowForward } from '@material-ui/icons';
 
 import styles from './SignUp.module.scss';
+import Header from '../../../AppHeader/Header';
 
 export default function SignUp({ onBackClick, onSMSSent }) {
     const [phone, setPhone] = useState('');
@@ -68,20 +68,7 @@ export default function SignUp({ onBackClick, onSMSSent }) {
 
     return (
         <>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={onBackClick}
-                    >
-                        <ArrowForward />
-                    </IconButton>
-                    <Typography variant="h6" color="inherit">
-                        ثبت نام
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <Header backBtn onClickBackBtn={onBackClick} title="ثبت نام"/>
             <div className={styles.container}>
                 <TextField
                     label="شماره همراه"
@@ -103,11 +90,11 @@ export default function SignUp({ onBackClick, onSMSSent }) {
                             <MenuItem value={0}>
                                 بدون شرایط خاص
                             </MenuItem>
-                            <MenuItem value={1}>
+                            <MenuItem value={1} className={styles.conditionItems}>
                                 بیماران با نقص ایمنی: تحت درمان با کورتیکواستروئید،
                                 شیمی درمانی، بدخیمی‌ها، پیوند اعضا، مبتلایان به HIV
                             </MenuItem>
-                            <MenuItem value={2}>
+                            <MenuItem value={2} className={styles.conditionItems}>
                                 بیماران با بیماری زمینه‌ای و سالمندان: بیماری قلبی
                                 عروقی، فشار خون، بیماری‌های تنفسی زمینه‌ای، دیابت و
                                 افراد بالای ۵۰ سال

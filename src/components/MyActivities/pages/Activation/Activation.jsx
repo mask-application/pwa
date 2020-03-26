@@ -6,6 +6,7 @@ import { AppBar, Toolbar, IconButton, Typography, Button, TextField, Box, Dialog
 import { ArrowForward, Edit } from '@material-ui/icons';
 
 import styles from './Activation.module.scss';
+import Header from '../../../AppHeader/Header';
 
 export default function Activation({ onBackClick, onActivate }) {
     const ttl = useSelector(store => store.MyActivities.ttl);
@@ -75,21 +76,7 @@ export default function Activation({ onBackClick, onActivate }) {
 
     return (
         <>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={onBackClick}
-                    >
-                        <ArrowForward />
-                    </IconButton>
-                    {/* #FIXME Use formattedMessage */}
-                    <Typography variant="h6" color="inherit">
-                        ثبت نام
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <Header title="ثبت نام" backBtn onClickBackBtn={onBackClick}/>
             <div className={styles.container}>
                 {/* #FIXME Use formattedMessage */}
                 <Typography align="center">
