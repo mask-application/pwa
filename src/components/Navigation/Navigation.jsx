@@ -7,10 +7,10 @@ import './Navigation.css';
 
 const routes = [
     {
-    to: '/home',
-    label: 'خانه',
-    icon: <Home />,
-},
+        to: '/home',
+        label: 'خانه',
+        icon: <Home />,
+    },
     {
         to: '/map',
         label: 'نقشه',
@@ -36,15 +36,18 @@ const routes = [
 export default function Navigation() {
     const location = useLocation();
 
+    // https://{domain-name}:{port}/{pathname}
+    // location.pathname returns pathname in url
     return (
-        <BottomNavigation value={location.path}>
+        <BottomNavigation value={location.pathname}>
             {routes.map(route => (
                 <BottomNavigationAction
                     key={route.to}
+                    value={route.to}
                     component={Link}
                     {...route}
                 />
             ))}
         </BottomNavigation>
     );
-}
+};
