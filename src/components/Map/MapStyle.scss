@@ -31,21 +31,41 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    overflow: hidden;
+
+    &:hover {
+      background-color: #b82e49;
+    }
 
     &:first-child {
       margin-left: 20px;
     }
 
-    &.location {
-      &:hover {
-        background-color: #b82e49;
-      }
-    }
-
     &.type {
+      > div {
+        width: 85%;
+        display: flex;
+        justify-content: flex-start;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
       flex-grow: 1;
-      background-color: #b2b2b2;
-      color: #797979;
     }
+  }
+
+  .disable-button, .disable-button:hover {
+    background-color: #b2b2b2;
+    color: #797979;
+  }
+}
+
+.map-menu {
+  top: 50% !important;
+  left: 50% !important;
+  margin-right: -50% !important;
+  transform: translate(-50%, -50%) !important;
+  * {
+    font-family: IRANSans, serif;
   }
 }
