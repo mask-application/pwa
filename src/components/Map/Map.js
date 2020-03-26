@@ -15,7 +15,6 @@ export default function Map() {
 	//TODO initiate from constants
 	const [type, setType] = useState('patients');
 	const [data, setData] = useState([]);
-	//TODO  finding the range, save zoom levels here too
 	const [zoomLevels, setZoomLevels] = useState([]);
 	const [zoom, setZoom] = useState(0);
 	const [showData, setShowData] = useState(null);
@@ -48,8 +47,24 @@ export default function Map() {
 		});
 	};
 
-	//TODO we must read csv file and setData like the structure below
-	// data:
+	const drawPolygon = (color, polygons) => {
+		map && polygons && window.L.polygon(polygons,
+			{
+				fillColor: `#${Number(color).toString(16)}`,
+				fill: true,
+				stroke: false,
+				fillOpacity: 0.5,
+			}).addTo(map);
+	};
+
+	const clearPolygon = () => {
+		//FIXME CRITICAL CRITICAL CRITICAL
+		if(map) {
+
+		}
+	};
+
+	// data format:
 	// [
 	// 		[
 	// 			<zoomLevel number as key>
@@ -71,10 +86,6 @@ export default function Map() {
 	// 			...
 	// 		]
 	// ]
-
-	const drawPolygon = (color, polygons) => {
-		map && polygons && window.L.polygon(polygons, {color: `#${Number(color).toString(16)}`}).addTo(map);
-	};
 
 	const getData = result => {
 		const line = result.data;
@@ -110,13 +121,10 @@ export default function Map() {
 		}
 	};
 
-	useEffect(() => {console.log('golnaz', showData)}, [showData]);
-
 	const parseFile = (url) => {
 		Papa.parse(url, {
 			download: true,
 			complete: getData
-			// rest of config ...
 		})
 	};
 
@@ -130,21 +138,21 @@ export default function Map() {
 			center     : [35.699739, 51.338097],
 			zoom       : 14
 		}));
-		parseFile('https://cdn.covidapp.ir/map/patients.130.csv');
+		parseFile('https://cdn.covidapp.ir/map/patients.133.csv');
 		}, []
 	);
 
 	useEffect(()=>{
 		map && map.on('zoom', function() {
-			const inverseZoomLevel = Math.pow(2, -(map && map.getZoom())) ;
+			const inverseZoomLevel = 10*Math.pow(2, -(map && map.getZoom())) ;
 			//FIXME check the condition
-            for (let i = zoomLevels.length - 1; i > 0 ; i--) {
-            	if ( inverseZoomLevel > zoomLevels[i] ){
-            		setZoom(zoomLevels[i]);
+            for (let i = 0; i < zoomLevels.length - 1 ; i++) {
+            	if ( inverseZoomLevel < zoomLevels[i] ){
+            		setZoom(i);
 					break;
 				}
-            	else if (inverseZoomLevel <= zoomLevels[i] && inverseZoomLevel > zoomLevels[i-1]) {
-            		setZoom(zoomLevels[i-1]);
+            	else if (inverseZoomLevel >= zoomLevels[i] && inverseZoomLevel < zoomLevels[i+1]) {
+            		setZoom(i+1);
             		break;
 				}
 			}
@@ -156,7 +164,7 @@ export default function Map() {
 	}, [zoom, data]);
 
 	useEffect(() => {
-		//draw polygons
+		clearPolygon()
 		if (showData)
 			for (let key in showData[1]) {
 				drawPolygon(key, showData[1][key]);
@@ -167,7 +175,7 @@ export default function Map() {
 	const handleLocate = async () => {
 		const myLatLngLocation = await getCurrentPosition();
 		console.log(myLatLngLocation);
-		//TODO flyTo myLatLng
+		//TODO flyTo myLatLng (maybe FIXME!!!)
 		map.locate({
 			setView: true,
 			maxZoom: 16
@@ -175,7 +183,7 @@ export default function Map() {
 	};
 
 	const openModal = event => {
-		//TODO chose type of map
+		//TODO chose 'type' of map
 	};
 
 	return (
