@@ -23,6 +23,10 @@
     "about-us": {
       "title": "درباره ما",
       "description": ""
+    },
+    "qr-code": {
+      "title": "کد اختصاصی من",
+      "description": ""
     }
   }
 }
