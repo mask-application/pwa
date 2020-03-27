@@ -10,16 +10,19 @@ import api from "../../gate/api";
 export default function ShowQrCode() {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
-  const [qrValue, setQrValue] = useState(null);
+  const [qrValue, setQrValue] = useState(13570);
 
   useEffect(() => {
-    api.main
+    api.auth
       .profile()
       .then(res => {
+        setLoading(false);
+        setQrValue(res);
         console.log(res);
       })
       .catch(e => {
         console.log(e);
+        setLoading(false);
       });
   }, []);
 
@@ -31,7 +34,7 @@ export default function ShowQrCode() {
     <Fragment>
       <Header title="کد اختصاصی من" backBtn onClickBackBtn={backClick} />
       <Box className={styles.qrCode}>
-        {loading ? <CircularProgress /> : <Qrcode value="test" />}
+        {loading ? <CircularProgress /> : <Qrcode value={qrValue} />}
       </Box>
       <Box className={styles.warning}>
         <Typography>

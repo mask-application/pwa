@@ -9,7 +9,7 @@ export const userReducer = (state = initialState, action) => {
     case "LOGIN":
       return { ...state, token: action.token, loggedIn: true };
     case "LOGOUT":
-      return { initialState };
+      return { ...initialState };
     default:
       return state;
   }
