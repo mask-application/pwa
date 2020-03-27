@@ -7,7 +7,7 @@
     button {
       outline: none;
     }
-    position: absolute;
+    position: fixed;
     z-index: 10;
     display: flex;
     justify-content: space-between;
@@ -18,7 +18,7 @@
   }
 
   .map-comment-wrapper {
-    position: absolute;
+    position: fixed;
     z-index: 10;
     display: flex;
     justify-content: space-between;
