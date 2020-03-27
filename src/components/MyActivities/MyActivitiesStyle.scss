@@ -1,9 +1,131 @@
 .MyActivitiesWrapper{
-  //background-color: greenyellow;
   display: flex;
   align-items: center;
+  //justify-content: center;
+  flex-direction: column;
+  position: relative;
+
+  span.message{
+      font-size: 15px;
+    margin-bottom: 15px;
+  }
+
+  .addActivityBtn{
+    border-radius: 20px;
+    width: 80%;
+    position: absolute;
+    bottom:30px;
+    font-family: IRANYekan;
+  }
+
+}
+
+.MyActivityEventsWrapper{
+  display: flex;
+  align-items: flex-start;
   justify-content: center;
-  height: 100%;
+  flex-direction: column;
+  position: relative;
+  overflow: scroll;
 
 
+  .myActivityRow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    //border:1px solid #000;
+    //border-radius: 10px;
+    //margin: 0 10px 30px 10px;
+    //padding: 8px;
+    //box-shadow: 1px 1px 1px 2px #eee;
+
+    .content{
+      display: flex;
+      flex-direction: column;
+      margin-right: 10px;
+
+      h3{
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      p{
+        color: #898989;
+        font-size: 13px;
+      }
+    }
+
+  }
+}
+
+.MyHealthEventsWrapper{
+  //display: flex;
+  //align-items: flex-start;
+  //justify-content: flex-start;
+  //flex-direction: column;
+  //position: relative;
+  overflow: scroll;
+  padding-top: 15px;
+
+  .topMessage{
+    text-align: center;
+    background-color: #1c2341;
+    color: #fff;
+    padding: 12px 8px 12px 8px;
+    border-radius: 15px;
+    font-size: 14px;
+  }
+
+  .healthItemsContainer{
+    margin-top: 15px;
+    width: 100%;
+    margin-bottom: 20px;
+    height: 100%;
+    //overflow: scroll;
+    margin-bottom: 130px;
+
+
+    & > div{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      line-height: 30px;
+
+      .item-value{
+        margin-right: 10px;
+      }
+    }
+
+
+    .addHealthBtn{
+      border-radius: 20px;
+      width: 80%;
+      position: absolute;
+      bottom:30px;
+      font-family: IRANYekan;
+    }
+  }
+
+}
+
+.myHealthDialogContainer{
+  background-color: #FFF;
+  max-height: 70%;
+  width: 90%;
+  border-radius: 15px;
+  align-self: center;
+  display: flex;
+  margin: 50px auto;
+  overflow: scroll;
+  justify-content: center;
+
+  & > div{
+    width: 90%;
+
+    & > div {
+      text-align: center;
+    }
+  }
 }

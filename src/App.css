@@ -1,3 +1,9 @@
+*{
+  box-sizing: border-box;
+  margin:0;
+  padding: 0;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -11,6 +17,8 @@
 
 .contentWrapper{
     height: calc(100% - 48px);
+    padding-left: 10px;
+  padding-right: 10px;
 }
 
 .app-content > div{
@@ -20,4 +28,10 @@
 
 .app-navigation {
   box-shadow: 0 0 7px #ccc;
+}
+
+.btn{
+  border-radius: 20px;
+  width: 80%;
+  font-family: IRANYekan;
 }

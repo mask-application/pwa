@@ -4,13 +4,15 @@ import {HomeReducer} from "../../components/Home/HomeReducer";
 import {InformingReducer} from "../../components/Informing/InformingReducer";
 import {FamilyActivitiesReducer} from "../../components/FamilyActivities/FamilyActivitiesReducer";
 import {MyActivitiesReducer} from "../../components/MyActivities/MyActivitiesReducer";
+import {CommonsReducer} from "./CommonsReducer";
 
-export default combineReducers(
+export default combineReducers({
     LoginReducer,
     HomeReducer,
     InformingReducer,
     FamilyActivitiesReducer,
     MyActivitiesReducer,
-    MyActivitiesReducer
+    MyActivitiesReducer,
+    CommonsReducer,
 
-);
+});

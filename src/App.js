@@ -13,12 +13,17 @@ import MyActivitiesPage from "./containers/MyActivitiesPage";
 import HomePage from "./containers/HomePage";
 import MapPage from "./containers/MapPage";
 import FamilyActivitiesPage from "./containers/FamilyActivitiesPage";
+import MyActivityEventsPage from "./containers/MyActivityEventsPage";
+import MyHealthEventPage from "./containers/MyHealthEventPage";
 import InformingPage from "./containers/InformingPage";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 import './App.css';
 import './_App.scss';
+import {ActionCreator} from "./redux/actions";
 
-export default function App() {
+function App(props) {
     // برای یادگیری Router ها در React می‌تونید از پیوند زیر استفاده کنید:
     // https://reacttraining.com/react-router/web/guides/quick-start
     return (
@@ -50,14 +55,35 @@ export default function App() {
                                 <Route path="/news" exact>
                                     <InformingPage/>
                                 </Route>
+                                <Route path="/add-myactivities" exact>
+                                    <MyActivityEventsPage/>
+                                </Route>
+                                <Route path="/my-health-event" exact>
+                                    <MyHealthEventPage/>
+                                </Route>
+
                             </Switch>
                         </div>
                     </div>
-                    <div className="app-navigation">
-                        <Navigation />
-                    </div>
+                    {props.showNavigation &&
+                        <div className="app-navigation">
+                            <Navigation/>
+                        </div>
+                    }
                 </div>
             </Router>
         </ThemeProvider>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        showNavigation:state.CommonsReducer.showNavigation
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators(ActionCreator , dispatch);
+}
+
+export default connect(mapStateToProps , mapDispatchToProps)(App);
