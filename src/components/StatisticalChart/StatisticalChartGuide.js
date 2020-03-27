@@ -32,10 +32,10 @@ function StatisticalChartGuide(props) {
         {intl.formatMessage(`statistical-chart.title`, {title: `${patientsNum} نفر مبتلا (${patientsInc}+)`})}
       </h3>
       <h4>
-        {intl.formatMessage(`statistical-chart.title`, {title: `${recoveredNum} نفر مبتلا (${recoveredInc}+)`})}
+        {intl.formatMessage(`statistical-chart.title`, {title: `${recoveredNum} نفر درمان شده (${recoveredInc}+)`})}
       </h4>
       <h5>
-        {intl.formatMessage(`statistical-chart.title`, {title: `${deadNum} نفر مبتلا (${deadInc}+)`})}
+        {intl.formatMessage(`statistical-chart.title`, {title: `${deadNum} نفر فوت شده (${deadInc}+)`})}
       </h5>
     </div>
   );
