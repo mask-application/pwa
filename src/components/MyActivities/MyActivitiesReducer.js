@@ -1,8 +1,18 @@
-// TODO Explain about it - what is this token for?
+// The authentication token. Should be sent via "Access-Token" header.
 const token = localStorage.getItem('token');
+
+// User data stored in storage.
+let user;
+try {
+    user = JSON.parse(localStorage.getItem('user'));
+} catch(e) {
+    // User data in storage might be broken
+    user = null;
+}
 
 const initialState = {
     token,
+    user,
     page: token ? 'INDEX' : 'NOT_SIGNED_UP',
     phone: null,
     condition: null,
@@ -31,10 +41,12 @@ export function MyActivitiesReducer(state = initialState, action) {
             };
         case 'ACTIVATE_USER':
             localStorage.setItem('token', action.token);
+            localStorage.setItem('user', JSON.stringify(action.user));
             return {
                 ...state,
                 page: 'INDEX',
                 token: action.token,
+                user: action.user,
             };
         default:
             return state;
