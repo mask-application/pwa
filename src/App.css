@@ -73,23 +73,3 @@ html {
   width: 100%;
   z-index: 1;
 }
-
-body {
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  -webkit-touch-callout: none;
-  scroll-snap-coordinate: 0 0;
-  scroll-snap-type: mandatory;
-  -webkit-overflow-scrolling: touch;
-  font-family: dana, sans-serif;
-  user-select: none;
-  overflow: hidden;
-  position: fixed !important;
-  overscroll-behavior-x: none !important;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
