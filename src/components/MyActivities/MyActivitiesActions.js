@@ -19,9 +19,10 @@ export function showActivationPage({ phone, condition, ttl }) {
     };
 }
 
-export function activateUser(token) {
+export function activateUser({ token, user }) {
     return {
         type: 'ACTIVATE_USER',
         token,
+        user,
     };
 }

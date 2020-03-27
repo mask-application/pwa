@@ -1,0 +1,74 @@
+:root {
+  box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+  box-sizing: inherit;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  /*  !*margin: 0;*!*/
+  /*  !*padding: 0;*!*/
+  /*  !*overflow-x: auto;*!*/
+  /*  -webkit-scroll-snap-type: none;*/
+  /*  -webkit-font-smoothing: antialiased;*/
+  /*  scroll-snap-coordinate: 0 0;*/
+  /*  scroll-snap-type: mandatory;*/
+  /*  -webkit-overflow-scrolling: touch;*/
+  user-select: none;
+  /*  overflow: hidden;*/
+  /*  !*position: fixed !important;*!*/
+  /*  !*overscroll-behavior-x: none !important;*!*/
+  /*  !*top: 0;*!*/
+  /*  !*bottom: 0;*!*/
+  /*  !*left: 0;*!*/
+  /*  !*right: 0;*!*/
+  outline: none;
+}
+
+#root {
+  /*  position: relative;*/
+  /*  touch-action: manipulation;*/
+  /*  -webkit-touch-callout: none;*/
+}
+
+html {
+  /*  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);*/
+  /*  -webkit-tap-highlight-color: transparent;*/
+  /*  height: 100vh;*/
+  /*  overflow: hidden;*/
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-content {
+  flex-grow: 1;
+}
+
+.contentWrapper{
+  height: calc(100% - 48px);
+}
+
+.app-content > div{
+  /*background-color: dodgerblue;*/
+  overflow: scroll;
+  height: 100%;
+}
+
+.app-navigation {
+  box-shadow: 0 0 7px #ccc;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}

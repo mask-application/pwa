@@ -39,7 +39,7 @@ export default function MyActivities() {
             return (
                 <Activation
                     onBackClick={() => dispatch(showSignUpPage())}
-                    onActivate={(token) => dispatch(activateUser(token))}
+                    onActivate={(data) => dispatch(activateUser(data))}
                 />
             );
         default:
