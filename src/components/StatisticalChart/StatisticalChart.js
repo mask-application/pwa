@@ -1,5 +1,5 @@
 // FIXME this component should be in Home component's folder
-import React, { Component } from "react";
+import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import * as d3 from "d3";
 import { fetchData } from "./StatisticalChartActions";
@@ -8,32 +8,24 @@ import StatisticalChartGuide from "./StatisticalChartGuide";
 import "./StatisticalChart.css";
 
 
-// FIXME try to use hooks and functional programming instead of class component you have used.
-class StatisticalChart extends Component {
+function StatisticalChart(props){
 
-  constructor(props) {
-    super(props);
+  const hasMount = useRef(false);
 
-    this.getObjectKeys = this.getObjectKeys.bind(this);
-    this.drawChart = this.drawChart.bind(this);
-    this.constructProperDataFormatArea = this.constructProperDataFormatArea.bind(this);
-    this.constructProperDataFormatLine = this.constructProperDataFormatLine.bind(this);
-  }
+  useEffect(() => {
+    props.fetchData();
+  });
 
-  componentDidMount() {
-    this.props.fetchData();
-  }
-
-  componentDidUpdate(prevProps) {
-    if(this.props.isLoaded === true){
-      const { isLoaded, patients, dead, recovered } = this.props;
-      let data = this.constructProperDataFormatArea(patients, recovered, dead);
-      let dataLine = this.constructProperDataFormatLine(patients, recovered, dead);
-      this.drawChart(data, dataLine);
+  useEffect(() => {
+    if(!hasMount.current && props.isLoaded) {
+      initialDraw();
+      hasMount.current = true;
     }
-  }
+  });
 
-  constructProperDataFormatArea(patients, recovered, dead) {
+  const getObjectKeys = (obj) => Object.keys(obj);
+
+  const constructProperDataFormatArea = (patients, recovered, dead) =>  {
     let data = [];
     for (let i = 0; i < patients.length; i++) {
       data.push({
@@ -46,7 +38,7 @@ class StatisticalChart extends Component {
     return data;
   }
 
-  constructProperDataFormatLine(patients, recovered, dead) {
+  const constructProperDataFormatLine = (patients, recovered, dead) =>  {
     let data = [];
     let date = [];
     for (let i = 0; i < patients.length; i++) {
@@ -59,16 +51,12 @@ class StatisticalChart extends Component {
     return data;
   }
 
-  getObjectKeys(obj) {
-    return Object.keys(obj);
-  }
-
-  drawChart(dataArea, dataLine) {
+  const drawChart = (dataArea, dataLine) => {
     let margin = ({top: 0, right: 0, bottom: 0, left: 0});
     let width = window.innerWidth;
     let height = window.innerHeight*0.2 < 200 ? 200 : window.innerHeight*0.3;
 
-    let columns = this.getObjectKeys(dataArea[0]);
+    let columns = getObjectKeys(dataArea[0]);
     Object.assign(dataArea, {columns: columns});
     let series = d3.stack().keys(dataArea.columns.slice(1))(dataArea);
 
@@ -126,19 +114,24 @@ class StatisticalChart extends Component {
       .attr("stroke-linecap", "round");
   }
 
-  render(){
-    if (!this.props.isLoaded) {
-      // TODO: spinner
-      return <div className="spinner"></div>;
-    }
-
-    return (
-      <>
-        <StatisticalChartGuide data={this.props}/>
-        <svg className='svg-daily-behavior'/>
-      </>
-    )
+  const initialDraw = () => {
+    let dataArea = constructProperDataFormatArea(props.patients, props.recovered, props.dead);
+    let dataLine = constructProperDataFormatLine(props.patients, props.recovered, props.dead);
+    drawChart(dataArea, dataLine);
   }
+
+  return (
+    <>
+      {!props.isLoaded ?
+        <div className="spinner"></div>
+        :
+        <>
+          <StatisticalChartGuide data={props}/>
+          <svg className='svg-daily-behavior'/>
+        </>
+      }
+    </>
+  );
 }
 
 function mapStateToProps(state){
