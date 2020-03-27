@@ -21,9 +21,10 @@ export default function Map() {
 
 	const getCurrentPosition = () => {
 		return new Promise((resolve, reject) => {
-			if (!process.env.BROWSER) {
-				return resolve(constants.defaultLocation);
-			}
+			// if (!process.env.BROWSER) {
+				// return resolve(constants.defaultLocation);
+			// }
+			console.log('golnaz', navigator)
 			if ('geolocation' in navigator && navigator.geolocation && typeof navigator.geolocation.getCurrentPosition === 'function') {
 				try {
 					navigator.geolocation.getCurrentPosition(
