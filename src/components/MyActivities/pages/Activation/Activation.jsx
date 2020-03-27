@@ -67,7 +67,10 @@ export default function Activation({ onBackClick, onActivate }) {
         })
             .then(({ data }) => {
                 setIsDialogOpen(false);
-                onActivate(data.access_token);
+                onActivate({
+                    token: data.access_token, 
+                    user: data.user,
+                });
             })
             .catch(err => {
                 console.error(err);
