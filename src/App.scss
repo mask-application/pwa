@@ -19,6 +19,8 @@ html , body{
 }
 
 body {
+  user-select: none;
+  outline: none;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -27,22 +29,31 @@ body {
   scroll-snap-coordinate: 0 0;
   scroll-snap-type: mandatory;
   -webkit-overflow-scrolling: touch;
-  user-select: none;
-  overflow: hidden;
-  position: fixed !important;
   overscroll-behavior-x: none !important;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  outline: none;
+
+}
+
+#root {
+  /*  position: relative;*/
+  /*  touch-action: manipulation;*/
+  /*  -webkit-touch-callout: none;*/
+}
+
+html {
+  /*  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);*/
+  /*  -webkit-tap-highlight-color: transparent;*/
+  /*  height: 100vh;*/
+  /*  overflow: hidden;*/
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
 }
 
 .app-content {
@@ -54,9 +65,8 @@ body {
 }
 
 .app-content > div{
-  /*background-color: dodgerblue;*/
-  height: 100%;
   overflow: scroll;
+  height: 100%;
 }
 
 .app-navigation {
@@ -65,15 +75,6 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
-  z-index: 1;
-}
-
-.MuiTypography-root,  .MuiBottomNavigationAction-label {
-  font-family: IRANYekan !important
-}
-
-.MuiBottomNavigationAction-label {
-  font-size: 10px !important;
 }
 
 .logo > img{
