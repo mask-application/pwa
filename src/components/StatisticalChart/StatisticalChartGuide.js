@@ -1,6 +1,7 @@
 import React from "react";
 
 function translateNum(n) {
+  //  FIXME Use css to show numbers in persian
   let num = JSON.parse('{"0":"۰","1":"۱","2":"۲","3":"۳","4":"۴","5":"۵","6":"۶","7":"۷","8":"۸","9":"۹"}');
   return n.replace(/./g,function(c){
     return (typeof num[c]==="undefined")?
@@ -24,6 +25,7 @@ function StatisticalChartGuide(props) {
   return (
     <div className="statistics-text">
       <h3>
+        {/*  #FIXME Use formattedMessage */}
         {patientsNum}&nbsp;نفر مبتلا ({patientsInc}+)
       </h3>
       <h4>

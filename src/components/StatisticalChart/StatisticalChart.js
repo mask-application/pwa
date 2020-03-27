@@ -1,11 +1,14 @@
+// FIXME this component should be in Home component's folder
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as d3 from "d3";
 import { fetchData } from "./StatisticalChartActions";
 import StatisticalChartGuide from "./StatisticalChartGuide";
+// FIXME use sass instead of css
 import "./StatisticalChart.css";
 
 
+// FIXME try to use hooks and functional programming instead of class component you have used.
 class StatisticalChart extends Component {
 
   constructor(props) {
