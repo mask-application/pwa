@@ -48,7 +48,6 @@ export const createHealthEventInBulk = (data , history) => {
             "lethargy" : MyHealthEventConsts.inaction.indexOf(data.lethargy),
         }
 
-        console.log("indexedData:", indexedData);
         fetch(`https://api-dev.covidapp.ir/api/v1/event/bulk` , {   //FIXME:باید اصلاخ شود
             method:"POST",
             headers:{
@@ -96,12 +95,12 @@ export const createHealthEventInBulk = (data , history) => {
                 dispatch(showNav());
                 history.push("/me");
             }else if(response.status === 400){
-
+                    //TODO:باید پیاده سازی شود
             }else if(response.status === 401){
-
+                    //TODO:باید پیاده سازی شود
             }
         }).catch(error => {
-
+            //TODO:باید پیاده سازی شود
         })
     }
 }

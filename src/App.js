@@ -9,12 +9,16 @@ import FamilyActivitiesPage from "./containers/FamilyActivitiesPage";
 import MyActivityEventsPage from "./containers/MyActivityEventsPage";
 import MyHealthEventPage from "./containers/MyHealthEventPage";
 import InformingPage from "./containers/InformingPage";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {ActionCreator} from "./redux/actions";
 
 // FIXME merge these two files to a sass file please
 import './App.css';
 import './_App.scss';
 
-export default function App() {
+
+function App(props) {
     return (
         <div className="app-container">
             <div className="app-content">
@@ -51,9 +55,23 @@ export default function App() {
                     </Switch>
                 </div>
             </div>
-            <div className="app-navigation">
-                <Navigation />
-            </div>
+            {props.showNavigation &&
+                <div className="app-navigation">
+                    <Navigation/>
+                </div>
+            }
         </div>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        showNavigation:state.Commons.showNavigation
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators(ActionCreator , dispatch);
+}
+
+export default connect(mapStateToProps , mapDispatchToProps)(App);

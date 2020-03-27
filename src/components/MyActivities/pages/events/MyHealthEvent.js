@@ -1,6 +1,6 @@
 import React, {Fragment, useState , useReducer} from "react";
 import {useHistory} from "react-router-dom";
-import "./MyActivitiesStyle.scss";
+import "../../MyActivitiesStyle.scss";  //TODO:باید استایل جداسازی بشه
 import {PersianLan} from "../../constants/Strings";
 import Button from '@material-ui/core/Button';
 import {Person, LocationOn, People, ExpandMore} from "@material-ui/icons";
@@ -23,10 +23,6 @@ function MyHealthEvent(props) {
 
     const [item, setItem] = useState([]);  //for set modal values
     const [selectedItem , setSelectedItem] = useState(null);  // for the item that selected to show it's modal
-// console.log( localStorage.getItem("myHealthItems"));
-//     let savedData = localStorage.getItem("myHealthItems") || {};
-//     console.log("@@@@@@@@@@############", JSON.parse(savedData).fever);
-//     let jsonData = typeof savedData === "string" ? savedData : {};
 
     const [fever, setFever] = useState(localStorage.getItem("myHealthFever"));  // تب
     const [soreThroat, setSoreThroat] = useState(localStorage.getItem("myHealthSoreThroat"));  // گلودرد

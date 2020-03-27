@@ -1,7 +1,6 @@
 .MyActivitiesWrapper{
   display: flex;
   align-items: center;
-  //justify-content: center;
   flex-direction: column;
   position: relative;
 
@@ -34,11 +33,6 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
-    //border:1px solid #000;
-    //border-radius: 10px;
-    //margin: 0 10px 30px 10px;
-    //padding: 8px;
-    //box-shadow: 1px 1px 1px 2px #eee;
 
     .content{
       display: flex;
@@ -60,11 +54,6 @@
 }
 
 .MyHealthEventsWrapper{
-  //display: flex;
-  //align-items: flex-start;
-  //justify-content: flex-start;
-  //flex-direction: column;
-  //position: relative;
   overflow: scroll;
   padding-top: 15px;
 
@@ -82,7 +71,6 @@
     width: 100%;
     margin-bottom: 20px;
     height: 100%;
-    //overflow: scroll;
     margin-bottom: 130px;
 
 

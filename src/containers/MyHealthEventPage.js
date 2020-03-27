@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import MyHealthEvent from "../components/MyActivities/MyHealthEvent";
+import MyHealthEvent from "../components/MyActivities/pages/events/MyHealthEvent";
 import Header from "../components/AppHeader/Header";
 import {useHistory} from "react-router-dom";
 

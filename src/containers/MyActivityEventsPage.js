@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import MyActivityEvents from "../components/MyActivities/MyActivityEvents";
+import MyActivityEvents from "../components/MyActivities/pages/events/MyActivityEvents";
 import Header from "../components/AppHeader/Header";
 import {useHistory} from "react-router-dom";
 
