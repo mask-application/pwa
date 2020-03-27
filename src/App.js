@@ -8,7 +8,6 @@ import MapPage from "./containers/MapPage";
 import FamilyActivitiesPage from "./containers/FamilyActivitiesPage";
 import InformingPage from "./containers/InformingPage";
 
-// FIXME merge these two files to a sass file please
 import './App.scss';
 
 export default function App() {
