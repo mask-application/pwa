@@ -1,10 +1,10 @@
 import React from "react";
 import "./FamilyActivitiesStyle.scss";
 
-export default function FamiliesActivities(){
+export default function FamilyActivities(){
     return (
-        <div className={`contentWrapper FamiliesWrapper`}>
-            FamiliesActivities
+        <div className={`contentWrapper FamilyWrapper`}>
+            FamilyActivities
         </div>
     )
 }
