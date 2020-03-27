@@ -6,7 +6,7 @@ function MapPage() {
 
 	return (
 		<>
-			<Header/>
+			{/*<Header/>*/}
 			<Map/>
 		</>
 	)
