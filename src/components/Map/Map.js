@@ -51,7 +51,7 @@ export default function Map() {
 				fillColor: `#${Number(color).toString(16)}`,
 				fill: true,
 				stroke: false,
-				fillOpacity: 0.35,
+				fillOpacity: 0.4,
 			}).addTo(map);
 	};
 
@@ -213,7 +213,7 @@ export default function Map() {
 			</div>
 			<div id="map" style={{
 				position: 'fixed',
-				top     : '48px',
+				top     : 0,
 				right   : 0,
 				width   : '100vw',
 				height  : '100vh',

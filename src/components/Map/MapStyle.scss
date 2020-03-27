@@ -30,7 +30,8 @@
     background-color: white;
     border-radius: 10px;
     left: 50%;
-    transform: translate(-50%, 0)
+    transform: translate(-50%, 0);
+    color: #ff005c;
   }
 
   .map-button {
@@ -48,12 +49,16 @@
     padding: 10px;
     overflow: hidden;
 
+    svg {
+      font-size: 28px;
+    }
+
     &:hover {
-      background-color: #b82e49;
+      background-color: #bc0044;
     }
 
     &:first-child {
-      margin-left: 20px;
+      margin-left: 10px;
     }
 
     &.type {
