@@ -13,6 +13,6 @@ export default combineReducers({
   Informing: InformingReducer,
   FamilyActivities: FamilyActivitiesReducer,
   MyActivities: MyActivitiesReducer,
-  StatisticalChart: StatisticalChartReducer
+  StatisticalChart: StatisticalChartReducer,
   Commons:CommonsReducer,
 });

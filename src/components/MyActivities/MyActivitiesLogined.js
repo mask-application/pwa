@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import {ActionCreator} from "../../redux/actions";
 import {bindActionCreators} from "redux";
 
-function MyActivities(props) {
+function myActivitiesLogined(props) {
     let history = useHistory();
     console.log(props);
     return (
@@ -60,4 +60,4 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(ActionCreator, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyActivities);
+export default connect(mapStateToProps, mapDispatchToProps)(myActivitiesLogined);
