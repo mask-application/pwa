@@ -26,11 +26,6 @@ export const types = {
     // }
 };
 
-export const defaultLocation = {
-    lat: 35.699609,
-    lng: 51.338293
-};
-
 // data format:
 // [
 // 		[

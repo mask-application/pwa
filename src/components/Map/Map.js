@@ -21,10 +21,6 @@ export default function Map() {
 
 	const getCurrentPosition = () => {
 		return new Promise((resolve, reject) => {
-			// if (!process.env.BROWSER) {
-				// return resolve(constants.defaultLocation);
-			// }
-			console.log('golnaz', navigator)
 			if ('geolocation' in navigator && navigator.geolocation && typeof navigator.geolocation.getCurrentPosition === 'function') {
 				try {
 					navigator.geolocation.getCurrentPosition(
@@ -32,10 +28,11 @@ export default function Map() {
 							resolve({
 								lat: position.coords.latitude,
 								lng: position.coords.longitude,
-							}),
+						}),
 						() => {
 							reject({message: 'از طریق \n Settings > Privacy > Location Services > Safari Websites \n دسترسی موقعیت مکانی را فعال کنید.'});
 						},
+						{timeout:10000}
 					);
 				} catch (error) {
 					console.log('Error when calling navigator.geolocation.getCurrentPosition: ', error);
