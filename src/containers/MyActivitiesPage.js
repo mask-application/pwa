@@ -1,14 +1,9 @@
-import React, {Fragment} from "react";
-import MyActivities from "../components/MyActivities/MyActivities";
-import Header from "../components/AppHeader/Header";
+import React from "react";
 
-function MyActivitiesPage(props) {
-    return (
-        <>
-            <Header/>
-            <MyActivities/>
-        </>
-    )
+import MyActivities from "../components/MyActivities/MyActivities";
+
+function MyActivitiesPage() {
+    return <MyActivities />;
 }
 
 export default MyActivitiesPage;

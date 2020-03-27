@@ -2,6 +2,36 @@ import * as ActionTypes from "../../redux/actions/ActionTypes";
 import {MyHealthEventConsts} from "../../constants/MyHealthEventConsts";
 import {showNav} from "../../redux/actions/CommonActions";
 
+
+export function showSignUpPage() {
+    return {
+        type: 'SHOW_SIGN_UP_PAGE',
+    };
+}
+
+export function showNotSignedUpPage() {
+    return {
+        type: 'SHOW_NOT_SIGNED_UP_PAGE',
+    };
+}
+
+export function showActivationPage({ phone, condition, ttl }) {
+    return {
+        type: 'SHOW_ACTIVATION_PAGE',
+        phone,
+        condition,
+        ttl,
+    };
+}
+
+export function activateUser({ token, user }) {
+    return {
+        type: 'ACTIVATE_USER',
+        token,
+        user,
+    };
+}
+
 export const createHealthEventInBulk = (data , history) => {
     return (dispatch , getState) => {
         let indexedData = {
