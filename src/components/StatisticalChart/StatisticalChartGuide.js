@@ -1,4 +1,5 @@
 import React from "react";
+import { useIntl } from "../../intl";
 
 function translateNum(n) {
   //  FIXME Use css to show numbers in persian
@@ -8,11 +9,12 @@ function translateNum(n) {
       ((/\d+/.test(c))?c:''):
       num[c];
   })
-  return num;
+  return n;
 }
 
 function StatisticalChartGuide(props) {
 
+  const intl = useIntl();
   const { isLoaded, patients, recovered, dead } = props.data;
   const dataLen = patients.length;
   const patientsNum = translateNum(String(patients[dataLen-1]));
@@ -22,17 +24,18 @@ function StatisticalChartGuide(props) {
   const deadNum = translateNum(String(dead[dataLen-1]));
   const deadInc = translateNum(String(dead[dataLen-1]-dead[dataLen-2]));
 
+  // TODO: fix title in fa.json
+
   return (
     <div className="statistics-text">
       <h3>
-        {/*  #FIXME Use formattedMessage */}
-        {patientsNum}&nbsp;نفر مبتلا ({patientsInc}+)
+        {intl.formatMessage(`statistical-chart.title`, {title: `${patientsNum} نفر مبتلا (${patientsInc}+)`})}
       </h3>
       <h4>
-        {recoveredNum}&nbsp;نفر درمان شده ({recoveredInc}+)
+        {intl.formatMessage(`statistical-chart.title`, {title: `${recoveredNum} نفر مبتلا (${recoveredInc}+)`})}
       </h4>
       <h5>
-        {deadNum}&nbsp;نفر فوت شده ({deadInc}+)
+        {intl.formatMessage(`statistical-chart.title`, {title: `${deadNum} نفر مبتلا (${deadInc}+)`})}
       </h5>
     </div>
   );
