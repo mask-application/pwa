@@ -16,7 +16,7 @@ import {
   CircularProgress,
   Box,
 } from '@material-ui/core';
-import { ExpandMore, ArrowForward } from '@material-ui/icons';
+import { ExpandMore } from '@material-ui/icons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import '../../MyActivitiesStyle.scss'; //TODO:باید استایل جداسازی بشه
@@ -25,6 +25,8 @@ import { ActionCreator } from '../../../../redux/actions';
 import { PersianLan } from '../../../../constants/Strings';
 
 import styles from '../SignUp/SignUp.module.scss';
+import logo from '../../../../logo-header.png';
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
 function MyHealthEvent(props) {
   let history = useHistory();
@@ -137,19 +139,18 @@ function MyHealthEvent(props) {
     <>
       <AppBar position="fixed">
         <Toolbar variant="regular">
+          <img src={logo} className="app-header-logo" />
           <IconButton
             color="inherit"
             onClick={() => {
               history.push('/add-myactivities');
             }}
           >
-            <ArrowForward />
+            <KeyboardBackspaceIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit">
-            {PersianLan.app_header}
-          </Typography>
         </Toolbar>
       </AppBar>
+
       <div className={`contentWrapper MyHealthEventsWrapper`}>
         <div className="topMessage">
           {PersianLan.myActivitiesTab.healthEventTopMsg}
