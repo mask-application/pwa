@@ -14,7 +14,7 @@ import { Edit } from "@material-ui/icons";
 import styles from "./Activation.module.scss";
 import Header from "../../../AppHeader/Header";
 import api from "../../../../gate/api";
-import { login } from "../../../../redux/actions/userActions";
+import { login } from "../../../../redux/actions/UserActions";
 
 export default function Activation({ onBackClick, onActivate }) {
   const ttl = useSelector(store => store.MyActivities.ttl);
