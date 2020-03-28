@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './HeaderStyle.scss';
 import logo from '../../logo.png';
 import notification from '../../assets/images/Notification.svg';
-import { Box, Badge, Dialog } from '@material-ui/core';
+import { Box, Badge, Dialog, Typography } from '@material-ui/core';
 
 export default function Header() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -22,6 +22,9 @@ export default function Header() {
         <div className="logo">
           <img src={logo} alt="logo" />
         </div>
+        <Typography variant="subtitle2" className="beta-version">
+          نسخه آزمایشی
+        </Typography>
       </div>
 
       <Dialog open={isDialogOpen}>

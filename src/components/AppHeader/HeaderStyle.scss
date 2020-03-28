@@ -15,6 +15,17 @@
     padding: 20px;
     width: 100%;
   }
+
+  .beta-version {
+    top: 10vw;
+    left: -38vw;
+    width: 100%;
+    color: #ffffff;
+    position: fixed;
+    text-align: center;
+    transform: rotate(-45deg);
+    background-color: #ff005c;
+  }
 }
 
 .notif-msg {
