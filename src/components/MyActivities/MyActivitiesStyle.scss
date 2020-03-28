@@ -1,4 +1,4 @@
-.MyActivitiesWrapper{
+.MyActivitiesWrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -7,35 +7,34 @@
 
   height: calc(100% - 110px) !important;
 
-  .healthMessage{
+  .healthMessage {
     display: flex;
     margin-top: 15px;
     color: #2bff2c;
     align-items: center;
   }
 
-  .healthCount{
+  .healthCount {
     background-color: #fff;
     border-radius: 15px;
     padding: 10px;
   }
 
-  span.message{
-      font-size: 15px;
+  span.message {
+    font-size: 15px;
     margin-bottom: 15px;
   }
 
-  .addActivityBtn{
+  .addActivityBtn {
     border-radius: 20px;
     width: 80%;
     position: absolute;
-    bottom:30px;
+    bottom: 30px;
     font-family: IRANYekan;
   }
-
 }
 
-.MyActivityEventsWrapper{
+.MyActivityEventsWrapper {
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -43,37 +42,37 @@
   position: relative;
   overflow: scroll;
 
-
-  .myActivityRow{
+  .myActivityRow {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
 
-    .content{
+    .content {
       display: flex;
       flex-direction: column;
       margin-right: 10px;
 
-      h3{
+      h3 {
         font-size: 18px;
         margin-bottom: 8px;
       }
 
-      p{
+      p {
         color: #898989;
         font-size: 13px;
       }
     }
-
   }
 }
 
-.MyHealthEventsWrapper{
+.MyHealthEventsWrapper {
   overflow: scroll;
   padding-top: 15px;
+  padding-left: 12px;
+  padding-right: 12px;
 
-  .topMessage{
+  .topMessage {
     text-align: center;
     background-color: #1c2341;
     color: #fff;
@@ -82,40 +81,37 @@
     font-size: 14px;
   }
 
-  .healthItemsContainer{
+  .healthItemsContainer {
     margin-top: 15px;
     width: 100%;
     margin-bottom: 20px;
     height: 100%;
     margin-bottom: 130px;
 
-
-    & > div{
+    & > div {
       display: flex;
       justify-content: space-between;
       margin-top: 10px;
       margin-bottom: 10px;
       line-height: 30px;
 
-      .item-value{
+      .item-value {
         margin-right: 10px;
       }
     }
 
-
-    .addHealthBtn{
+    .addHealthBtn {
       border-radius: 20px;
       width: 80%;
       position: absolute;
-      bottom:30px;
+      bottom: 30px;
       font-family: IRANYekan;
     }
   }
-
 }
 
-.myHealthDialogContainer{
-  background-color: #FFF;
+.myHealthDialogContainer {
+  background-color: #fff;
   max-height: 70%;
   width: 90%;
   border-radius: 15px;
@@ -125,7 +121,7 @@
   overflow: scroll;
   justify-content: center;
 
-  & > div{
+  & > div {
     width: 90%;
 
     & > div {
