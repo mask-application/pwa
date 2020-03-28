@@ -60,3 +60,4 @@ export default function App() {
     );
 }
 
+console.log("REACT_APP_SAMPLE_ENVIRONMENT: ", process.env.REACT_APP_SAMPLE_ENVIRONMENT);
