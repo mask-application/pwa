@@ -48,16 +48,16 @@ export const createHealthEventInBulk = (data , history) => {
             "lethargy" : MyHealthEventConsts.inaction.indexOf(data.lethargy),
         }
 
-        fetch(`https://api-dev.covidapp.ir/api/v1/event/bulk` , {   //FIXME:باید اصلاخ شود
+        fetch(`/api/v1/event/bulk` , {
             method:"POST",
             headers:{
-                "Access-Token":"0961fb9f-63c6-4e87-86c1-7a3f027780ba",  //FIXME CRITICAL:باید از storeبخونم
+                "Access-Token":getState().MyActivities.token,
                 "Content-Type":"application/json"
             },
             body:JSON.stringify({
                 events:[
                     {
-                        person:"Test_value",  //FIXME CRITICAL : this should be fetched from server using profile API
+                        person:getState().MyActivities.user.people[0].id,
                         type:0,
                         data:indexedData,
                         create_time:"2020-02-02"  // FIXME:باید درست بشه و تاریخ با فرمت درست از سیستم گرفته بشه
@@ -93,7 +93,7 @@ export const createHealthEventInBulk = (data , history) => {
                     eventCounter:+getState().MyActivitiesReducer.eventCounter + 1
                 });
                 dispatch(showNav());
-                history.push("/me");
+                history.push("/my-activities");
             }else if(response.status === 400){
                     //TODO:باید پیاده سازی شود
             }else if(response.status === 401){

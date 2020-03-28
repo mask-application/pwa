@@ -1,17 +1,17 @@
 import React, {Fragment, useState , useReducer} from "react";
 import {useHistory} from "react-router-dom";
 import "../../MyActivitiesStyle.scss";  //TODO:باید استایل جداسازی بشه
-import {PersianLan} from "../../constants/Strings";
+import {PersianLan} from "../../../../constants/Strings";
 import Button from '@material-ui/core/Button';
 import {Person, LocationOn, People, ExpandMore} from "@material-ui/icons";
 import Modal from '@material-ui/core/Modal';
-import {MyHealthEventConsts} from "../../constants/MyHealthEventConsts";
+import {MyHealthEventConsts} from "../../../../constants/MyHealthEventConsts";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import {bindActionCreators} from "redux";
-import {ActionCreator} from "../../redux/actions";
+import {ActionCreator} from "../../../../redux/actions";
 import {connect} from "react-redux";
 
 

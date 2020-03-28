@@ -7,7 +7,7 @@ function MyActivityEventsPage() {
     let history = useHistory();
     return (
         <>
-            <Header isInnerPage backClick={() =>{history.push("/me")}}/>
+            <Header isInnerPage backClick={() =>{history.push("/my-activities")}}/>
             <MyActivityEvents/>
         </>
     )

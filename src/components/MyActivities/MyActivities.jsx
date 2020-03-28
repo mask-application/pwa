@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import NotSignedUp from './pages/NotSignedUp/NotSignedUp';
 import SignUp from './pages/SignUp/SignUp';
 import Activation from './pages/Activation/Activation';
+import MyActiActivitiesLogined from './pages/Loggedin/MyActivitiesLogined';
 
 import {
     showSignUpPage,
@@ -25,7 +26,7 @@ export default function MyActivities() {
     switch (state.page) {
         case 'INDEX':
             // FIXME use formattedMessage from react-intl
-            return <div>شما وارد شدید!</div>;
+            return <MyActiActivitiesLogined/>;
         case 'NOT_SIGNED_UP':
             return <NotSignedUp onSignUpClick={() => dispatch(showSignUpPage())} />;
         case 'SIGN_UP':

@@ -1,6 +1,6 @@
 import React from "react";
 import "../../MyActivitiesStyle.scss"; //TODO: باید استایل جداسازی بشه
-import {PersianLan} from "../../constants/Strings";
+import {PersianLan} from "../../../../constants/Strings";
 import Button from '@material-ui/core/Button';
 import {Person , LocationOn , People} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";

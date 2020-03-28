@@ -3,6 +3,22 @@
   align-items: center;
   flex-direction: column;
   position: relative;
+  background-color: #f6f6f6;
+
+  height: calc(100% - 110px) !important;
+
+  .healthMessage{
+    display: flex;
+    margin-top: 15px;
+    color: #2bff2c;
+    align-items: center;
+  }
+
+  .healthCount{
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 10px;
+  }
 
   span.message{
       font-size: 15px;
