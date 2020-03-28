@@ -1,14 +1,36 @@
 import React from "react";
-import "../../MyActivitiesStyle.scss"; //TODO: باید استایل جداسازی بشه
-import {PersianLan} from "../../../../constants/Strings";
-import Button from '@material-ui/core/Button';
-import {Person , LocationOn , People} from "@material-ui/icons";
+import { useSelector, useDispatch } from "react-redux";
+import {AppBar, Toolbar , IconButton, Typography} from "@material-ui/core";
+import {Person , LocationOn , People,ArrowForward} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
+import {} from "@material-ui/icons";
+import {PersianLan} from "../../../../constants/Strings";
+import "../../MyActivitiesStyle.scss"; //TODO: باید استایل جداسازی بشه
 
-export default function MyActivityEvents(){
+import {
+    showNav
+} from "../../../../redux/actions/CommonActions";
+
+export default function MyActivityEvents(props){
 
     let history = useHistory();
+    const dispatch = useDispatch();
     return (
+        <>
+            <AppBar position="static">
+                <Toolbar variant="regular">
+                    <IconButton color="inherit" onClick={() => {
+                        dispatch(showNav());
+                        history.push("/my-activities");
+                    }}>
+                        <ArrowForward />
+                    </IconButton>
+                    <Typography variant="h6" color="inherit">
+                        {PersianLan.app_header}
+                    </Typography>
+
+                </Toolbar>
+            </AppBar>
         <div className={`contentWrapper MyActivityEventsWrapper`}>
             <div className="myActivityRow healthInfo" onClick={() => {history.push("/my-health-event")}}>
                 <Person color="primary" style={{fontSize:50}} />
@@ -32,5 +54,6 @@ export default function MyActivityEvents(){
                 </div>
             </div>
         </div>
+            </>
     )
 }

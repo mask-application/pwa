@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-
+import {useSelector} from "react-redux";
 import Navigation from './components/Navigation/Navigation';
 import MyActivitiesPage from "./containers/MyActivitiesPage";
 import HomePage from "./containers/HomePage";
@@ -9,16 +9,16 @@ import FamilyActivitiesPage from "./containers/FamilyActivitiesPage";
 import MyActivityEventsPage from "./containers/MyActivityEventsPage";
 import MyHealthEventPage from "./containers/MyHealthEventPage";
 import InformingPage from "./containers/InformingPage";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {ActionCreator} from "./redux/actions";
 
 // FIXME merge these two files to a sass file please
 import './App.css';
 import './_App.scss';
 
 
-function App(props) {
+export default function App() {
+
+    const showNavBar = useSelector(state => state.Commons.showNavigation);
+
     return (
         <div className="app-container">
             <div className="app-content">
@@ -55,7 +55,7 @@ function App(props) {
                     </Switch>
                 </div>
             </div>
-            {props.showNavigation &&
+            {showNavBar &&
                 <div className="app-navigation">
                     <Navigation/>
                 </div>
@@ -64,14 +64,3 @@ function App(props) {
     );
 }
 
-const mapStateToProps = state => {
-    return {
-        showNavigation:state.Commons.showNavigation
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators(ActionCreator , dispatch);
-}
-
-export default connect(mapStateToProps , mapDispatchToProps)(App);
