@@ -8,9 +8,8 @@ import {} from '@material-ui/icons';
 import { PersianLan } from '../../../../constants/Strings';
 import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسازی بشه
 
-import logo from '../../../../logo-header.png';
-
 import { showNav } from '../../../../redux/actions/CommonActions';
+import logo from '../../../../logo-header.png';
 
 export default function MyActivityEvents(props) {
   let history = useHistory();
