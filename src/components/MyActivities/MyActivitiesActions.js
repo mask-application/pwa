@@ -51,7 +51,7 @@ export const createHealthEventInBulk = (data, history) => {
       lethargy: MyHealthEventConsts.inaction.indexOf(data.lethargy),
     };
 
-    fetch(`/api/v1/event/bulk`, {
+    fetch(`https://api-dev.covidapp.ir/api/v1/event/bulk`, {
       method: 'POST',
       headers: {
         'Access-Token': getState().MyActivities.token,
@@ -78,7 +78,7 @@ export const createHealthEventInBulk = (data, history) => {
         }
       })
       .then((response) => {
-        if (response.status === 201) {
+        if (response.status == 201) {
           localStorage.setItem('myHealthFever', data.fever);
           localStorage.setItem('myHealthSoreThroat', data.sore_throat);
           localStorage.setItem('myHealthDryCough', data.dry_cough);
@@ -96,22 +96,26 @@ export const createHealthEventInBulk = (data, history) => {
           localStorage.setItem('myHealthSneeze', data.sneeze);
           localStorage.setItem('myHealthIHeadache', data.headache);
           localStorage.setItem('myHealthLethargy', data.lethargy);
+
           localStorage.setItem('eventResult', JSON.stringify(response.data));
+
           localStorage.setItem(
             'eventCounter',
-            +getState().MyActivitiesReducer.eventCounter + 1
+            +getState().MyActivities.eventCounter + 1
           );
+
           dispatch({
             type: ActionTypes.SAVE_SUCCESS_EVENT_RESPONSE_TO_STATE,
             eventResult: response.data,
-            eventCounter: +getState().MyActivitiesReducer.eventCounter + 1,
+            eventCounter: +getState().MyActivities.eventCounter + 1,
           });
           dispatch(showNav());
+
           history.push('/my-activities');
-        } else if (response.status === 400) {
+        } else if (response.status == 400) {
           //TODO:باید پیاده سازی شود
           throw response;
-        } else if (response.status === 401) {
+        } else if (response.status == 401) {
           //TODO:باید پیاده سازی شود
           throw response;
         }
