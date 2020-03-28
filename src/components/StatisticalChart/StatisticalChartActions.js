@@ -16,8 +16,7 @@ const fetchDataError = () => ({
 });
 
 export function fetchData() {
-  // const URL = "/data/infected.json";
-  const URL = "https://cdn-dev.covidapp.ir/data/infected.json";
+  const URL = "http://185.97.116.63:8001/data/infected.json";
   return dispatch => {
     dispatch(fetchDataRequest());
     return fetch(URL)

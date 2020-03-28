@@ -118,7 +118,7 @@ export default function Map() {
 	function getMapTypeLists() {
 		// FIXME url ==> config file
 		setIsDialogOpen(true);
-		return fetch('/map-cdn/maps.json')
+		return fetch('http://185.97.116.63:8001/map-cdn/maps.json')
 			.then((response) => response.json())
 			.then((responseJson) => {
 				setList(responseJson);
@@ -155,7 +155,7 @@ export default function Map() {
 			}
 		}
 		// FIXME config file
-		version && parseFile(`/map-cdn/${type}.${version}.csv`);
+		version && parseFile(`http://185.97.116.63:8001/map-cdn/${type}.${version}.csv`);
 	}, [list, type]);
 
 	useEffect(() => {
