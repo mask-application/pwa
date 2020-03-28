@@ -7,7 +7,7 @@
     button {
       outline: none;
     }
-    position: absolute;
+    position: fixed;
     z-index: 10;
     display: flex;
     justify-content: space-between;
@@ -18,7 +18,7 @@
   }
 
   .map-comment-wrapper {
-    position: absolute;
+    position: fixed;
     z-index: 10;
     display: flex;
     justify-content: space-between;
@@ -30,12 +30,13 @@
     background-color: white;
     border-radius: 10px;
     left: 50%;
-    transform: translate(-50%, 0)
+    transform: translate(-50%, 0);
+    color: #ff005c;
   }
 
   .map-button {
     font: inherit;
-    background-color: #eb3b5d;
+    background-color: #ff005c;
     color: #fff;
     height: 50px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -48,12 +49,16 @@
     padding: 10px;
     overflow: hidden;
 
+    svg {
+      font-size: 28px;
+    }
+
     &:hover {
-      background-color: #b82e49;
+      background-color: #bc0044;
     }
 
     &:first-child {
-      margin-left: 20px;
+      margin-left: 10px;
     }
 
     &.type {
@@ -88,4 +93,10 @@
     font-size: 14px;
     font-family: IRANYekan, serif;
   }
+}
+
+.dialog-content {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
 }

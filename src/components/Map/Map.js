@@ -7,6 +7,8 @@ import * as d3 from "d3";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as constants from './constants/mapConstants'
+import styles from "../MyActivities/pages/Activation/Activation.module.scss";
+import {Box, CircularProgress, Dialog} from "@material-ui/core";
 
 export default function Map() {
 
@@ -21,6 +23,7 @@ export default function Map() {
 	const [showData, setShowData] = useState(null);
 	const [list, setList] = useState([]);
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	// #TODO move to a better Utility class
 	const getCurrentPosition = () => {
@@ -56,7 +59,7 @@ export default function Map() {
 				fillColor: `#${Number(color).toString(16)}`,
 				fill: true,
 				stroke: false,
-				fillOpacity: 0.35,
+				fillOpacity: 0.4,
 			}).addTo(map);
 	};
 
@@ -69,6 +72,7 @@ export default function Map() {
 	//  TODO explain about the code (Explain the goal for each section to help other developers).
 	//   Maybe a separate file would be better to include such these functions
 	const getData = result => {
+		setIsDialogOpen(false);
 		const line = result.data;
 		const lineNumber = line.length;
 		for (let i = 0 ; i < lineNumber ;) {
@@ -104,6 +108,7 @@ export default function Map() {
 
 	const parseFile = (url) => {
 		setData([]);
+		setIsDialogOpen(true);
 		Papa.parse(url, {
 			download: true,
 			complete: getData
@@ -112,6 +117,7 @@ export default function Map() {
 
 	function getMapTypeLists() {
 		// FIXME url ==> config file
+		setIsDialogOpen(true);
 		return fetch('/map-cdn/maps.json')
 			.then((response) => response.json())
 			.then((responseJson) => {
@@ -224,7 +230,7 @@ export default function Map() {
 			{/* TODO config file */}
 			<div id="map" style={{
 				position: 'fixed',
-				top     : '48px',
+				top     : 0,
 				right   : 0,
 				width   : '100vw',
 				height  : '100vh',
@@ -236,6 +242,14 @@ export default function Map() {
 				</div>
 			</div>
 			{menu}
+			<Dialog open={isDialogOpen}>
+				<div className='dialog-content'>
+					<CircularProgress />
+					<Box ml={3}>
+						{'لطفا کمی صبر کنید.'}
+					</Box>
+				</div>
+			</Dialog>
 		</div>
 	)
 }
