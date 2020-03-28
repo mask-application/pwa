@@ -14,7 +14,6 @@ export default function App() {
     return (
         <div className="app-container">
             <div className="app-content">
-                <div>
                     {/**
                      * A <Switch> looks through its children <Route>s and
                      * renders the first one that matches the current URL.
@@ -39,7 +38,6 @@ export default function App() {
                             <InformingPage />
                         </Route>
                     </Switch>
-                </div>
             </div>
             <div className="app-navigation">
                 <Navigation />
