@@ -7,6 +7,8 @@ import * as d3 from "d3";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as constants from './constants/mapConstants'
+import styles from "../MyActivities/pages/Activation/Activation.module.scss";
+import {Box, CircularProgress, Dialog} from "@material-ui/core";
 
 export default function Map() {
 
@@ -18,6 +20,7 @@ export default function Map() {
 	const [showData, setShowData] = useState(null);
 	const [list, setList] = useState([]);
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	const getCurrentPosition = () => {
 		return new Promise((resolve, reject) => {
@@ -62,6 +65,7 @@ export default function Map() {
 	  };
 
 	const getData = result => {
+		setIsDialogOpen(false);
 		const line = result.data;
 		const lineNumber = line.length;
 		for (let i = 0 ; i < lineNumber ;) {
@@ -97,6 +101,7 @@ export default function Map() {
 
 	const parseFile = (url) => {
 		setData([]);
+		setIsDialogOpen(true);
 		Papa.parse(url, {
 			download: true,
 			complete: getData
@@ -104,6 +109,7 @@ export default function Map() {
 	};
 
 	function getMapTypeLists() {
+		setIsDialogOpen(true);
 		return fetch('https://cdn.covidapp.ir/map/maps.json')
 			.then((response) => response.json())
 			.then((responseJson) => {
@@ -225,6 +231,14 @@ export default function Map() {
 				</div>
 			</div>
 			{menu}
+			<Dialog open={isDialogOpen}>
+				<div className='dialog-content'>
+					<CircularProgress />
+					<Box ml={3}>
+						{'لطفا کمی صبر کنید.'}
+					</Box>
+				</div>
+			</Dialog>
 		</div>
 	)
 }
