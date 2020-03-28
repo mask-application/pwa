@@ -10,9 +10,7 @@ import MyActivityEventsPage from "./containers/MyActivityEventsPage";
 import MyHealthEventPage from "./containers/MyHealthEventPage";
 import InformingPage from "./containers/InformingPage";
 
-// FIXME merge these two files to a sass file please
-import './App.css';
-import './_App.scss';
+import './App.scss';
 
 
 export default function App() {
