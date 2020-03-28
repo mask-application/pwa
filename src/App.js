@@ -20,7 +20,6 @@ export default function App() {
     return (
         <div className="app-container">
             <div className="app-content">
-                <div>
                     {/**
                      * A <Switch> looks through its children <Route>s and
                      * renders the first one that matches the current URL.
@@ -51,7 +50,6 @@ export default function App() {
                             <MyHealthEventPage/>
                         </Route>
                     </Switch>
-                </div>
             </div>
             {showNavBar &&
                 <div className="app-navigation">
