@@ -104,7 +104,7 @@ export default function Activation({ onBackClick, onActivate }) {
                 </Typography>
                 <Box mt={2} textAlign="center">
                     <Button color="primary" onClick={onBackClick}>
-                        {phone}
+                        <div>{phone}</div>
                         <Edit className={styles.editIcon} fontSize="small" />
                     </Button>
                 </Box>
