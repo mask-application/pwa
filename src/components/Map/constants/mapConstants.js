@@ -1,3 +1,4 @@
+// FIXME comments should be deleted before commits
 export const types = {
     patients: {
         key: 'patients',

@@ -10,6 +10,9 @@ import * as constants from './constants/mapConstants'
 
 export default function Map() {
 
+	// FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
+	// try to use react leaflet and help encapsulation components (and Separation of concerns)
+
 	const [type, setType] = useState(constants.types['patients'].key);
 	const [map, setMap] = useState(null);
 	const [data, setData] = useState([]);
@@ -19,6 +22,7 @@ export default function Map() {
 	const [list, setList] = useState([]);
 	const [anchorEl, setAnchorEl] = useState(null);
 
+	// #TODO move to a better Utility class
 	const getCurrentPosition = () => {
 		return new Promise((resolve, reject) => {
 			if ('geolocation' in navigator && navigator.geolocation && typeof navigator.geolocation.getCurrentPosition === 'function') {
@@ -45,6 +49,7 @@ export default function Map() {
 		});
 	};
 
+	// #TODO polygons -> points ot latLongs
 	const drawPolygon = (color, polygons) => {
 		map && polygons && window.L.polygon(polygons,
 			{
@@ -61,6 +66,8 @@ export default function Map() {
 		}
 	  };
 
+	//  TODO explain about the code (Explain the goal for each section to help other developers).
+	//   Maybe a separate file would be better to include such these functions
 	const getData = result => {
 		const line = result.data;
 		const lineNumber = line.length;
@@ -104,7 +111,8 @@ export default function Map() {
 	};
 
 	function getMapTypeLists() {
-		return fetch('https://cdn.covidapp.ir/map/maps.json')
+		// FIXME url ==> config file
+		return fetch('/map-cdn/maps.json')
 			.then((response) => response.json())
 			.then((responseJson) => {
 				setList(responseJson);
@@ -116,8 +124,9 @@ export default function Map() {
 
 	useEffect(() => {
 			getMapTypeLists().then();
+			// FIXME configs should be moved in the config file
 			setMap(new window.L.Map('map', {
-				//FIXME CRITICAL set token
+				// FIXME CRITICAL set token
 				key        : 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
 				maptype    : 'dreamy',
 				poi        : true,
@@ -139,7 +148,8 @@ export default function Map() {
 				}
 			}
 		}
-		version && parseFile(`https://cdn.covidapp.ir/map/${type}.${version}.csv`);
+		// FIXME config file
+		version && parseFile(`/map-cdn/${type}.${version}.csv`);
 	}, [list, type]);
 
 	useEffect(() => {
@@ -211,6 +221,7 @@ export default function Map() {
 					<ExpandMoreIcon/>
 				</button>
 			</div>
+			{/* TODO config file */}
 			<div id="map" style={{
 				position: 'fixed',
 				top     : '48px',
