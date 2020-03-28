@@ -3,12 +3,13 @@ import Map from "../components/Map/Map";
 import Header from "../components/AppHeader/Header";
 
 function MapPage() {
-    return (
-        <>
-            <Header/>
-            <Map/>
-        </>
-    )
+
+	return (
+		<>
+			{/*<Header/>*/}
+			<Map/>
+		</>
+	)
 }
 
 export default MapPage;

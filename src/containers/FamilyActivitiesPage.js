@@ -5,7 +5,7 @@ import Header from "../components/AppHeader/Header";
 function FamilyActivitiesPage() {
     return (
         <>
-            <Header/>
+            {/*<Header/>*/}
             <FamilyActivities/>
         </>
     )

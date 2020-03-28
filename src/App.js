@@ -44,7 +44,6 @@ export default function App() {
             <Route path="/informing" exact>
               <InformingPage />
             </Route>
-            
           </Switch>
         </div>
       </div>

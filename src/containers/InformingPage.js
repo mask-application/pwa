@@ -5,7 +5,7 @@ import Header from "../components/AppHeader/Header";
 function InforminPage() {
     return (
         <>
-            <Header/>
+            {/*<Header/>*/}
             <Informing/>
         </>
     )
