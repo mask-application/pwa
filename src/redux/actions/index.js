@@ -4,6 +4,7 @@ import * as FamilyActivitiesActions from "../../components/FamilyActivities/Fami
 import * as InformingActions from "../../components/Informing/InformingActions";
 import * as MapActions from "../../components/Map/MapActions";
 import * as MyActivitiesActions from "../../components/MyActivities/MyActivitiesActions";
+import * as CommonActions from "./CommonActions";
 
 export const ActionCreator = Object.assign({},
     LoginActions,
@@ -11,5 +12,6 @@ export const ActionCreator = Object.assign({},
     FamilyActivitiesActions,
     InformingActions,
     MapActions,
-    MyActivitiesActions
+    MyActivitiesActions,
+    CommonActions,
 );
