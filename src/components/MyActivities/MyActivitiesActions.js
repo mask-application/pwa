@@ -51,7 +51,7 @@ export const createHealthEventInBulk = (data, history) => {
       lethargy: MyHealthEventConsts.inaction.indexOf(data.lethargy),
     };
 
-    fetch(`https://api-dev.covidapp.ir/api/v1/event/bulk`, {
+    fetch(`/api/v1/event/bulk`, {
       method: 'POST',
       headers: {
         'Access-Token': getState().MyActivities.token,
