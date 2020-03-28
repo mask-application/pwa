@@ -4,7 +4,7 @@ const initialState = {
   loggedIn: false
 };
 
-export const userReducer = (state = initialState, action) => {
+export const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN":
       return { ...state, token: action.token, loggedIn: true };

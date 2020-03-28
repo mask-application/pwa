@@ -5,7 +5,7 @@ import qrCodeIcon from "../../../../assets/svg/qr-code.svg";
 import { Box, IconButton } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
-import { logout } from "../../../../redux/actions/userActions";
+import { logout } from "../../../../redux/actions/UserActions";
 
 export default function Index() {
   const history = useHistory();
