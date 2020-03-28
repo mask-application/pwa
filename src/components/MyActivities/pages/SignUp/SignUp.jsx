@@ -101,16 +101,22 @@ export default function SignUp({ onBackClick, onSMSSent }) {
                             onChange={e => setCondition(e.target.value)}
                         >
                             <MenuItem value={0}>
-                                بدون شرایط خاص
+                                <div className={styles.menuItem}>
+                                    بدون شرایط خاص
+                                </div>
                             </MenuItem>
                             <MenuItem value={1}>
-                                بیماران با نقص ایمنی: تحت درمان با کورتیکواستروئید،
-                                شیمی درمانی، بدخیمی‌ها، پیوند اعضا، مبتلایان به HIV
+                                <div className={styles.menuItem}>
+                                    بیماران با نقص ایمنی: تحت درمان با کورتیکواستروئید،
+                                    شیمی درمانی، بدخیمی‌ها، پیوند اعضا، مبتلایان به HIV
+                                </div>
                             </MenuItem>
                             <MenuItem value={2}>
-                                بیماران با بیماری زمینه‌ای و سالمندان: بیماری قلبی
-                                عروقی، فشار خون، بیماری‌های تنفسی زمینه‌ای، دیابت و
-                                افراد بالای ۵۰ سال
+                                <div className={styles.menuItem}>
+                                    بیماران با بیماری زمینه‌ای و سالمندان: بیماری قلبی
+                                    عروقی، فشار خون، بیماری‌های تنفسی زمینه‌ای، دیابت و
+                                    افراد بالای ۵۰ سال
+                                </div>
                             </MenuItem>
                         </Select>
                     </FormControl>
