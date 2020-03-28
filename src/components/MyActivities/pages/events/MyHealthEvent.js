@@ -126,7 +126,7 @@ function MyHealthEvent(props) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar variant="regular">
           <IconButton
             color="inherit"
@@ -157,11 +157,10 @@ function MyHealthEvent(props) {
               <span className="item-label">تب: </span>
               <span className="item-value">{fever}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -174,11 +173,10 @@ function MyHealthEvent(props) {
               <span className="item-label">گلودرد: </span>
               <span className="item-value">{soreThroat}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -191,11 +189,10 @@ function MyHealthEvent(props) {
               <span className="item-label">سرفه خشک: </span>
               <span className="item-value">{dryCough}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -208,11 +205,10 @@ function MyHealthEvent(props) {
               <span className="item-label">نگه داشتن نفس: </span>
               <span className="item-value">{holdingThe‌ٰ‌‌‌‌Breath}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -225,11 +221,10 @@ function MyHealthEvent(props) {
               <span className="item-label">تعداد تنفس: </span>
               <span className="item-value">{breathrate}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -242,11 +237,10 @@ function MyHealthEvent(props) {
               <span className="item-label">گرفتگی بینی: </span>
               <span className="item-value">{adenoid}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -259,11 +253,10 @@ function MyHealthEvent(props) {
               <span className="item-label">بدن درد: </span>
               <span className="item-value">{bodyPain}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -276,11 +269,10 @@ function MyHealthEvent(props) {
               <span className="item-label">آبریزش بینی: </span>
               <span className="item-value">{runnynose}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -293,11 +285,10 @@ function MyHealthEvent(props) {
               <span className="item-label">عطسه: </span>
               <span className="item-value">{sneeze}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -310,11 +301,10 @@ function MyHealthEvent(props) {
               <span className="item-label">سردرد: </span>
               <span className="item-value">{headache}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -327,21 +317,13 @@ function MyHealthEvent(props) {
               <span className="item-label">بی حالی: </span>
               <span className="item-value">{inaction}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
         </div>
 
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 20,
-            width: '97%',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+        <div className="submit-button">
           <Button
             onClick={() => {
               addHealth();
@@ -372,7 +354,6 @@ function MyHealthEvent(props) {
                     >
                       <ListItemText primary={val} />
                     </ListItem>
-                    <Divider />
                   </Fragment>
                 );
               })}

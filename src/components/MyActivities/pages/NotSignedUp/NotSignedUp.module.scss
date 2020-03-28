@@ -23,3 +23,14 @@
 .spacer {
   flex-grow: 1;
 }
+
+.registerButtonContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.registerButton {
+  position: fixed !important;
+  bottom: 70px !important;
+  width: 90%;
+}
