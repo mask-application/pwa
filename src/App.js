@@ -8,9 +8,7 @@ import MapPage from "./containers/MapPage";
 import FamilyActivitiesPage from "./containers/FamilyActivitiesPage";
 import InformingPage from "./containers/InformingPage";
 
-// FIXME merge these two files to a sass file please
-import "./App.css";
-import "./_App.scss";
+import "./App.scss";
 import QrCode from "./components/QrCode/QrCode";
 
 export default function App() {

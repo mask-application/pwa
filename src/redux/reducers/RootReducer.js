@@ -5,6 +5,7 @@ import { HomeReducer } from "../../components/Home/HomeReducer";
 import { InformingReducer } from "../../components/Informing/InformingReducer";
 import { FamilyActivitiesReducer } from "../../components/FamilyActivities/FamilyActivitiesReducer";
 import { MyActivitiesReducer } from "../../components/MyActivities/MyActivitiesReducer";
+import { StatisticalChartReducer } from "../../components/StatisticalChart/StatisticalChartReducer";
 import { UserReducer } from "./UserReducer";
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
   Informing: InformingReducer,
   FamilyActivities: FamilyActivitiesReducer,
   MyActivities: MyActivitiesReducer,
+  StatisticalChart: StatisticalChartReducer,
   user: UserReducer
 });
