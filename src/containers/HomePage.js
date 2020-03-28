@@ -5,11 +5,11 @@ import StatisticalChart from "../components/StatisticalChart/StatisticalChart";
 
 function HomePage() {
     return (
-        <>
+        <div style={{overflowX: "hidden", msOverflowY: "auto", height: '100%'}}>
             <Header/>
             <StatisticalChart/>
             <Home/>
-        </>
+        </div>
     )
 }
 

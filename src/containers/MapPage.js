@@ -1,13 +1,13 @@
 import React from "react";
 import Map from "../components/Map/Map";
-import Header from "../components/AppHeader/Header";
 
 function MapPage() {
 
 	return (
 		<>
-			{/*<Header/>*/}
-			<Map/>
+			<div style={{overflow: "hidden"}}>
+				<Map/>
+			</div>
 		</>
 	)
 }
