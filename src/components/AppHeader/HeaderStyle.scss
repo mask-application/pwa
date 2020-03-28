@@ -1,0 +1,31 @@
+.HeaderWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .notif-button-wrapper {
+    button {
+      border-color: transparent;
+      background-color: transparent;
+      outline: none;
+      padding: 0;
+    }
+    z-index: 10;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+  }
+}
+
+.notif-msg {
+  padding: 1rem;
+  margin: 0 !important;
+  align-content: center;
+  text-align: center;
+}
+
+.logo > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
