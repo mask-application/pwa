@@ -64,11 +64,11 @@ function MyActivitiesLoggedin(props) {
 
         {props.eventResult !== null && (
           <div>
-            <div className="healthMessage">
+            <div className="healthMessageContainer">
               <div>
-                <Favorite style={{ fontSize: 80 }} color="green" />
+                <Favorite style={{ fontSize: 70 }} color="green" />
               </div>
-              <div>
+              <div className="healthMessage">
                 <p>{props.eventResult.people[0].health_message}</p>
               </div>
             </div>
