@@ -1,4 +1,4 @@
-@import "./assets/fonts/Fonts";
+@import './assets/fonts/Fonts';
 
 :root {
   box-sizing: border-box;
@@ -14,8 +14,9 @@
   display: none;
 }
 
-html , body{
-  font-family: IRANYekan
+html,
+body {
+  font-family: IRANYekan;
 }
 
 body {
@@ -34,7 +35,6 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-
 }
 
 #root {
@@ -60,8 +60,8 @@ html {
   flex-grow: 1;
 }
 
-.contentWrapper{
-  height: calc(100% - 48px);
+.contentWrapper {
+  height: calc(100% - 56px);
 }
 
 .app-navigation {
@@ -78,14 +78,14 @@ html {
 .MuiInputBase-root,
 .MuiFormLabel-root,
 .MuiMenuItem-root {
-  font-family: IRANYekan !important
+  font-family: IRANYekan !important;
 }
 
 .MuiBottomNavigationAction-label {
   font-size: 10px !important;
 }
 
-.logo > img{
+.logo > img {
   width: 32%;
   display: block;
   margin-left: auto;

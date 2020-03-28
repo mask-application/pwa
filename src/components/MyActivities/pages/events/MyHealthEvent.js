@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
   AppBar,
@@ -11,6 +12,9 @@ import {
   ListItemText,
   Divider,
   Button,
+  Dialog,
+  CircularProgress,
+  Box,
 } from '@material-ui/core';
 import { ExpandMore, ArrowForward } from '@material-ui/icons';
 import { bindActionCreators } from 'redux';
@@ -20,8 +24,13 @@ import { MyHealthEventConsts } from '../../../../constants/MyHealthEventConsts';
 import { ActionCreator } from '../../../../redux/actions';
 import { PersianLan } from '../../../../constants/Strings';
 
+import styles from '../SignUp/SignUp.module.scss';
+
 function MyHealthEvent(props) {
   let history = useHistory();
+  const showLoading = useSelector(
+    (state) => state.MyActivities.healthEventLoading
+  );
 
   const [open, setOpen] = useState(false); // for open modal
 

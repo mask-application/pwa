@@ -14,6 +14,11 @@
     align-items: center;
   }
 
+  .healthMessage {
+    margin-right: 12px;
+    margin-left: 12px;
+  }
+
   .healthCount {
     background-color: #fff;
     border-radius: 15px;
@@ -40,8 +45,9 @@
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  position: relative;
-  overflow: scroll;
+  overflow: auto;
+  padding: 1.5rem;
+  //height: calc(100% - 110px) !important;
 
   .myActivityRow {
     display: flex;
@@ -52,7 +58,6 @@
     .content {
       display: flex;
       flex-direction: column;
-      margin-right: 10px;
 
       h3 {
         font-size: 18px;
@@ -75,10 +80,6 @@
   background-color: #fbfbfb;
   height: 100% !important;
   margin-top: 48px;
-
-  .app-navigation {
-    z-index: -1;
-  }
 
   .topMessage {
     text-align: center;
