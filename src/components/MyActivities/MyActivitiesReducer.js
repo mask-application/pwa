@@ -22,7 +22,9 @@ const initialState = {
 
   eventResult: JSON.parse(localStorage.getItem('eventResult')),
   eventCounter: localStorage.getItem('eventCounter') || 0,
-  showNavBar: true,
+  successHealthEvent: false,
+  healthEventLoading: false,
+  errorHealthEvent: false,
 };
 
 export function MyActivitiesReducer(state = initialState, action) {
@@ -59,6 +61,21 @@ export function MyActivitiesReducer(state = initialState, action) {
         ...state,
         eventResult: action.eventResult,
         eventCounter: action.eventCounter,
+        successHealthEvent: true,
+        healthEventLoading: false,
+        errorHealthEvent: false,
+      };
+    case ActionTypes.SHOW_HEALTH_EVENT_LOADING:
+      return {
+        ...state,
+        healthEventLoading: true,
+        errorHealthEvent: false,
+      };
+    case ActionTypes.ERROR_IN_HEALTH_EVENT_API:
+      return {
+        ...state,
+        errorHealthEvent: true,
+        healthEventLoading: false,
       };
     default:
       return state;

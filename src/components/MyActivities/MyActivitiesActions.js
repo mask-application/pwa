@@ -33,6 +33,7 @@ export function activateUser({ token, user }) {
 
 export const createHealthEventInBulk = (data, history) => {
   return (dispatch, getState) => {
+    dispatch({ type: ActionTypes.SHOW_HEALTH_EVENT_LOADING });
     let indexedData = {
       fever: MyHealthEventConsts.fever.indexOf(data.fever),
       sore_throat: MyHealthEventConsts.soreThroat.indexOf(data.sore_throat),
@@ -122,7 +123,10 @@ export const createHealthEventInBulk = (data, history) => {
       })
       .catch((error) => {
         //TODO:باید پیاده سازی شود
-        console.log('erro in createHealthEventInBulk: ', error);
+        // console.log('erro in createHealthEventInBulk: ', error);
+        dispatch({
+          type: ActionTypes.ERROR_IN_HEALTH_EVENT_API,
+        });
       });
   };
 };
