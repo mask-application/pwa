@@ -91,17 +91,6 @@ export default function Activation({ onBackClick, onActivate }) {
 
   return (
     <>
-      {/*<AppBar position="static">*/}
-      {/*  <Toolbar>*/}
-      {/*    <IconButton edge="start" color="inherit" onClick={onBackClick}>*/}
-      {/*      <ArrowForward />*/}
-      {/*    </IconButton>*/}
-      {/*    /!* #FIXME Use formattedMessage *!/*/}
-      {/*    <Typography variant="h6" color="inherit">*/}
-      {/*      ثبت نام*/}
-      {/*    </Typography>*/}
-      {/*  </Toolbar>*/}
-      {/*</AppBar>*/}
       <AppBar position="static">
         <Toolbar>
           <img src={logo} className="app-header-logo" />
@@ -135,6 +124,7 @@ export default function Activation({ onBackClick, onActivate }) {
             color="primary"
             size="large"
             fullWidth
+            className="activation-btn"
             onClick={onSubmit}
           >
             فعال‌سازی
