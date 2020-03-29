@@ -21,7 +21,8 @@
   }
 
   .healthMessage {
-    margin-right: 12px;
+    margin-right: 0.5rem;
+    text-align: justify;
   }
 
   .healthCount {
@@ -31,6 +32,7 @@
     margin: 1rem;
     display: flex;
     flex-direction: column;
+    font-size: 14px;
 
     .healthPerod {
       color: #878787;

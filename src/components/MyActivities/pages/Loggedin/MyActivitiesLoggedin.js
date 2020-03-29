@@ -117,7 +117,7 @@ function MyActivitiesLoggedin(props) {
                 <Warning style={{ fontSize: 70, color: healthMessageColor }} />
               )}
               <div className="healthMessage">
-                <p style={{ color: healthMessageColor, fontSize: 18 }}>
+                <p style={{ color: healthMessageColor, fontSize: 14 }}>
                   {props.eventResult.people[0].health_message}
                 </p>
               </div>
