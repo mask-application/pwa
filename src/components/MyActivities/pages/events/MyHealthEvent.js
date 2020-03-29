@@ -15,6 +15,7 @@ import {
   Dialog,
   CircularProgress,
   Box,
+  Snackbar,
 } from '@material-ui/core';
 import { ExpandMore, ArrowForward } from '@material-ui/icons';
 import { bindActionCreators } from 'redux';
@@ -33,6 +34,7 @@ function MyHealthEvent(props) {
   );
 
   const [open, setOpen] = useState(false); // for open modal
+  const [openSnack, setOpenSnack] = useState(false);
 
   const [item, setItem] = useState([]); //for set modal values
   const [selectedItem, setSelectedItem] = useState(null); // for the item that selected to show it's modal
@@ -68,20 +70,36 @@ function MyHealthEvent(props) {
   ); //بیحالی
 
   const addHealth = () => {
-    const data = {
-      fever: fever,
-      sore_throat: soreThroat,
-      dry_cough: dryCough,
-      shortness_of_breath: holdingThe‌ٰ‌‌‌‌Breath,
-      breath_rate: breathrate,
-      nasal_congestion: adenoid,
-      body_pain: bodyPain,
-      runny_nose: runnynose,
-      sneeze: sneeze,
-      headache: headache,
-      lethargy: inaction,
-    };
-    props.createHealthEventInBulk(data, history);
+    if (
+      fever === null ||
+      soreThroat === null ||
+      dryCough === null ||
+      holdingThe‌ٰ‌‌‌‌Breath === null ||
+      breathrate === null ||
+      adenoid === null ||
+      bodyPain === null ||
+      runnynose === null ||
+      sneeze === null ||
+      headache === null ||
+      inaction === null
+    ) {
+      setOpenSnack(true);
+    } else {
+      const data = {
+        fever: fever,
+        sore_throat: soreThroat,
+        dry_cough: dryCough,
+        shortness_of_breath: holdingThe‌ٰ‌‌‌‌Breath,
+        breath_rate: breathrate,
+        nasal_congestion: adenoid,
+        body_pain: bodyPain,
+        runny_nose: runnynose,
+        sneeze: sneeze,
+        headache: headache,
+        lethargy: inaction,
+      };
+      props.createHealthEventInBulk(data, history);
+    }
   };
 
   const setSelectedItemVal = (val) => {
@@ -154,6 +172,7 @@ function MyHealthEvent(props) {
         <div className="topMessage">
           {PersianLan.myActivitiesTab.healthEventTopMsg}
         </div>
+
         <div className="healthItemsContainer">
           <div
             onClick={() => {
@@ -388,6 +407,16 @@ function MyHealthEvent(props) {
           {PersianLan.myActivitiesTab.addHealthConditionBtn}
         </Button>
       </div>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        open={openSnack}
+        autoHideDuration={4000}
+        onClose={() => setOpenSnack(false)}
+        message="همه مقادیر را پر کنید"
+      />
       <Dialog open={showLoading}>
         <div className={styles.dialogContent}>
           <CircularProgress />

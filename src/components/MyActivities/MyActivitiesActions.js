@@ -52,6 +52,11 @@ export const createHealthEventInBulk = (data, history) => {
       lethargy: MyHealthEventConsts.inaction.indexOf(data.lethargy),
     };
 
+    let now = new Date();
+    let year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(now);
+    let month = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(now);
+    let day = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(now);
+
     fetch(`/api/v1/event/bulk`, {
       method: 'POST',
       headers: {
@@ -64,7 +69,7 @@ export const createHealthEventInBulk = (data, history) => {
             person: getState().MyActivities.user.people[0].id,
             type: 0,
             data: indexedData,
-            create_time: '2020-02-02', // FIXME:باید درست بشه و تاریخ با فرمت درست از سیستم گرفته بشه
+            create_time: `${year}-${month}-${day}`, // FIXME:is format correct???
           },
         ],
       }),
@@ -99,6 +104,10 @@ export const createHealthEventInBulk = (data, history) => {
           localStorage.setItem('myHealthLethargy', data.lethargy);
 
           localStorage.setItem('eventResult', JSON.stringify(response.data));
+          localStorage.setItem('create_time', now);
+          if (getState().MyActivities.firstCreateTime === null) {
+            localStorage.setItem('first_create_time', now);
+          }
 
           localStorage.setItem(
             'eventCounter',
@@ -109,6 +118,7 @@ export const createHealthEventInBulk = (data, history) => {
             type: ActionTypes.SAVE_SUCCESS_EVENT_RESPONSE_TO_STATE,
             eventResult: response.data,
             eventCounter: +getState().MyActivities.eventCounter + 1,
+            createTime: now,
           });
           dispatch(showNav());
 

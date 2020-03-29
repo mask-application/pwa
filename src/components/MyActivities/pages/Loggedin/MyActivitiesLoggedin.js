@@ -8,6 +8,7 @@ import {
   CameraAlt,
   CropFree,
   ArrowForward,
+  Warning,
 } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import { PlaylistAdd, Favorite } from '@material-ui/icons';
@@ -17,6 +18,45 @@ import { ActionCreator } from '../../../../redux/actions';
 
 function MyActivitiesLoggedin(props) {
   let history = useHistory();
+
+  const date =
+    props.eventResult !== null
+      ? new Intl.DateTimeFormat('fa', {
+          month: 'short',
+          day: '2-digit',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        }).format(new Date(props.createTime))
+      : null;
+
+  const firstDate =
+    props.firstCreateTime !== null
+      ? new Intl.DateTimeFormat('fa', {
+          month: 'short',
+          day: '2-digit',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        }).format(new Date(props.firstCreateTime))
+      : null;
+
+  const mySelf =
+    props.eventResult !== null
+      ? props.eventResult.people.filter((person) => {
+          return person.phone_number === props.eventResult.phone_number;
+        })
+      : null;
+  let healthMessageColor = '#000';
+  if (mySelf !== null) {
+    if (mySelf[0].health_state == 1) {
+      healthMessageColor = '#23d92a';
+    } else if (mySelf[0].health_state == 2) {
+      healthMessageColor = '#c8ca0d';
+    } else if (mySelf[0].health_state == 3) {
+      healthMessageColor = 'red';
+    }
+  }
 
   return (
     <>
@@ -64,16 +104,41 @@ function MyActivitiesLoggedin(props) {
 
         {props.eventResult !== null && (
           <div>
+            <div className="lastUpdateContainer">
+              <span>زمان بروزرسانی وضعیت شما:</span>
+              <span>{date}</span>
+            </div>
             <div className="healthMessageContainer">
               <div>
-                <Favorite style={{ fontSize: 70 }} color="green" />
+                {mySelf[0].health_state === 1 && (
+                  <Favorite
+                    style={{ fontSize: 70, color: healthMessageColor }}
+                  />
+                )}
+                {mySelf[0].health_state === 2 && (
+                  <Warning
+                    style={{ fontSize: 70, color: healthMessageColor }}
+                  />
+                )}
+                {mySelf[0].health_state === 3 && (
+                  <Warning
+                    style={{ fontSize: 70, color: healthMessageColor }}
+                  />
+                )}
               </div>
               <div className="healthMessage">
-                <p>{props.eventResult.people[0].health_message}</p>
+                <p style={{ color: healthMessageColor, fontSize: 18 }}>
+                  {props.eventResult.people[0].health_message}
+                </p>
               </div>
             </div>
             <div className="healthCount">
-              {props.eventCounter} بار ثبت اطلاعات در سلامت روزانه
+              <span>{props.eventCounter} بار ثبت اطلاعات در سلامت روزانه</span>
+              {props.eventCounter > 1 && (
+                <span className="healthPerod">
+                  از {firstDate} تا {date}
+                </span>
+              )}
             </div>
           </div>
         )}
@@ -98,6 +163,9 @@ const mapStateToProps = (state) => {
   return {
     eventResult: state.MyActivities.eventResult,
     eventCounter: state.MyActivities.eventCounter,
+    createTime: state.MyActivities.createTime,
+    firstCreateTime: state.MyActivities.firstCreateTime,
+    user: state.MyActivities.user,
   };
 };
 
