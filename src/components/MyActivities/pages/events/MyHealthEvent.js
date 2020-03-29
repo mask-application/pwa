@@ -17,7 +17,7 @@ import {
   Box,
   Snackbar,
 } from '@material-ui/core';
-import { ExpandMore, ArrowForward } from '@material-ui/icons';
+import { ExpandMore } from '@material-ui/icons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import '../../MyActivitiesStyle.scss'; //TODO:باید استایل جداسازی بشه
@@ -26,6 +26,8 @@ import { ActionCreator } from '../../../../redux/actions';
 import { PersianLan } from '../../../../constants/Strings';
 
 import styles from '../SignUp/SignUp.module.scss';
+import logo from '../../../../logo-header.png';
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
 function MyHealthEvent(props) {
   let history = useHistory();
@@ -155,19 +157,18 @@ function MyHealthEvent(props) {
     <>
       <AppBar position="fixed">
         <Toolbar variant="regular">
+          <img src={logo} className="app-header-logo" />
           <IconButton
             color="inherit"
             onClick={() => {
               history.push('/add-myactivities');
             }}
           >
-            <ArrowForward />
+            <KeyboardBackspaceIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit">
-            {PersianLan.app_header}
-          </Typography>
         </Toolbar>
       </AppBar>
+
       <div className={`contentWrapper MyHealthEventsWrapper`}>
         <div className="topMessage">
           {PersianLan.myActivitiesTab.healthEventTopMsg}
@@ -185,11 +186,10 @@ function MyHealthEvent(props) {
               <span className="item-label">تب: </span>
               <span className="item-value">{fever}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -202,11 +202,10 @@ function MyHealthEvent(props) {
               <span className="item-label">گلودرد: </span>
               <span className="item-value">{soreThroat}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -219,11 +218,10 @@ function MyHealthEvent(props) {
               <span className="item-label">سرفه خشک: </span>
               <span className="item-value">{dryCough}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -236,11 +234,10 @@ function MyHealthEvent(props) {
               <span className="item-label">نگه داشتن نفس: </span>
               <span className="item-value">{holdingThe‌ٰ‌‌‌‌Breath}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -253,11 +250,10 @@ function MyHealthEvent(props) {
               <span className="item-label">تعداد تنفس: </span>
               <span className="item-value">{breathrate}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -270,11 +266,10 @@ function MyHealthEvent(props) {
               <span className="item-label">گرفتگی بینی: </span>
               <span className="item-value">{adenoid}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -287,11 +282,10 @@ function MyHealthEvent(props) {
               <span className="item-label">بدن درد: </span>
               <span className="item-value">{bodyPain}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -304,11 +298,10 @@ function MyHealthEvent(props) {
               <span className="item-label">آبریزش بینی: </span>
               <span className="item-value">{runnynose}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -321,11 +314,10 @@ function MyHealthEvent(props) {
               <span className="item-label">عطسه: </span>
               <span className="item-value">{sneeze}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -338,11 +330,10 @@ function MyHealthEvent(props) {
               <span className="item-label">سردرد: </span>
               <span className="item-value">{headache}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
-          <Divider />
           {/*--------------------------------------------------------*/}
           <div
             onClick={() => {
@@ -355,10 +346,24 @@ function MyHealthEvent(props) {
               <span className="item-label">بی حالی: </span>
               <span className="item-value">{inaction}</span>
             </div>
-            <div>
+            <div className="expand-button">
               <ExpandMore />
             </div>
           </div>
+        </div>
+
+        <div className="submit-button">
+          <Button
+            onClick={() => {
+              addHealth();
+            }}
+            disableElevation
+            className="addHealthBtn"
+            color="primary"
+            variant="contained"
+          >
+            {PersianLan.myActivitiesTab.addHealthConditionBtn}
+          </Button>
         </div>
 
         {/*------------------------------------------------------------------------*/}
@@ -378,34 +383,12 @@ function MyHealthEvent(props) {
                     >
                       <ListItemText primary={val} />
                     </ListItem>
-                    <Divider />
                   </Fragment>
                 );
               })}
             </List>
           </div>
         </Modal>
-      </div>
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          width: '97%',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Button
-          onClick={() => {
-            addHealth();
-          }}
-          disableElevation
-          className="addHealthBtn"
-          color="primary"
-          variant="contained"
-        >
-          {PersianLan.myActivitiesTab.addHealthConditionBtn}
-        </Button>
       </div>
       <Snackbar
         anchorOrigin={{

@@ -16,8 +16,9 @@
 
   .healthMessageContainer {
     display: flex;
+    margin: 0.5rem;
     align-items: center;
-    margin: 20px;
+    padding: 1rem;
   }
 
   .healthMessage {
@@ -58,62 +59,74 @@
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  position: relative;
-  overflow: scroll;
+  overflow: auto;
+  padding: 1.5rem;
 
   .myActivityRow {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
+    margin: 0 20px 25px;
 
     .content {
       display: flex;
       flex-direction: column;
-      margin-right: 10px;
+      text-align: justify;
 
       h3 {
         font-size: 18px;
-        margin-bottom: 8px;
+        margin: 0 0.75rem 0.5rem 0;
       }
 
       p {
         color: #898989;
         font-size: 13px;
+        margin: 0 0.75rem;
       }
     }
   }
 }
 
 .MyHealthEventsWrapper {
-  overflow: scroll;
-  padding-top: 15px;
-  padding-left: 12px;
-  padding-right: 12px;
-  margin-top: 50px;
+  overflow: auto;
+  padding: 1rem;
+  background-color: #fbfbfb;
+  margin-top: 64px;
 
   .topMessage {
     text-align: center;
     background-color: #1c2341;
     color: #fff;
-    padding: 12px 8px 12px 8px;
+    padding: 0.75rem;
     border-radius: 15px;
-    font-size: 14px;
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  .submit-button {
+    display: flex;
+    justify-content: center;
   }
 
   .healthItemsContainer {
-    margin-top: 15px;
+    margin: 15px 0;
     width: 100%;
-    margin-bottom: 20px;
-    height: 100%;
-    //margin-bottom: 130px;
+
+    .expand-button {
+      display: flex;
+      align-items: center;
+    }
 
     & > div {
+      margin-bottom: 5px;
       display: flex;
       justify-content: space-between;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      align-items: center;
+      padding: 5px 7px;
+      border-radius: 20px;
       line-height: 30px;
+      background-color: #fff;
+      color: #5d5d5d;
 
       .item-value {
         margin-right: 10px;
@@ -148,4 +161,15 @@
       text-align: center;
     }
   }
+}
+
+.disabled {
+  * {
+    color: #c1c1c1 !important;
+  }
+}
+
+.app-header-logo {
+  height: 40px;
+  padding-right: 0.5rem;
 }

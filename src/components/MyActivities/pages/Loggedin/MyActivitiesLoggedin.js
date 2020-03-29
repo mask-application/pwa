@@ -15,6 +15,7 @@ import { PlaylistAdd, Favorite } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreator } from '../../../../redux/actions';
+import logo from '../../../../logo-header.png';
 
 function MyActivitiesLoggedin(props) {
   let history = useHistory();
@@ -62,10 +63,7 @@ function MyActivitiesLoggedin(props) {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" color="inherit">
-            ماسک
-          </Typography>
-
+          <img src={logo} className="app-header-logo" />
           <div>
             <IconButton color="inherit">
               <Bluetooth />
