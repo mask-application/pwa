@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  position: relative;
   background-color: #f6f6f6;
 
   height: calc(100% - 110px) !important;
@@ -27,7 +26,7 @@
 
   .healthCount {
     background-color: #fff;
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 10px;
     margin: 3px 10px 5px 10px;
     display: flex;
@@ -46,10 +45,8 @@
   }
 
   .addActivityBtn {
-    border-radius: 20px;
+    border-radius: 10px;
     width: 80%;
-    position: absolute;
-    bottom: 30px;
     font-family: IRANYekan;
   }
 }
@@ -61,6 +58,7 @@
   flex-direction: column;
   overflow: auto;
   padding: 1.5rem;
+  height: calc(100% - 56px);
 
   .myActivityRow {
     display: flex;
@@ -98,7 +96,7 @@
     background-color: #1c2341;
     color: #fff;
     padding: 0.75rem;
-    border-radius: 15px;
+    border-radius: 10px;
     font-size: 12px;
     margin-bottom: 20px;
   }
@@ -123,7 +121,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 5px 7px;
-      border-radius: 20px;
+      border-radius: 10px;
       line-height: 30px;
       background-color: #fff;
       color: #5d5d5d;
@@ -134,7 +132,7 @@
     }
 
     .addHealthBtn {
-      border-radius: 20px;
+      border-radius: 10px;
       width: 80%;
       position: absolute;
       bottom: 30px;
@@ -147,7 +145,7 @@
   background-color: #fff;
   max-height: 70%;
   width: 90%;
-  border-radius: 15px;
+  border-radius: 10px;
   align-self: center;
   display: flex;
   margin: 50px auto;
