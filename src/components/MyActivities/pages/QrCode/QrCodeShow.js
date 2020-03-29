@@ -14,6 +14,8 @@ import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسا�
 
 import { showNav } from '../../../../redux/actions/CommonActions';
 import axios from 'axios';
+import logo from '../../../../logo-header.png';
+import KeyboardBackspaceIcon from '@material-ui/core/SvgIcon/SvgIcon';
 
 export default function QrCodeShow(props) {
   let history = useHistory();
@@ -22,8 +24,25 @@ export default function QrCodeShow(props) {
 
   return (
     <>
+      {/*<AppBar position="static">*/}
+      {/*  <Toolbar variant="regular">*/}
+      {/*    <IconButton*/}
+      {/*      color="inherit"*/}
+      {/*      onClick={() => {*/}
+      {/*        dispatch(showNav());*/}
+      {/*        history.push('/my-activities');*/}
+      {/*      }}*/}
+      {/*    >*/}
+      {/*      <ArrowForward />*/}
+      {/*    </IconButton>*/}
+      {/*    <Typography variant="h6" color="inherit">*/}
+      {/*      کد اختصاصی من*/}
+      {/*    </Typography>*/}
+      {/*  </Toolbar>*/}
+      {/*</AppBar>*/}
       <AppBar position="static">
-        <Toolbar variant="regular">
+        <Toolbar>
+          <img src={logo} className="app-header-logo" />
           <IconButton
             color="inherit"
             onClick={() => {
@@ -31,11 +50,8 @@ export default function QrCodeShow(props) {
               history.push('/my-activities');
             }}
           >
-            <ArrowForward />
+            <KeyboardBackspaceIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit">
-            کد اختصاصی من
-          </Typography>
         </Toolbar>
       </AppBar>
       <Box className="qr-code-box">

@@ -135,7 +135,8 @@
     }
 
     .addHealthBtn {
-      width: 80%;
+      width: 80% !important;
+      border-radius: 16px !important;
       position: absolute;
       bottom: 30px;
       font-family: IRANYekan;
@@ -156,7 +157,7 @@
   & > div {
     width: 90%;
     & > div {
-      //text-align: center;
+      text-align: center;
       border-bottom: 0.5px solid #e4e5e6;
     }
     & > div:last-child {

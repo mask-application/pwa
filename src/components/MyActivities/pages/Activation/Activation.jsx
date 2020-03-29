@@ -14,11 +14,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { ArrowForward, Edit } from '@material-ui/icons';
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import useTimer from 'react-commons/dist/hooks/timer';
 
 import { perToEngDigits } from '../../../../utils';
 
 import styles from './Activation.module.scss';
+import logo from '../../../../logo-header.png';
 
 export default function Activation({ onBackClick, onActivate }) {
   const ttl = useSelector((store) => store.MyActivities.ttl);
@@ -89,15 +91,23 @@ export default function Activation({ onBackClick, onActivate }) {
 
   return (
     <>
+      {/*<AppBar position="static">*/}
+      {/*  <Toolbar>*/}
+      {/*    <IconButton edge="start" color="inherit" onClick={onBackClick}>*/}
+      {/*      <ArrowForward />*/}
+      {/*    </IconButton>*/}
+      {/*    /!* #FIXME Use formattedMessage *!/*/}
+      {/*    <Typography variant="h6" color="inherit">*/}
+      {/*      ثبت نام*/}
+      {/*    </Typography>*/}
+      {/*  </Toolbar>*/}
+      {/*</AppBar>*/}
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={onBackClick}>
-            <ArrowForward />
+          <img src={logo} className="app-header-logo" />
+          <IconButton color="inherit" onClick={onBackClick}>
+            <KeyboardBackspaceIcon />
           </IconButton>
-          {/* #FIXME Use formattedMessage */}
-          <Typography variant="h6" color="inherit">
-            ثبت نام
-          </Typography>
         </Toolbar>
       </AppBar>
       <div className={styles.container}>
