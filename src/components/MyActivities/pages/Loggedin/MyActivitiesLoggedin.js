@@ -107,23 +107,15 @@ function MyActivitiesLoggedin(props) {
               <span>{date}</span>
             </div>
             <div className="healthMessageContainer">
-              <div>
-                {mySelf[0].health_state === 1 && (
-                  <Favorite
-                    style={{ fontSize: 70, color: healthMessageColor }}
-                  />
-                )}
-                {mySelf[0].health_state === 2 && (
-                  <Warning
-                    style={{ fontSize: 70, color: healthMessageColor }}
-                  />
-                )}
-                {mySelf[0].health_state === 3 && (
-                  <Warning
-                    style={{ fontSize: 70, color: healthMessageColor }}
-                  />
-                )}
-              </div>
+              {mySelf[0].health_state === 1 && (
+                <Favorite style={{ fontSize: 70, color: healthMessageColor }} />
+              )}
+              {mySelf[0].health_state === 2 && (
+                <Warning style={{ fontSize: 70, color: healthMessageColor }} />
+              )}
+              {mySelf[0].health_state === 3 && (
+                <Warning style={{ fontSize: 70, color: healthMessageColor }} />
+              )}
               <div className="healthMessage">
                 <p style={{ color: healthMessageColor, fontSize: 18 }}>
                   {props.eventResult.people[0].health_message}
