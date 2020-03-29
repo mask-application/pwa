@@ -7,12 +7,22 @@
 
   height: calc(100% - 110px) !important;
 
+  .lastUpdateContainer {
+    background-color: #bdbabab0;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+  }
+
   .healthMessageContainer {
     display: flex;
     margin: 0.5rem;
-    color: #00ffba;
     align-items: center;
     padding: 1rem;
+  }
+
+  .healthMessage {
+    margin-right: 12px;
   }
 
   .healthCount {
@@ -20,6 +30,14 @@
     border-radius: 15px;
     padding: 10px;
     margin: 3px 10px 5px 10px;
+    display: flex;
+    flex-direction: column;
+
+    .healthPerod {
+      color: #878787;
+      margin-top: 10px;
+      font-size: 14px;
+    }
   }
 
   span.message {
