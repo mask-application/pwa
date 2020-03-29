@@ -63,12 +63,13 @@ function MyActivitiesLoggedin(props) {
         {props.eventResult !== null && (
           <div>
             <div className="healthMessageContainer">
-              <div>
-                <Favorite style={{ fontSize: 70 }} color="green" />
-              </div>
-              <div className="healthMessage">
-                <p>{props.eventResult.people[0].health_message}</p>
-              </div>
+              <Favorite
+                style={{ fontSize: 70, padding: '.5rem' }}
+                color="green"
+              />
+              <p className="healthMessage">
+                {props.eventResult.people[0].health_message}
+              </p>
             </div>
             <div className="healthCount">
               {props.eventCounter} بار ثبت اطلاعات در سلامت روزانه

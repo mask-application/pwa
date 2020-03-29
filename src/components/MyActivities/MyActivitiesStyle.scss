@@ -51,11 +51,10 @@
 
   .healthMessageContainer {
     display: flex;
-    margin-top: 15px;
-    color: #2ebd19;
+    margin: 0.5rem;
+    color: #00ffba;
     align-items: center;
-    margin-right: 12px;
-    margin-left: 12px;
+    padding: 1rem;
   }
 
   .healthCount {
