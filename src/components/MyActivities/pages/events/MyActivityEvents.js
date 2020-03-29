@@ -1,13 +1,15 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
-import { Person, LocationOn, People, ArrowForward } from '@material-ui/icons';
+import { useDispatch } from 'react-redux';
+import { AppBar, Toolbar, IconButton } from '@material-ui/core';
+import { Person, LocationOn, People } from '@material-ui/icons';
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import { useHistory } from 'react-router-dom';
 import {} from '@material-ui/icons';
 import { PersianLan } from '../../../../constants/Strings';
 import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسازی بشه
 
 import { showNav } from '../../../../redux/actions/CommonActions';
+import logo from '../../../../logo-header.png';
 
 export default function MyActivityEvents(props) {
   let history = useHistory();
@@ -16,6 +18,7 @@ export default function MyActivityEvents(props) {
     <>
       <AppBar position="static">
         <Toolbar variant="regular">
+          <img src={logo} className="app-header-logo" />
           <IconButton
             color="inherit"
             onClick={() => {
@@ -23,11 +26,8 @@ export default function MyActivityEvents(props) {
               history.push('/my-activities');
             }}
           >
-            <ArrowForward />
+            <KeyboardBackspaceIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit">
-            {PersianLan.app_header}
-          </Typography>
         </Toolbar>
       </AppBar>
       <div className={`contentWrapper MyActivityEventsWrapper`}>

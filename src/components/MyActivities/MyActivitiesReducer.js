@@ -25,6 +25,8 @@ const initialState = {
   successHealthEvent: false,
   healthEventLoading: false,
   errorHealthEvent: false,
+  createTime: localStorage.getItem('create_time'),
+  firstCreateTime: localStorage.getItem('first_create_time'),
 };
 
 export function MyActivitiesReducer(state = initialState, action) {
@@ -57,14 +59,29 @@ export function MyActivitiesReducer(state = initialState, action) {
         user: action.user,
       };
     case ActionTypes.SAVE_SUCCESS_EVENT_RESPONSE_TO_STATE:
-      return {
-        ...state,
-        eventResult: action.eventResult,
-        eventCounter: action.eventCounter,
-        successHealthEvent: true,
-        healthEventLoading: false,
-        errorHealthEvent: false,
-      };
+      if (state.firstCreateTime === null) {
+        return {
+          ...state,
+          eventResult: action.eventResult,
+          eventCounter: action.eventCounter,
+          successHealthEvent: true,
+          healthEventLoading: false,
+          errorHealthEvent: false,
+          createTime: action.createTime,
+          firstCreateTime: action.createTime,
+        };
+      } else {
+        return {
+          ...state,
+          eventResult: action.eventResult,
+          eventCounter: action.eventCounter,
+          successHealthEvent: true,
+          healthEventLoading: false,
+          errorHealthEvent: false,
+          createTime: action.createTime,
+        };
+      }
+
     case ActionTypes.SHOW_HEALTH_EVENT_LOADING:
       return {
         ...state,
