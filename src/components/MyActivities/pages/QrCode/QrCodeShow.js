@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AppBar,
   Toolbar,
@@ -13,10 +13,12 @@ import QrCode from 'qrcode.react';
 import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسازی بشه
 
 import { showNav } from '../../../../redux/actions/CommonActions';
+import axios from 'axios';
 
 export default function QrCodeShow(props) {
   let history = useHistory();
   const dispatch = useDispatch();
+  const unique_id = useSelector((state) => state.MyActivities.user.unique_id);
 
   // FIXME - add profile request
 
@@ -39,7 +41,7 @@ export default function QrCodeShow(props) {
         </Toolbar>
       </AppBar>
       <Box className="qr-code-box">
-        <QrCode value="xxxxxxxx" />
+        <QrCode value={unique_id} />
       </Box>
       <Box className="warning-box">
         <Typography>
