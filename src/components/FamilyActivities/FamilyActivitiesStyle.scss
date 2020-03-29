@@ -1,5 +1,14 @@
-.FamiliesWrapper{
+.FamilyWrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: #6d6d6d;
+  font-size: 10px;
+
+  img {
+    height: 100px;
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+  }
 }

@@ -1,0 +1,205 @@
+.MyActivitiesWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f6f6f6;
+
+  height: calc(100% - 110px) !important;
+
+  .lastUpdateContainer {
+    background-color: #bdbabab0;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .healthMessageContainer {
+    display: flex;
+    margin: 0.5rem;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .healthMessage {
+    margin-right: 0.5rem;
+    text-align: justify;
+  }
+
+  .healthCount {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+
+    .healthPerod {
+      color: #878787;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  }
+
+  span.message {
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
+
+  .addActivityBtn {
+    border-radius: 10px;
+    width: 80%;
+    font-family: IRANYekan;
+  }
+}
+
+.MyActivityEventsWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  overflow: auto;
+  padding: 1.5rem;
+  height: calc(100% - 56px);
+
+  .myActivityRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px 25px;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      text-align: justify;
+
+      h3 {
+        font-size: 18px;
+        margin: 0 0.75rem 0.5rem 0;
+      }
+
+      p {
+        color: #898989;
+        font-size: 13px;
+        margin: 0 0.75rem;
+      }
+    }
+  }
+}
+
+.MyHealthEventsWrapper {
+  overflow: auto;
+  padding: 1rem;
+  background-color: #fbfbfb;
+  margin-top: 64px;
+
+  .topMessage {
+    text-align: center;
+    background-color: #1c2341;
+    color: #fff;
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  .submit-button {
+    display: flex;
+    justify-content: center;
+  }
+
+  .healthItemsContainer {
+    margin: 15px 0;
+    width: 100%;
+
+    .expand-button {
+      display: flex;
+      align-items: center;
+    }
+
+    & > div {
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 7px;
+      border-radius: 10px;
+      line-height: 30px;
+      background-color: #fff;
+      color: #5d5d5d;
+
+      .item-value {
+        margin-right: 10px;
+      }
+    }
+
+    .addHealthBtn {
+      border-radius: 10px;
+      width: 80%;
+      position: absolute;
+      bottom: 30px;
+      font-family: IRANYekan;
+    }
+  }
+}
+
+.myHealthDialogContainer {
+  background-color: #fff;
+  max-height: 70%;
+  width: 90%;
+  border-radius: 10px;
+  align-self: center;
+  display: flex;
+  margin: 50px auto;
+  overflow: scroll;
+  justify-content: center;
+
+  & > div {
+    width: 90%;
+
+    & > div {
+      text-align: center;
+    }
+  }
+}
+
+.disabled {
+  * {
+    color: #c1c1c1 !important;
+  }
+}
+
+// ===============qr code style==================
+
+.qr-code-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.qr-code-box > canvas {
+  height: 200px !important;
+  width: 200px !important;
+}
+
+.warning-box {
+  background-color: #1c2341;
+  position: fixed;
+  bottom: 0;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 999999;
+}
+
+.warning-box > p,
+.warning-box > span {
+  color: #fff !important;
+}
+
+.app-header-logo {
+  height: 40px;
+  padding-right: 0.5rem;
+}
