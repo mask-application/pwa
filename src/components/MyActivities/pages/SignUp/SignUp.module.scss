@@ -3,12 +3,13 @@
 }
 
 .dialogContent {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
 }
 
 .menuItem {
   font-size: 14px;
   overflow: scroll;
+  white-space: normal;
 }
