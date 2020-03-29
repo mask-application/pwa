@@ -33,7 +33,13 @@ function MyActivitiesLoggedin(props) {
             <IconButton color="inherit">
               <CameraAlt />
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                props.hideNavigation();
+                history.push('/my-qrcode');
+              }}
+            >
               <CropFree />
             </IconButton>
           </div>
