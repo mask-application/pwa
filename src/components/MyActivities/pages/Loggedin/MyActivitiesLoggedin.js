@@ -48,14 +48,14 @@ function MyActivitiesLoggedin(props) {
           return person.phone_number === props.eventResult.phone_number;
         })
       : null;
-  let healthMessageColor = '#000';
+  let healthMessageColor = 'rgba(0,0,0,0.75)';
   if (mySelf !== null) {
     if (mySelf[0].health_state == 1) {
-      healthMessageColor = '#23d92a';
+      healthMessageColor = '#00ffba';
     } else if (mySelf[0].health_state == 2) {
-      healthMessageColor = '#c8ca0d';
+      healthMessageColor = '#f1e100';
     } else if (mySelf[0].health_state == 3) {
-      healthMessageColor = 'red';
+      healthMessageColor = '#ff005c';
     }
   }
 
@@ -71,7 +71,13 @@ function MyActivitiesLoggedin(props) {
             <IconButton color="inherit">
               <CameraAlt />
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                props.hideNavigation();
+                history.push('/my-qrcode');
+              }}
+            >
               <CropFree />
             </IconButton>
           </div>
@@ -117,7 +123,7 @@ function MyActivitiesLoggedin(props) {
                 <Warning style={{ fontSize: 70, color: healthMessageColor }} />
               )}
               <div className="healthMessage">
-                <p style={{ color: healthMessageColor, fontSize: 18 }}>
+                <p style={{ color: healthMessageColor, fontSize: 14 }}>
                   {props.eventResult.people[0].health_message}
                 </p>
               </div>

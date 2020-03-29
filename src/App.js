@@ -9,12 +9,12 @@ import FamilyActivitiesPage from './containers/FamilyActivitiesPage';
 import MyActivityEventsPage from './containers/MyActivityEventsPage';
 import MyHealthEventPage from './containers/MyHealthEventPage';
 import InformingPage from './containers/InformingPage';
+import QrCodeShow from './components/MyActivities/pages/QrCode/QrCodeShow';
 
 import './App.scss';
 
 export default function App() {
   const showNavBar = useSelector((state) => state.Commons.showNavigation);
-
   const user = localStorage.getItem('user');
 
   const PrivateRoute = ({ children, ...rest }) => {
@@ -31,7 +31,6 @@ export default function App() {
       />
     );
   };
-
   return (
     <div className="app-container">
       <div className="app-content">
@@ -64,6 +63,9 @@ export default function App() {
           <PrivateRoute path="/my-health-event" exact>
             <MyHealthEventPage />
           </PrivateRoute>
+          <Route path="/my-qrcode" exact>
+            <QrCodeShow />
+          </Route>
         </Switch>
       </div>
       {showNavBar && (
@@ -74,3 +76,9 @@ export default function App() {
     </div>
   );
 }
+
+// FIXME We should read all the configs from central config file
+console.log(
+  'REACT_APP_SAMPLE_ENVIRONMENT: ',
+  process.env.REACT_APP_SAMPLE_ENVIRONMENT
+);
