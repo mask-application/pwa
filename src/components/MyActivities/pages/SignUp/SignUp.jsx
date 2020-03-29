@@ -129,13 +129,13 @@ export default function SignUp({ onBackClick, onSMSSent }) {
             نرم‌افزار ثبت‌نام کنید.
           </Typography>
         </Box>
-        <Box mt={2}>
+        <Box mt={2} className={styles.verificationButtonContainer}>
           <Button
             variant="contained"
             color="primary"
             size="large"
-            fullWidth
             onClick={onSubmit}
+            className={styles.verificationButton}
           >
             ارسال کد فعال‌سازی
           </Button>
