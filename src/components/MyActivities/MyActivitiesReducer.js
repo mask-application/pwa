@@ -15,7 +15,7 @@ try {
 const initialState = {
   token,
   user,
-  page: 'INDEX', //token ? 'INDEX' : 'NOT_SIGNED_UP',
+  page: token ? 'INDEX' : 'NOT_SIGNED_UP',
   phone: null,
   condition: null,
   ttl: null,
