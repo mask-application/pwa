@@ -16,6 +16,8 @@ import {
 import { ArrowForward, Edit } from '@material-ui/icons';
 import useTimer from 'react-commons/dist/hooks/timer';
 
+import { perToEngDigits } from '../../../../utils';
+
 import styles from './Activation.module.scss';
 
 export default function Activation({ onBackClick, onActivate }) {
@@ -67,7 +69,7 @@ export default function Activation({ onBackClick, onActivate }) {
       url: '/api/v1/user/activate',
       data: {
         phone_number: phone,
-        code,
+        code: perToEngDigits(code),
       },
     })
       .then(({ data }) => {
@@ -136,16 +138,8 @@ export default function Activation({ onBackClick, onActivate }) {
           </Typography>
         </Box>
         {!smsSent && (
-          <Box
-            mt={2}
-            textAlign="center"
-            className={styles.activationButtonContainer}
-          >
-            <Button
-              color="primary"
-              onClick={sendActivationSMS}
-              className={styles.activationButton}
-            >
+          <Box mt={2} textAlign="center">
+            <Button color="primary" onClick={sendActivationSMS}>
               ارسال مجدد کد فعال‌سازی
             </Button>
           </Box>

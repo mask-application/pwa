@@ -61,3 +61,9 @@ export default function App() {
     </div>
   );
 }
+
+// FIXME We should read all the configs from central config file
+console.log(
+  'REACT_APP_SAMPLE_ENVIRONMENT: ',
+  process.env.REACT_APP_SAMPLE_ENVIRONMENT
+);

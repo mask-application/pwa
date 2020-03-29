@@ -19,6 +19,8 @@ import {
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import logo from '../../../../logo-header.png';
 
+import { perToEngDigits } from '../../../../utils';
+
 import styles from './SignUp.module.scss';
 
 export default function SignUp({ onBackClick, onSMSSent }) {
@@ -28,7 +30,7 @@ export default function SignUp({ onBackClick, onSMSSent }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   function onSubmit() {
-    if (!/09\d{9}/.test(phone)) {
+    if (!/09\d{9}/.test(perToEngDigits(phone))) {
       // TODO: Use proper notification
       alert('شماره همراه وارد شده صحیح نمی‌باشد.');
       return;
@@ -47,14 +49,14 @@ export default function SignUp({ onBackClick, onSMSSent }) {
       method: 'POST',
       url: '/api/v1/user/register',
       data: {
-        phone_number: phone,
+        phone_number: perToEngDigits(phone),
         risk_group: condition,
       },
     })
       .then(({ data }) => {
         setIsDialogOpen(false);
         onSMSSent({
-          phone,
+          phone: perToEngDigits(phone),
           condition,
           ttl: data.activate_ttl,
         });
