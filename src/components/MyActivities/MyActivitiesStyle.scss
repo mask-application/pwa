@@ -1,3 +1,45 @@
+//.MyActivitiesWrapper {
+//  display: flex;
+//  align-items: center;
+//  flex-direction: column;
+//  position: relative;
+//  background-color: #f6f6f6;
+//
+//  height: calc(100% - 110px) !important;
+//
+//  .healthMessageContainer {
+//    display: flex;
+//    margin-top: 15px;
+//    color: #2ebd19;
+//    align-items: center;
+//  }
+//
+//  .healthMessage {
+//    margin-right: 12px;
+//    margin-left: 12px;
+//  }
+//
+//  .healthCount {
+//    background-color: #fff;
+//    border-radius: 15px;
+//    padding: 10px;
+//    margin: 3px 10px 5px 10px;
+//  }
+//
+//  span.message {
+//    font-size: 15px;
+//    margin-bottom: 15px;
+//  }
+//
+//  .addActivityBtn {
+//    border-radius: 20px;
+//    width: 80%;
+//    position: absolute;
+//    bottom: 30px;
+//    font-family: IRANYekan;
+//  }
+//}
+
 .MyActivitiesWrapper {
   display: flex;
   align-items: center;
@@ -12,9 +54,6 @@
     margin-top: 15px;
     color: #2ebd19;
     align-items: center;
-  }
-
-  .healthMessage {
     margin-right: 12px;
     margin-left: 12px;
   }
@@ -47,55 +86,49 @@
   flex-direction: column;
   overflow: auto;
   padding: 1.5rem;
-  //height: calc(100% - 110px) !important;
 
   .myActivityRow {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 20px 25px;
 
     .content {
       display: flex;
       flex-direction: column;
-      padding: 0 1rem;
       text-align: justify;
 
       h3 {
         font-size: 18px;
-        margin-bottom: 8px;
+        margin: 0 0.75rem 0.5rem 0;
       }
 
       p {
         color: #898989;
         font-size: 13px;
+        margin: 0 0.75rem;
       }
     }
   }
 }
 
 .MyHealthEventsWrapper {
-  overflow: scroll;
-  padding-top: 15px;
-  padding-left: 12px;
-  padding-right: 12px;
+  overflow: auto;
+  padding: 1rem;
   background-color: #fbfbfb;
-  height: 100% !important;
-  margin-top: 48px;
+  margin-top: 64px;
 
   .topMessage {
     text-align: center;
     background-color: #1c2341;
     color: #fff;
-    padding: 12px 8px 12px 8px;
+    padding: 0.75rem;
     border-radius: 15px;
-    font-size: 14px;
+    font-size: 12px;
     margin-bottom: 20px;
   }
 
   .submit-button {
-    margin: auto auto 20px;
-    bottom: 20px;
-    width: 100%;
     display: flex;
     justify-content: center;
   }
@@ -114,8 +147,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      //margin-top: 10px;
-      //margin-bottom: 10px;
       padding: 5px 7px;
       border-radius: 20px;
       line-height: 30px;
@@ -157,13 +188,13 @@
   }
 }
 
-.app-header-logo {
-  height: 40px;
-  padding-right: 0.5rem;
-}
-
 .disabled {
   * {
     color: #c1c1c1 !important;
   }
+}
+
+.app-header-logo {
+  height: 40px;
+  padding-right: 0.5rem;
 }

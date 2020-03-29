@@ -43,14 +43,14 @@ export default function MyActivityEvents(props) {
             <p>{PersianLan.myActivitiesTab.interHealthInfoContent}</p>
           </div>
         </div>
-        <div className="myActivityRow locationInfo">
+        <div className="myActivityRow locationInfo disabled">
           <LocationOn color="primary" style={{ fontSize: 50 }} />
           <div className="content">
             <h3>{PersianLan.myActivitiesTab.interLocation}</h3>
             <p>{PersianLan.myActivitiesTab.interLocationContent}</p>
           </div>
         </div>
-        <div className="myActivityRow meetings">
+        <div className="myActivityRow meetings disabled">
           <People color="primary" style={{ fontSize: 50 }} />
           <div className="content">
             <h3>{PersianLan.myActivitiesTab.interMeetings}</h3>
