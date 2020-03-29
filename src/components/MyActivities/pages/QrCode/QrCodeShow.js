@@ -20,8 +20,6 @@ export default function QrCodeShow(props) {
   const dispatch = useDispatch();
   const unique_id = useSelector((state) => state.MyActivities.user.unique_id);
 
-  // FIXME - add profile request
-
   return (
     <>
       <AppBar position="static">
@@ -41,7 +39,7 @@ export default function QrCodeShow(props) {
         </Toolbar>
       </AppBar>
       <Box className="qr-code-box">
-        <QrCode value={unique_id} />
+        <QrCode value={'person:' + unique_id} />
       </Box>
       <Box className="warning-box">
         <Typography>
