@@ -27,14 +27,14 @@ const buttons = [
     link: '/informing',
   },
   // {
-  //   icon: <Room style={{ color: '#ff006f' }} />,
-  //   name: 'places',
-  //   link: '/places',
+  //     icon: <Room style={{color: "#ff006f"}}/>,
+  //     name: "places",
+  //     link: "/places",
   // },
   // {
-  //   icon: <Info style={{ color: '#ff006f' }} />,
-  //   name: 'about-us',
-  //   link: '/about-us',
+  //     icon: <Info style={{color: "#ff006f"}}/>,
+  //     name: "about-us",
+  //     link: "/about-us",
   // },
 ];
 
