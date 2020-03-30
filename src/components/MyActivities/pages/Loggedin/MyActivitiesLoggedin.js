@@ -1,17 +1,16 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import '../../MyActivitiesStyle.scss';
 import { PersianLan } from '../../../../constants/Strings';
 import {
-  Bluetooth,
   CameraAlt,
   CropFree,
-  ArrowForward,
   Warning,
+  PlaylistAdd,
+  Favorite,
 } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
-import { PlaylistAdd, Favorite } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreator } from '../../../../redux/actions';
@@ -61,14 +60,11 @@ function MyActivitiesLoggedin(props) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" className="activity-header">
         <Toolbar>
           <img src={logo} className="app-header-logo" />
           <div>
-            <IconButton color="inherit">
-              <Bluetooth />
-            </IconButton>
-            <IconButton color="inherit">
+            <IconButton color="inherit" disabled={true}>
               <CameraAlt />
             </IconButton>
             <IconButton
