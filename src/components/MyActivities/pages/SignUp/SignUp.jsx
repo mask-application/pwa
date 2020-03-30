@@ -16,7 +16,7 @@ import {
   Dialog,
   CircularProgress,
 } from '@material-ui/core';
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import { KeyboardBackspace } from '@material-ui/icons';
 import logo from '../../../../logo-header.png';
 
 import { perToEngDigits } from '../../../../utils';
@@ -71,11 +71,11 @@ export default function SignUp({ onBackClick, onSMSSent }) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" className="activity-header">
         <Toolbar>
           <img src={logo} className="app-header-logo" />
           <IconButton color="inherit" onClick={onBackClick}>
-            <KeyboardBackspaceIcon />
+            <KeyboardBackspace />
           </IconButton>
         </Toolbar>
       </AppBar>

@@ -15,7 +15,6 @@ export default function NotSignedUp({ onSignUpClick }) {
           ثبت‌نام کنید.
         </div>
       </div>
-      {/*<div className={styles.spacer} />*/}
       <div className={styles.registerButtonContainer}>
         <Button
           className={styles.registerButton}

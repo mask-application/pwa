@@ -13,8 +13,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { ArrowForward, Edit } from '@material-ui/icons';
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import { KeyboardBackspace, Edit } from '@material-ui/icons';
 import useTimer from 'react-commons/dist/hooks/timer';
 
 import { perToEngDigits } from '../../../../utils';
@@ -91,11 +90,11 @@ export default function Activation({ onBackClick, onActivate }) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" className="activity-header">
         <Toolbar>
           <img src={logo} className="app-header-logo" />
           <IconButton color="inherit" onClick={onBackClick}>
-            <KeyboardBackspaceIcon />
+            <KeyboardBackspace />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -123,7 +122,6 @@ export default function Activation({ onBackClick, onActivate }) {
             variant="contained"
             color="primary"
             size="large"
-            fullWidth
             className="activation-btn"
             onClick={onSubmit}
           >

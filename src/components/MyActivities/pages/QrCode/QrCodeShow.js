@@ -7,15 +7,13 @@ import {
   Typography,
   Box,
 } from '@material-ui/core';
-import { ArrowForward } from '@material-ui/icons';
+import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import QrCode from 'qrcode.react';
 import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسازی بشه
 
 import { showNav } from '../../../../redux/actions/CommonActions';
-import axios from 'axios';
 import logo from '../../../../logo-header.png';
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
 export default function QrCodeShow(props) {
   let history = useHistory();
@@ -24,7 +22,7 @@ export default function QrCodeShow(props) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" className="activity-header">
         <Toolbar>
           <img src={logo} className="app-header-logo" />
           <IconButton
@@ -34,7 +32,7 @@ export default function QrCodeShow(props) {
               history.push('/my-activities');
             }}
           >
-            <KeyboardBackspaceIcon />
+            <KeyboardBackspace />
           </IconButton>
         </Toolbar>
       </AppBar>
