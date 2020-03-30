@@ -117,7 +117,7 @@ export default function Activation({ onBackClick, onActivate }) {
             fullWidth
           />
         </Box>
-        <Box mt={3}>
+        <Box mt={3} textAlign="center">
           <Button
             variant="contained"
             color="primary"
