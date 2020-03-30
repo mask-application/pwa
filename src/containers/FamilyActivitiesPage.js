@@ -1,14 +1,14 @@
-import React from "react";
-import FamilyActivities from "../components/FamilyActivities/FamilyActivities";
-import Header from "../components/AppHeader/Header";
+import React from 'react';
+import FamilyActivities from '../components/FamilyActivities/FamilyActivities';
+import Header from '../components/AppHeader/Header';
 
 function FamilyActivitiesPage() {
-    return (
-        <>
-            {/*<Header/>*/}
-            <FamilyActivities/>
-        </>
-    )
+  return (
+    <>
+      {/*<Header/>*/}
+      <FamilyActivities />
+    </>
+  );
 }
 
 export default FamilyActivitiesPage;

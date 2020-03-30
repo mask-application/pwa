@@ -1,4 +1,4 @@
-.MapWrapper{
+.MapWrapper {
   display: flex;
   justify-content: flex-start;
   align-items: start;
@@ -76,7 +76,8 @@
     }
   }
 
-  .disable-button, .disable-button:hover {
+  .disable-button,
+  .disable-button:hover {
     background-color: #b2b2b2;
     color: #797979;
   }

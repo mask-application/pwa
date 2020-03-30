@@ -1,13 +1,10 @@
-import {
-  FETCH_REQUEST,
-  FETCH_SUCCESS
-} from './StatisticalChartActions';
+import { FETCH_REQUEST, FETCH_SUCCESS } from './StatisticalChartActions';
 
 const initialState = {
   isLoaded: false,
   patients: [],
   dead: [],
-  recovered: []
+  recovered: [],
 };
 
 export const StatisticalChartReducer = (state = initialState, action) => {
@@ -27,4 +24,4 @@ export const StatisticalChartReducer = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};
