@@ -17,21 +17,27 @@
     font-family: IRANYekan, serif;
   }
 
-  .map-comment-wrapper {
+  .comment-logo-wrapper {
     position: fixed;
     z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
     width: 90%;
     bottom: 70px;
-    font-size: 10px;
-    background-color: white;
-    border-radius: 10px;
     left: 50%;
     transform: translate(-50%, 0);
+    img {
+      height: 100px;
+    }
+    font-size: 10px;
     color: #ff005c;
+    .map-comment {
+      background-color: white;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .map-logo {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
   .map-button {
