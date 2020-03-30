@@ -7,8 +7,8 @@ import * as d3 from 'd3';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as constants from './constants/mapConstants';
-import styles from '../MyActivities/pages/Activation/Activation.module.scss';
 import { Box, CircularProgress, Dialog } from '@material-ui/core';
+import logo from '../../logo.png';
 
 export default function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
@@ -275,7 +275,10 @@ export default function Map() {
           zIndex: 0,
         }}
       />
-      <div className="map-comment-wrapper">
+      <div className="comment-logo-wrapper">
+        <div className="map-logo">
+          <img src={logo} alt="" />
+        </div>
         <div className="map-comment">{constants.types[type].comment}</div>
       </div>
       {menu}
