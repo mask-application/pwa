@@ -15,7 +15,22 @@ import './App.scss';
 
 export default function App() {
   const showNavBar = useSelector((state) => state.Commons.showNavigation);
+  const user = localStorage.getItem('user');
 
+  const PrivateRoute = ({ children, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={(props) => {
+          if (user === null) {
+            return <Redirect to="/home" />;
+          } else {
+            return children;
+          }
+        }}
+      />
+    );
+  };
   return (
     <div className="app-container">
       <div className="app-content">
@@ -42,12 +57,12 @@ export default function App() {
           <Route path="/informing" exact>
             <InformingPage />
           </Route>
-          <Route path="/add-myactivities" exact>
+          <PrivateRoute path="/add-myactivities" exact>
             <MyActivityEventsPage />
-          </Route>
-          <Route path="/my-health-event" exact>
+          </PrivateRoute>
+          <PrivateRoute path="/my-health-event" exact>
             <MyHealthEventPage />
-          </Route>
+          </PrivateRoute>
           <Route path="/my-qrcode" exact>
             <QrCodeShow />
           </Route>
@@ -61,3 +76,9 @@ export default function App() {
     </div>
   );
 }
+
+// FIXME We should read all the configs from central config file
+console.log(
+  'REACT_APP_SAMPLE_ENVIRONMENT: ',
+  process.env.REACT_APP_SAMPLE_ENVIRONMENT
+);
