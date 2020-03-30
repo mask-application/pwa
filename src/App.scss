@@ -61,7 +61,7 @@ html {
 }
 
 .contentWrapper {
-  height: calc(100% - 56px);
+  height: calc(100vh - 56px);
 }
 
 .app-navigation {
@@ -77,7 +77,8 @@ html {
 .MuiButton-root,
 .MuiInputBase-root,
 .MuiFormLabel-root,
-.MuiMenuItem-root {
+.MuiMenuItem-root,
+.MuiSnackbarContent-root {
   font-family: IRANYekan !important;
 }
 

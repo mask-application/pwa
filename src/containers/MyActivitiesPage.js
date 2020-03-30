@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import MyActivities from "../components/MyActivities/MyActivities";
+import MyActivities from '../components/MyActivities/MyActivities';
 
 function MyActivitiesPage() {
-    return <MyActivities />;
+  return <MyActivities />;
 }
 
 export default MyActivitiesPage;
