@@ -8,7 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as constants from './constants/mapConstants';
 import { Box, CircularProgress, Dialog } from '@material-ui/core';
-import logo from '../../logo.png';
+import logo from '../../logo1.png';
 
 export default function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
