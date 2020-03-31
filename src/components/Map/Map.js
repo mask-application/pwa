@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './MapStyle.scss';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MyLocationIcon from '@material-ui/icons/MyLocation';
 import Papa from 'papaparse';
 import * as d3 from 'd3';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import * as constants from './constants/mapConstants';
-import { Box, CircularProgress, Dialog } from '@material-ui/core';
 import logo from '../../logo1.png';
+import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MyLocationIcon from '@material-ui/icons/MyLocation';
+import CloseIcon from '@material-ui/icons/Close';
 
 export default function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
@@ -18,7 +18,7 @@ export default function Map() {
   const [map, setMap] = useState(null);
   const [data, setData] = useState([]);
   const [zoomLevels, setZoomLevels] = useState([]);
-  const [zoom, setZoom] = useState(3);
+  const [zoom, setZoom] = useState(0);
   const [showData, setShowData] = useState(null);
   const [list, setList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -82,6 +82,7 @@ export default function Map() {
   //   Maybe a separate file would be better to include such these functions
   const getData = (result) => {
     setIsDialogOpen(false);
+    setZoomLevels([]);
     const line = result.data;
     const lineNumber = line.length;
     for (let i = 0; i < lineNumber; ) {
@@ -197,6 +198,10 @@ export default function Map() {
   };
 
   useEffect(() => {
+    setZoom(zoomLevels.length - 1);
+  }, [zoomLevels]);
+
+  useEffect(() => {
     map &&
       map.on('zoom', function () {
         const inverseZoomLevel = 10 * Math.pow(2, -(map && map.getZoom()));
@@ -243,8 +248,48 @@ export default function Map() {
     </Menu>
   );
 
+  const [vpnAlert, setVpnAlert] = useState(true);
+
   return (
     <div className={`contentWrapper MapWrapper`}>
+      <div className="alerts">
+        <Collapse className="map-alert-wrapper" in={isDialogOpen}>
+          <Alert
+            severity="info"
+            action={
+              <IconButton
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setIsDialogOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            تا دریافت اطلاعات منتظر بمانید.
+          </Alert>
+        </Collapse>
+        <Collapse className="map-alert-wrapper" in={vpnAlert}>
+          <Alert
+            severity="warning"
+            action={
+              <IconButton
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setVpnAlert(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            در صورت اتصال، vpn دستگاه را قطع کنید.
+          </Alert>
+        </Collapse>
+      </div>
       <div className="map-button-wrapper">
         <button
           type="button"
@@ -282,12 +327,6 @@ export default function Map() {
         <img src={logo} alt="" />
       </div>
       {menu}
-      <Dialog open={isDialogOpen}>
-        <div className="dialog-content">
-          <CircularProgress />
-          <Box ml={3}>{'لطفا کمی صبر کنید.'}</Box>
-        </div>
-      </Dialog>
     </div>
   );
 }

@@ -15,6 +15,11 @@ export const types = {
     text: 'مناطق رفت‌وآمد مبتلایان کرونا',
     comment: 'رنگ تیره‌تر = تردد بیشتر مبتلایان',
   },
+  population: {
+    key: 'population',
+    text: 'مناطق تردد عموم مردم',
+    comment: 'رنگ تیره‌تر = تردد بیشتر',
+  },
   // testlabs: {
   //     key: "testlabs",
   //     text: "مراکز تشخیص کرونا",
