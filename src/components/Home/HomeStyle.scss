@@ -1,4 +1,4 @@
-.HomeWrapper{
+.HomeWrapper {
   display: grid;
   padding: 1rem;
   grid-template-columns: 50% 50%;
@@ -6,8 +6,15 @@
   top: -5em;
 
   .MuiPaper-root.link {
-    margin: .25rem;
+    margin: 0.5rem 0.5rem 0.75rem 0.5rem;
     text-decoration: none;
+    border-radius: 15px;
+    padding: 0.25rem;
+
+    span {
+      color: #5d5d5d;
+      font-size: 0.75rem;
+    }
 
     .MuiSvgIcon-root {
       font-size: 4rem;

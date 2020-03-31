@@ -1,14 +1,14 @@
-import React from "react";
-import Map from "../components/Map/Map";
-import Header from "../components/AppHeader/Header";
+import React from 'react';
+import Map from '../components/Map/Map';
 
 function MapPage() {
-    return (
-        <>
-            <Header/>
-            <Map/>
-        </>
-    )
+  return (
+    <>
+      <div style={{ overflow: 'hidden' }}>
+        <Map />
+      </div>
+    </>
+  );
 }
 
 export default MapPage;

@@ -2,7 +2,7 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100vh - 56px);
 }
 
 .description {
@@ -20,6 +20,12 @@
   margin-bottom: 2rem;
 }
 
-.spacer {
-  flex-grow: 1;
+.registerButtonContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.registerButton {
+  width: 90%;
+  border-radius: 16px !important;
 }
