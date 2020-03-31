@@ -45,7 +45,7 @@ export default function Activation({ onBackClick, onActivate }) {
     setIsDialogOpen(true);
     axios({
       method: 'POST',
-      url: '/api/v1/user/register',
+      url: `${process.env.REGISTER_USER}`,
       data: {
         phone_number: phone,
         risk_group: condition,
@@ -67,7 +67,7 @@ export default function Activation({ onBackClick, onActivate }) {
     setIsDialogOpen(true);
     axios({
       method: 'POST',
-      url: '/api/v1/user/activate',
+      url: `${process.env.ACTIVATE_USER}`,
       data: {
         phone_number: phone,
         code: perToEngDigits(code),

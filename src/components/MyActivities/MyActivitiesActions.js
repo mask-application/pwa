@@ -57,7 +57,7 @@ export const createHealthEventInBulk = (data, history) => {
     let month = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(now);
     let day = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(now);
 
-    fetch(`/api/v1/event/bulk`, {
+    fetch(`${process.env.BULK_EVENT}`, {
       method: 'POST',
       headers: {
         'Access-Token': getState().MyActivities.token,

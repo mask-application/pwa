@@ -128,7 +128,7 @@ export default function Map() {
   function getMapTypeLists() {
     // FIXME url ==> config file
     setIsDialogOpen(true);
-    return fetch('/map-cdn/maps.json')
+    return fetch(`${process.env.GET_MAP_TYPE_LISTS}`)
       .then((response) => response.json())
       .then((responseJson) => {
         setList(responseJson);
@@ -166,7 +166,7 @@ export default function Map() {
       }
     }
     // FIXME config file
-    version && parseFile(`/map-cdn/${type}.${version}.csv`);
+    version && parseFile(`${process.env.MAP_CDN}${type}.${version}.csv`);
   }, [list, type]);
 
   useEffect(() => {

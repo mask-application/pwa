@@ -47,7 +47,7 @@ export default function SignUp({ onBackClick, onSMSSent }) {
     setIsDialogOpen(true);
     axios({
       method: 'POST',
-      url: '/api/v1/user/register',
+      url: `${process.env.REGISTER_USER}`,
       data: {
         phone_number: perToEngDigits(phone),
         risk_group: condition,
