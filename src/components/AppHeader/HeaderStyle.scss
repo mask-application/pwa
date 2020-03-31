@@ -6,7 +6,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
+  position: relative;
   .notif-button-wrapper {
     button {
       border-color: transparent;
@@ -25,7 +25,7 @@
     left: -38vw;
     width: 100%;
     color: #ffffff;
-    position: fixed;
+    position: absolute;
     text-align: center;
     transform: rotate(-45deg);
     background-color: #ff005c;
