@@ -1,10 +1,13 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { AppBar, Toolbar, IconButton } from '@material-ui/core';
-import { Person, LocationOn, People } from '@material-ui/icons';
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import {
+  Person,
+  LocationOn,
+  People,
+  KeyboardBackspace,
+} from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
-import {} from '@material-ui/icons';
 import { PersianLan } from '../../../../constants/Strings';
 import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسازی بشه
 
@@ -16,7 +19,7 @@ export default function MyActivityEvents(props) {
   const dispatch = useDispatch();
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" className="activity-header">
         <Toolbar variant="regular">
           <img src={logo} className="app-header-logo" />
           <IconButton
@@ -26,7 +29,7 @@ export default function MyActivityEvents(props) {
               history.push('/my-activities');
             }}
           >
-            <KeyboardBackspaceIcon />
+            <KeyboardBackspace />
           </IconButton>
         </Toolbar>
       </AppBar>

@@ -1,4 +1,4 @@
-.MapWrapper{
+.MapWrapper {
   display: flex;
   justify-content: flex-start;
   align-items: start;
@@ -17,21 +17,54 @@
     font-family: IRANYekan, serif;
   }
 
-  .map-comment-wrapper {
-    position: fixed;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    width: 90%;
-    bottom: 70px;
+  .comment-wrapper {
     font-size: 10px;
+    color: #ff005c;
     background-color: white;
     border-radius: 10px;
+    padding: 10px;
+    width: 90%;
+    position: fixed;
+    z-index: 10;
+    bottom: 70px;
     left: 50%;
     transform: translate(-50%, 0);
-    color: #ff005c;
+  }
+
+  .logo-wrapper {
+    position: fixed;
+    z-index: 10;
+    bottom: 100px;
+    left: 5%;
+    display: flex;
+    img {
+      height: 70px;
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    .logo-wrapper {
+      img {
+        height: 100px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 328px) {
+    .logo-wrapper {
+      bottom: 120px;
+      img {
+        height: 50px;
+      }
+    }
+  }
+
+  .comment-logo-wrapper {
+    position: fixed;
+    z-index: 10;
+    bottom: 70px;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
 
   .map-button {
@@ -76,7 +109,8 @@
     }
   }
 
-  .disable-button, .disable-button:hover {
+  .disable-button,
+  .disable-button:hover {
     background-color: #b2b2b2;
     color: #797979;
   }

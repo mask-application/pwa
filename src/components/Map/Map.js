@@ -7,8 +7,8 @@ import * as d3 from 'd3';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as constants from './constants/mapConstants';
-import styles from '../MyActivities/pages/Activation/Activation.module.scss';
 import { Box, CircularProgress, Dialog } from '@material-ui/core';
+import logo from '../../logo1.png';
 
 export default function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
@@ -18,7 +18,7 @@ export default function Map() {
   const [map, setMap] = useState(null);
   const [data, setData] = useState([]);
   const [zoomLevels, setZoomLevels] = useState([]);
-  const [zoom, setZoom] = useState(0);
+  const [zoom, setZoom] = useState(3);
   const [showData, setShowData] = useState(null);
   const [list, setList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -128,7 +128,7 @@ export default function Map() {
   function getMapTypeLists() {
     // FIXME url ==> config file
     setIsDialogOpen(true);
-    return fetch('http://185.97.116.63:8001/map-cdn/maps.json')
+    return fetch(`${process.env.REACT_APP_GET_MAP_TYPE_LISTS}`)
       .then((response) => response.json())
       .then((responseJson) => {
         setList(responseJson);
@@ -149,8 +149,8 @@ export default function Map() {
         poi: true,
         traffic: false,
         zoomControl: false,
-        center: [35.699739, 51.338097],
-        zoom: 14,
+        center: [32.4279, 53.688],
+        zoom: 4.2,
       })
     );
   }, []);
@@ -167,7 +167,7 @@ export default function Map() {
     }
     // FIXME config file
     version &&
-      parseFile(`http://185.97.116.63:8001/map-cdn/${type}.${version}.csv`);
+      parseFile(`${process.env.REACT_APP_MAP_CDN}${type}.${version}.csv`);
   }, [list, type]);
 
   useEffect(() => {
@@ -275,8 +275,11 @@ export default function Map() {
           zIndex: 0,
         }}
       />
-      <div className="map-comment-wrapper">
+      <div className="comment-wrapper">
         <div className="map-comment">{constants.types[type].comment}</div>
+      </div>
+      <div className="logo-wrapper">
+        <img src={logo} alt="" />
       </div>
       {menu}
       <Dialog open={isDialogOpen}>
