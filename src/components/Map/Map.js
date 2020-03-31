@@ -18,7 +18,7 @@ export default function Map() {
   const [map, setMap] = useState(null);
   const [data, setData] = useState([]);
   const [zoomLevels, setZoomLevels] = useState([]);
-  const [zoom, setZoom] = useState(0);
+  const [zoom, setZoom] = useState(3);
   const [showData, setShowData] = useState(null);
   const [list, setList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -149,8 +149,8 @@ export default function Map() {
         poi: true,
         traffic: false,
         zoomControl: false,
-        center: [35.699739, 51.338097],
-        zoom: 14,
+        center: [32.4279, 53.688],
+        zoom: 4.2,
       })
     );
   }, []);
@@ -275,11 +275,11 @@ export default function Map() {
           zIndex: 0,
         }}
       />
-      <div className="comment-logo-wrapper">
-        <div className="map-logo">
-          <img src={logo} alt="" />
-        </div>
+      <div className="comment-wrapper">
         <div className="map-comment">{constants.types[type].comment}</div>
+      </div>
+      <div className="logo-wrapper">
+        <img src={logo} alt="" />
       </div>
       {menu}
       <Dialog open={isDialogOpen}>
