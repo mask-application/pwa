@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './MapStyle.scss';
 import Papa from 'papaparse';
 import * as d3 from 'd3';
-import * as constants from './constants/mapConstants';
 import logo from '../../logo1.png';
 import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
@@ -14,13 +13,13 @@ export default function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
   // try to use react leaflet and help encapsulation components (and Separation of concerns)
 
-  const [type, setType] = useState(constants.types['patients'].key);
+  const [chosenMap, setChosenMap] = useState(null);
   const [map, setMap] = useState(null);
   const [data, setData] = useState([]);
   const [zoomLevels, setZoomLevels] = useState([]);
   const [zoom, setZoom] = useState(0);
   const [showData, setShowData] = useState(null);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -132,7 +131,7 @@ export default function Map() {
     return fetch(`${process.env.REACT_APP_GET_MAP_TYPE_LISTS}`)
       .then((response) => response.json())
       .then((responseJson) => {
-        setList(responseJson);
+        setList(Object.values(responseJson)[0]);
       })
       .catch((error) => {
         console.error(error);
@@ -157,19 +156,24 @@ export default function Map() {
   }, []);
 
   useEffect(() => {
+    list && setChosenMap(list[0]);
+  }, [list]);
+
+  useEffect(() => {
     let version;
     if (list) {
-      const options = Object.values(list)[0] || [];
-      for (let i = 0; i < options.length; i++) {
-        if ((options[i] || {}).id === type) {
-          version = options[i].version;
+      for (let i = 0; i < list.length; i++) {
+        if ((list[i] || {}).id === chosenMap.id) {
+          version = list[i].version;
         }
       }
     }
     // FIXME config file
     version &&
-      parseFile(`${process.env.REACT_APP_MAP_CDN}${type}.${version}.csv`);
-  }, [list, type]);
+      parseFile(
+        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${version}.csv`
+      );
+  }, [chosenMap]);
 
   useEffect(() => {
     data && setShowData(data[zoom]);
@@ -193,7 +197,7 @@ export default function Map() {
   };
 
   const closeMenu = (value) => {
-    value && setType(value);
+    value && setChosenMap(value);
     setAnchorEl(null);
   };
 
@@ -231,20 +235,18 @@ export default function Map() {
       open={Boolean(anchorEl)}
       onClose={() => closeMenu()}
     >
-      {Object.keys(constants.types).map((type) => (
-        <MenuItem
-          classes={{ root: 'map-menu-item' }}
-          onClick={() => closeMenu(constants.types[type].key)}
-        >
-          {constants.types[type].text}
-        </MenuItem>
-      ))}
-      <MenuItem classes={{ root: 'map-menu-item' }} disabled={true}>
-        مراکز تشخیص کرونا
-      </MenuItem>
-      <MenuItem classes={{ root: 'map-menu-item' }} disabled={true}>
-        مراکز درمانی ۱۶ ساعته کرونا
-      </MenuItem>
+      {list &&
+        list.map((item) => {
+          return (
+            <MenuItem
+              classes={{ root: 'map-menu-item' }}
+              onClick={() => closeMenu(item)}
+              disabled={item.id === 'testlabs' || item.id === 'hospitals'}
+            >
+              {item.name}
+            </MenuItem>
+          );
+        })}
     </Menu>
   );
 
@@ -300,11 +302,11 @@ export default function Map() {
         </button>
         <button
           type="button"
-          name="type"
+          name="chosenMap"
           className="map-button type"
           onClick={(e) => clickMenu(e)}
         >
-          <div>{constants.types[type].text}</div>
+          <div>{(chosenMap || {}).name}</div>
           <ExpandMoreIcon />
         </button>
       </div>
@@ -321,7 +323,7 @@ export default function Map() {
         }}
       />
       <div className="comment-wrapper">
-        <div className="map-comment">{constants.types[type].comment}</div>
+        <div className="map-comment">{(chosenMap || {}).comment}</div>
       </div>
       <div className="logo-wrapper">
         <img src={logo} alt="" />
@@ -330,3 +332,26 @@ export default function Map() {
     </div>
   );
 }
+
+// data format:
+// [
+// 		[
+// 			<zoomLevel number as key>
+// 			0.0024,
+// 			<polygons array as value>
+// 			[
+// 				{
+// 					color1: ...
+// 					matrix: [[[]]]
+// 				},
+// 				{
+// 					color2: ...
+// 					matrix: [[[]]]
+// 				},
+// 				...
+// 			]
+// 		],
+// 		[
+// 			...
+// 		]
+// ]
