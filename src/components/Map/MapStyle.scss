@@ -42,23 +42,6 @@
     }
   }
 
-  @media screen and (min-width: 760px) {
-    .logo-wrapper {
-      img {
-        height: 100px;
-      }
-    }
-  }
-
-  @media screen and (max-width: 328px) {
-    .logo-wrapper {
-      bottom: 120px;
-      img {
-        height: 50px;
-      }
-    }
-  }
-
   .comment-logo-wrapper {
     position: fixed;
     z-index: 10;
@@ -114,6 +97,23 @@
     background-color: #b2b2b2;
     color: #797979;
   }
+
+  @media screen and (min-width: 760px) {
+    .logo-wrapper {
+      img {
+        height: 100px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 328px) {
+    .logo-wrapper {
+      bottom: 120px;
+      img {
+        height: 50px;
+      }
+    }
+  }
 }
 
 .map-menu {
@@ -149,7 +149,7 @@
   margin-left: 20px;
 
   .MuiAlert-root {
-    font-family: IRANYekan, Serif;
+    font-family: IRANYekan, serif;
     font-size: 12px;
   }
 

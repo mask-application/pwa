@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './MapStyle.scss';
+import * as utility from './utility';
 import Papa from 'papaparse';
 import * as d3 from 'd3';
 import logo from '../../logo1.png';
@@ -21,43 +22,8 @@ export default function Map() {
   const [showData, setShowData] = useState(null);
   const [list, setList] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  // #TODO move to a better Utility class
-  const getCurrentPosition = () => {
-    return new Promise((resolve, reject) => {
-      if (
-        'geolocation' in navigator &&
-        navigator.geolocation &&
-        typeof navigator.geolocation.getCurrentPosition === 'function'
-      ) {
-        try {
-          navigator.geolocation.getCurrentPosition(
-            (position) =>
-              resolve({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              }),
-            () => {
-              reject({
-                message:
-                  'از طریق \n Settings > Privacy > Location Services > Safari Websites \n دسترسی موقعیت مکانی را فعال کنید.',
-              });
-            },
-            { timeout: 10000 }
-          );
-        } catch (error) {
-          console.log(
-            'Error when calling navigator.geolocation.getCurrentPosition: ',
-            error
-          );
-          reject({ message: 'مرورگر شما قابلیت مکان‌یابی را ندارد' });
-        }
-      } else {
-        reject({ message: 'مرورگر شما قابلیت مکان‌یابی را ندارد' });
-      }
-    });
-  };
+  const [isMapFetching, setIsMapFetching] = useState(false);
+  const [vpnAlert, setVpnAlert] = useState(true);
 
   // #TODO polygons -> points ot latLongs
   const drawPolygon = (color, polygons) => {
@@ -80,7 +46,7 @@ export default function Map() {
   //  TODO explain about the code (Explain the goal for each section to help other developers).
   //   Maybe a separate file would be better to include such these functions
   const getData = (result) => {
-    setIsDialogOpen(false);
+    setIsMapFetching(false);
     setZoomLevels([]);
     const line = result.data;
     const lineNumber = line.length;
@@ -90,7 +56,7 @@ export default function Map() {
         let j = i + 1;
         let polygons = [];
         while (j < lineNumber && line[j].length > 1) {
-          polygons.push(line[j]);
+          if (!isNaN(line[j][0])) polygons.push(line[j]);
           j++;
         }
         let sameColor = {};
@@ -118,7 +84,7 @@ export default function Map() {
 
   const parseFile = (url) => {
     setData([]);
-    setIsDialogOpen(true);
+    setIsMapFetching(true);
     Papa.parse(url, {
       download: true,
       complete: getData,
@@ -126,8 +92,7 @@ export default function Map() {
   };
 
   function getMapTypeLists() {
-    // FIXME url ==> config file
-    setIsDialogOpen(true);
+    setIsMapFetching(true);
     return fetch(`${process.env.REACT_APP_GET_MAP_TYPE_LISTS}`)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -144,6 +109,7 @@ export default function Map() {
     setMap(
       new window.L.Map('map', {
         // FIXME CRITICAL set token
+        // key: process.env.REACT_APP_MAP_TOKEN,
         key: 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
         maptype: 'dreamy',
         poi: true,
@@ -168,7 +134,6 @@ export default function Map() {
         }
       }
     }
-    // FIXME config file
     version &&
       parseFile(
         `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${version}.csv`
@@ -176,29 +141,20 @@ export default function Map() {
   }, [chosenMap]);
 
   useEffect(() => {
-    data && setShowData(data[zoom]);
+    setShowData(((data || {})[zoom] || [])[1]);
   }, [zoom, data]);
 
   useEffect(() => {
     clearPolygon();
     if (showData)
-      for (let key in showData[1]) {
-        drawPolygon(key, showData[1][key]);
+      for (let key in showData) {
+        drawPolygon(key, showData[key]);
       }
   }, [map, showData]);
 
   const handleLocate = async () => {
-    const myLatLngLocation = await getCurrentPosition();
+    const myLatLngLocation = await utility.getCurrentPosition();
     map.flyTo(myLatLngLocation, 15);
-  };
-
-  const clickMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const closeMenu = (value) => {
-    value && setChosenMap(value);
-    setAnchorEl(null);
   };
 
   useEffect(() => {
@@ -225,6 +181,15 @@ export default function Map() {
       });
   });
 
+  const clickMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closeMenu = (value) => {
+    value && setChosenMap(value);
+    setAnchorEl(null);
+  };
+
   const menu = (
     <Menu
       classes={{
@@ -250,12 +215,10 @@ export default function Map() {
     </Menu>
   );
 
-  const [vpnAlert, setVpnAlert] = useState(true);
-
   return (
     <div className={`contentWrapper MapWrapper`}>
       <div className="alerts">
-        <Collapse className="map-alert-wrapper" in={isDialogOpen}>
+        <Collapse className="map-alert-wrapper" in={isMapFetching}>
           <Alert
             severity="info"
             action={
@@ -263,7 +226,7 @@ export default function Map() {
                 color="inherit"
                 size="small"
                 onClick={() => {
-                  setIsDialogOpen(false);
+                  setIsMapFetching(false);
                 }}
               >
                 <CloseIcon fontSize="inherit" />
@@ -332,26 +295,3 @@ export default function Map() {
     </div>
   );
 }
-
-// data format:
-// [
-// 		[
-// 			<zoomLevel number as key>
-// 			0.0024,
-// 			<polygons array as value>
-// 			[
-// 				{
-// 					color1: ...
-// 					matrix: [[[]]]
-// 				},
-// 				{
-// 					color2: ...
-// 					matrix: [[[]]]
-// 				},
-// 				...
-// 			]
-// 		],
-// 		[
-// 			...
-// 		]
-// ]
