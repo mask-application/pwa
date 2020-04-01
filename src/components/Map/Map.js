@@ -109,8 +109,8 @@ export default function Map() {
     setMap(
       new window.L.Map('map', {
         // FIXME CRITICAL set token
-        // key: process.env.REACT_APP_MAP_TOKEN,
-        key: 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
+        key: process.env.REACT_APP_MAP_TOKEN,
+        // key: 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
         maptype: 'dreamy',
         poi: true,
         traffic: false,
