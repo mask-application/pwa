@@ -1,5 +1,136 @@
-.MapWrapper{
+.MapWrapper {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: start;
+
+  .map-button-wrapper {
+    button {
+      outline: none;
+    }
+    position: fixed;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    font-family: IRANYekan, serif;
+  }
+
+  .comment-wrapper {
+    font-size: 10px;
+    color: #ff005c;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 90%;
+    position: fixed;
+    z-index: 10;
+    bottom: 70px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .logo-wrapper {
+    position: fixed;
+    z-index: 10;
+    bottom: 100px;
+    left: 5%;
+    display: flex;
+    img {
+      height: 70px;
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    .logo-wrapper {
+      img {
+        height: 100px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 328px) {
+    .logo-wrapper {
+      bottom: 120px;
+      img {
+        height: 50px;
+      }
+    }
+  }
+
+  .comment-logo-wrapper {
+    position: fixed;
+    z-index: 10;
+    bottom: 70px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .map-button {
+    font: inherit;
+    background-color: #ff005c;
+    color: #fff;
+    height: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    overflow: hidden;
+
+    svg {
+      font-size: 28px;
+    }
+
+    &:hover {
+      background-color: #bc0044;
+    }
+
+    &:first-child {
+      margin-left: 10px;
+    }
+
+    &.type {
+      padding-right: 15px;
+      > div {
+        width: 85%;
+        display: flex;
+        justify-content: flex-start;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 14px;
+      }
+      flex-grow: 1;
+    }
+  }
+
+  .disable-button,
+  .disable-button:hover {
+    background-color: #b2b2b2;
+    color: #797979;
+  }
+}
+
+.map-menu {
+  //TODO clean this shit
+  top: 50% !important;
+  left: 50% !important;
+  margin-right: -50% !important;
+  transform: translate(-50%, -50%) !important;
+
+  .map-menu-item {
+    font-size: 14px;
+    font-family: IRANYekan, serif;
+  }
+}
+
+.dialog-content {
+  display: flex;
   align-items: center;
+  padding: 1rem 1.5rem;
 }

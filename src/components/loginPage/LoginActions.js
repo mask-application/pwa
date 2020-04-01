@@ -1,5 +1,3 @@
 export const LoginUser = () => {
-    return(dispatch) => {
-
-    }
-}
+  return (dispatch) => {};
+};

@@ -1,13 +1,10 @@
-import {
-  FETCH_REQUEST,
-  FETCH_SUCCESS
-} from './StatisticalChartActions';
+import { FETCH_REQUEST, FETCH_SUCCESS } from './StatisticalChartActions';
 
 const initialState = {
   isLoaded: false,
   patients: [],
   dead: [],
-  recovered: []
+  recovered: [],
 };
 
 export const StatisticalChartReducer = (state = initialState, action) => {
@@ -19,6 +16,7 @@ export const StatisticalChartReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoaded: true,
+        data: action.payload,
         patients: action.payload.iran.patients,
         dead: action.payload.iran.dead,
         recovered: action.payload.iran.recovered,
@@ -27,4 +25,4 @@ export const StatisticalChartReducer = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};

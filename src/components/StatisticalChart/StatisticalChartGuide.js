@@ -1,44 +1,40 @@
-import React from "react";
-import { useIntl } from "../../intl";
-
-function translateNum(n) {
-  //  FIXME Use css to show numbers in persian
-  let num = JSON.parse('{"0":"۰","1":"۱","2":"۲","3":"۳","4":"۴","5":"۵","6":"۶","7":"۷","8":"۸","9":"۹"}');
-  return n.replace(/./g,function(c){
-    return (typeof num[c]==="undefined")?
-      ((/\d+/.test(c))?c:''):
-      num[c];
-  })
-  return n;
-}
+import React from 'react';
+import StatisticalChartGuideItem from './StatisticalChartGuideItem';
 
 function StatisticalChartGuide(props) {
+  const data = props.data[props.area];
+  const keys = Object.keys(data);
+  const keysDataLen = data[keys[0]].length;
+  let guideRow = [];
 
-  const intl = useIntl();
-  const { isLoaded, patients, recovered, dead } = props.data;
-  const dataLen = patients.length;
-  const patientsNum = translateNum(String(patients[dataLen-1]));
-  const patientsInc = translateNum(String(patients[dataLen-1]-patients[dataLen-2]));
-  const recoveredNum = translateNum(String(recovered[dataLen-1]));
-  const recoveredInc = translateNum(String(recovered[dataLen-1]-recovered[dataLen-2]));
-  const deadNum = translateNum(String(dead[dataLen-1]));
-  const deadInc = translateNum(String(dead[dataLen-1]-dead[dataLen-2]));
+  function constructProperData() {
+    let properData = [];
+    for (let i = 0; i < keys.length; i++) {
+      const currentVal = data[keys[i]][keysDataLen - 1];
+      const incVal =
+        data[keys[i]][keysDataLen - 1] - data[keys[i]][keysDataLen - 2];
+      const incPercentage = (incVal / currentVal) * 100;
+      properData.push({
+        name: keys[i],
+        currentVal: currentVal,
+        incVal: incVal,
+        incPercentage: incPercentage,
+      });
+    }
+    return properData;
+  }
 
-  // TODO: fix title in fa.json
+  function createGuide() {
+    let data = constructProperData();
+    for (let i = 0; i < keys.length; i++)
+      guideRow.push(<StatisticalChartGuideItem key={i} data={data[i]} />);
+  }
 
-  return (
-    <div className="statistics-text">
-      <h3>
-        {intl.formatMessage(`statistical-chart.title`, {title: `${patientsNum} نفر مبتلا (${patientsInc}+)`})}
-      </h3>
-      <h4>
-        {intl.formatMessage(`statistical-chart.title`, {title: `${recoveredNum} نفر درمان شده (${recoveredInc}+)`})}
-      </h4>
-      <h5>
-        {intl.formatMessage(`statistical-chart.title`, {title: `${deadNum} نفر فوت شده (${deadInc}+)`})}
-      </h5>
-    </div>
-  );
+  if (props.isLoaded) {
+    createGuide();
+  }
+
+  return <div>{guideRow}</div>;
 }
 
 export default StatisticalChartGuide;

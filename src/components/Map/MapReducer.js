@@ -1,14 +1,15 @@
 const initialState = {
-    test:true
-}
+  test: true,
+};
 
-export const MapReducer = (state = initialState , action) => {
-    switch (action.type) {
-        case "test":
-            return {
-                ...state,
-                test:false
-            }
-        default: return state;
-    }
-}
+export const MapReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'test':
+      return {
+        ...state,
+        test: false,
+      };
+    default:
+      return state;
+  }
+};

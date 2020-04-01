@@ -1,30 +1,39 @@
 h3 {
-    color: #EB3B5D;
-    margin: 10px 0;
+  color: #ff005c;
+  margin: 10px 0;
 }
 
 h4 {
-    color: #00FFBA;
-    margin: 10px 0;
+  color: #00ffba;
+  margin: 10px 0;
 }
 
 h5 {
-    color: #5d5d5d;
-    margin: 10px 0;
+  color: #5d5d5d;
+  margin: 10px 0;
 }
 
 .statistics-text {
-    padding-top: 2%;
-    padding-left: 4%;
-    text-align: left;
+  display: grid;
+  grid-template-columns: 10% 40% 30% 10% 10%;
+  justify-content: space-around;
+  padding: 0 1rem;
+  font-size: 12px;
+  align-items: center;
+}
+
+@media (min-width: 700px) {
+  .statistics-text {
+    width: 50%;
+  }
 }
 
 .svg-daily-behavior {
-    position: relative;
-    top: -5em;
+  /*position: relative;*/
+  /*top: -5em;*/
 }
 
 .spinner {
-    min-height: 6em;
-    min-width: 100%;
+  min-height: 6em;
+  min-width: 100%;
 }

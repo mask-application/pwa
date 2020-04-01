@@ -1,0 +1,46 @@
+.MuiToolbar-root {
+  justify-content: space-between;
+}
+
+.HeaderWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  .notif-button-wrapper {
+    button {
+      border-color: transparent;
+      background-color: transparent;
+      outline: none;
+      padding: 0;
+    }
+    z-index: 10;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .beta-version {
+    top: 10vw;
+    left: -38vw;
+    width: 100%;
+    color: #ffffff;
+    position: absolute;
+    text-align: center;
+    transform: rotate(-45deg);
+    background-color: #ff005c;
+  }
+}
+
+.notif-msg {
+  padding: 1rem;
+  margin: 0 !important;
+  align-content: center;
+  text-align: center;
+}
+
+.logo > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
