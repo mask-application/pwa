@@ -63,9 +63,9 @@ export default function App() {
           <PrivateRoute path="/my-health-event" exact>
             <MyHealthEventPage />
           </PrivateRoute>
-          <Route path="/my-qrcode" exact>
+          <PrivateRoute path="/my-qrcode" exact>
             <QrCodeShow />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </div>
       {showNavBar && (
