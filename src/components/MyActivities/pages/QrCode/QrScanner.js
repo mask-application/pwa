@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import QrReader from 'react-qr-scanner';
+import QrReader from 'react-qr-reader';
 import './QrCode.scss';
 import { AppBar, IconButton, Toolbar } from '@material-ui/core';
 import logo from '../../../../logo-header.png';
@@ -8,23 +8,15 @@ import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-export default function QrScanner(props) {
+export default function QrScanner() {
   let history = useHistory();
   const dispatch = useDispatch();
-  const [delay, result, setResult] = useState([100, 'No Result']);
-
-  // constructor(props){
-  //   super(props);
-  //   this.state = {
-  //     delay: 100,
-  //     result: 'No result',
-  //   };
-  //
-  //   this.handleScan = this.handleScan.bind(this)
-  // }
+  const [result, setResult] = useState(['No Result']);
 
   function handleScan(data) {
-    setResult(data);
+    if (data) {
+      setResult(data);
+    }
   }
 
   function handleError(err) {
@@ -32,9 +24,10 @@ export default function QrScanner(props) {
   }
 
   const previewStyle = {
-    height: 'auto',
+    height: '100%',
     width: '100%',
   };
+  const delay = 300;
 
   return (
     <>
@@ -52,14 +45,14 @@ export default function QrScanner(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <div>
+      <div className="qr-reader-container">
         <QrReader
           delay={delay}
           style={previewStyle}
-          onError={handleError}
-          onScan={handleScan}
+          onError={() => handleError()}
+          onScan={(data) => handleScan(data)}
         />
-        <p>{result}</p>
+        <div className="qr-result">{result}</div>
       </div>
     </>
   );

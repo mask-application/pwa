@@ -26,7 +26,22 @@
   color: #fff !important;
 }
 
-.app-header-logo {
-  height: 40px;
-  padding-right: 0.5rem;
+.qr-reader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: calc(100vh - 110px);
+  width: 100%;
+}
+
+.qr-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  width: 92%;
+  margin: 2rem 1rem;
 }
