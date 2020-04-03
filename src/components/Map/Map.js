@@ -94,7 +94,7 @@ export default function Map() {
 
   function getMapTypeLists() {
     setIsMapFetching(true);
-    return fetch(`${process.env.REACT_APP_GET_MAP_TYPE_LISTS}/l`)
+    return fetch(`${process.env.REACT_APP_GET_MAP_TYPE_LISTS}`)
       .then((response) => response.json())
       .then((responseJson) => {
         setList(Object.values(responseJson)[0]);
