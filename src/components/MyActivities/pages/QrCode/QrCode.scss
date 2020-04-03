@@ -1,0 +1,32 @@
+.qr-code-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.qr-code-box > canvas {
+  height: 200px !important;
+  width: 200px !important;
+}
+
+.warning-box {
+  background-color: #1c2341;
+  position: fixed;
+  bottom: 0;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 999999;
+}
+
+.warning-box > p,
+.warning-box > span {
+  color: #fff !important;
+}
+
+.app-header-logo {
+  height: 40px;
+  padding-right: 0.5rem;
+}

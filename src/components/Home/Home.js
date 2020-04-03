@@ -46,7 +46,7 @@ export default function Home() {
       {buttons.map((b) => (
         <Paper
           key={b.name}
-          className="link flex-column perfect-center"
+          className="link flex-column perfect-center home-icon"
           component={Link}
           to={b.link}
         >

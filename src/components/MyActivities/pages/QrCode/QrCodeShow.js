@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AppBar,
@@ -10,7 +10,7 @@ import {
 import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import QrCode from 'qrcode.react';
-import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسازی بشه
+import './QrCode.scss';
 
 import { showNav } from '../../../../redux/actions/CommonActions';
 import logo from '../../../../logo-header.png';
