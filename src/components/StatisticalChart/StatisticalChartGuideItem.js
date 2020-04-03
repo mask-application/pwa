@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  FiberManualRecordOutlined,
-  KeyboardArrowDown,
-  KeyboardArrowUp,
-} from '@material-ui/icons';
+import { FiberManualRecordOutlined } from '@material-ui/icons';
 
 import decrease from '../../assets/images/decrease.svg';
 import increase from '../../assets/images/increase.svg';
@@ -44,7 +40,7 @@ function StatisticalChartGuideItem(props) {
       />
       <strong>{translateKeys[name]}</strong>
       <span>{PersianCurrVal}&nbsp;نفر</span>
-      <span>{persianIncVal}</span>
+      <span>{persianIncVal}٪</span>
       {incPercentage > 0 ? (
         <img src={increase} style={{ height: '16px' }} />
       ) : (

@@ -2,6 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import './StatisticalChart.css';
 
+function translateNum(n) {
+  let num = JSON.parse(
+    '{".":"/","0":"۰","1":"۱","2":"۲","3":"۳","4":"۴","5":"۵","6":"۶","7":"۷","8":"۸","9":"۹"}'
+  );
+  return n.replace(/./g, function (c) {
+    return typeof num[c] === 'undefined' ? (/\d+/.test(c) ? c : '') : num[c];
+  });
+  return n;
+}
+
 function StatisticalChart(props) {
   const hasMount = useRef(false);
 
@@ -20,10 +30,10 @@ function StatisticalChart(props) {
     for (let i = 0; i < keysDataLen; i++) {
       let newObj = {};
       newObj['date'] = i;
+      newObj['title'] = String('روز ' + translateNum(String(i + 1)));
       for (let j = 0; j < keys.length; j++) newObj[keys[j]] = data[keys[j]][i];
       properDataArea.push(newObj);
     }
-
     return properDataArea;
   };
 
@@ -48,8 +58,8 @@ function StatisticalChart(props) {
     return properDataLine;
   };
 
-  const drawChart = (dataArea, dataLine, keys) => {
-    let margin = { top: 0, right: 0, bottom: 0, left: 0 };
+  const drawChart = (dataArea, dataLine, keys, keysDataLen) => {
+    let margin = { top: 0, right: 0, bottom: 50, left: 0 };
     let width = window.innerWidth;
     let height =
       window.innerHeight * 0.25 < 250 ? 200 : window.innerHeight * 0.3;
@@ -66,6 +76,24 @@ function StatisticalChart(props) {
         })
       )
       .range([margin.left, width - margin.right]);
+
+    let xDomain = [];
+    for (let i = 0; i < keysDataLen / 7; i++)
+      xDomain[i] = dataArea[i * 7].title;
+
+    let xLabel = d3
+      .scalePoint()
+      .domain(xDomain)
+      .range([margin.left, width - margin.right]);
+
+    let xAxis = (g) =>
+      g
+        .attr('transform', `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(xLabel))
+        .selectAll('text')
+        .attr('transform', 'translate(12,0)rotate(45)')
+        .style('text-anchor', 'end')
+        .style('font-family', 'IRANYekan');
 
     let y = d3
       .scaleLinear()
@@ -89,7 +117,9 @@ function StatisticalChart(props) {
 
     let area = d3
       .area()
-      .x((d) => x(d.data.date))
+      .x((d) => {
+        return x(d.data.date);
+      })
       .curve(d3.curveMonotoneX);
 
     if (props.type === 'notStacked')
@@ -130,6 +160,8 @@ function StatisticalChart(props) {
       .attr('stroke-width', 1)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round');
+
+    svg.append('g').call(xAxis);
   };
 
   const initialDraw = () => {
@@ -138,7 +170,7 @@ function StatisticalChart(props) {
     let keysDataLen = data[keys[0]].length;
     let dataArea = constructProperDataFormatArea(data, keys, keysDataLen);
     let dataLine = constructProperDataFormatLine(data, keys, keysDataLen);
-    drawChart(dataArea, dataLine, keys);
+    drawChart(dataArea, dataLine, keys, keysDataLen);
   };
 
   return (
