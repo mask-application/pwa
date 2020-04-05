@@ -225,7 +225,7 @@
   position: absolute;
   width: 70px;
   height: 70px;
-  box-shadow: 0 0 0 9999px rgba(29, 255, 167, 0.95);
+  box-shadow: 0 0 0 9999px rgba(28, 35, 65, 0.95);
   border-radius: 50%;
   z-index: 10000;
 }
@@ -250,11 +250,13 @@
 
   p {
     text-align: justify;
+    color: white;
   }
 
   .btn-accept {
     color: #ff005c;
     font-size: 18px;
+    font-family: IRANYekan;
     float: left;
   }
 }
