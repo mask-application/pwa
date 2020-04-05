@@ -220,3 +220,41 @@
   height: 40px;
   padding-right: 0.5rem;
 }
+
+.overlay-help {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  box-shadow: 0 0 0 9999px rgba(29, 255, 167, 0.95);
+  border-radius: 50%;
+  z-index: 10000;
+}
+
+.overlay-qr-code {
+  top: -7px;
+  left: 2%;
+}
+
+.overlay-camera {
+  top: -7px;
+  left: calc(2% + 48px);
+}
+
+.header-help {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20000;
+  width: 80%;
+
+  p {
+    text-align: justify;
+  }
+
+  .btn-accept {
+    color: #ff005c;
+    font-size: 18px;
+    float: left;
+  }
+}
