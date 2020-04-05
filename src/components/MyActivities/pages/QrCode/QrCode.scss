@@ -31,8 +31,36 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 56px);
   width: 100%;
+}
+
+.qr-reader {
+  width: 100%;
+  height: 100%;
+
+  section {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: initial !important;
+
+    div {
+      position: initial !important;
+      max-height: 414px;
+      max-width: 414px;
+      height: 80vw !important;
+      width: 80vw !important;
+      border: 3px solid rgba(255, 0, 0, 0.5) !important;
+      box-shadow: 0 0 2000px 2000px rgba(0, 0, 0, 0.7) !important;
+      z-index: 2 !important;
+    }
+
+    video {
+      z-index: 1 !important;
+    }
+  }
 }
 
 .qr-result {

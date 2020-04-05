@@ -7,27 +7,23 @@ import { showNav } from '../../../../redux/actions/CommonActions';
 import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { createEventInBulk } from '../../MyActivitiesActions';
 
 export default function QrScanner() {
   let history = useHistory();
   const dispatch = useDispatch();
-  const [result, setResult] = useState(['No Result']);
+  const [result, setResult] = useState('No Result');
 
   function handleScan(data) {
     if (data) {
       setResult(data);
+      dispatch(createEventInBulk(1, { id: result }, history));
     }
   }
 
   function handleError(err) {
     console.error(err);
   }
-
-  const previewStyle = {
-    height: '100%',
-    width: '100%',
-  };
-  const delay = 300;
 
   return (
     <>
@@ -47,12 +43,11 @@ export default function QrScanner() {
       </AppBar>
       <div className="qr-reader-container">
         <QrReader
-          delay={delay}
-          style={previewStyle}
+          className="qr-reader"
+          delay={300}
           onError={() => handleError()}
           onScan={(data) => handleScan(data)}
         />
-        <div className="qr-result">{result}</div>
       </div>
     </>
   );

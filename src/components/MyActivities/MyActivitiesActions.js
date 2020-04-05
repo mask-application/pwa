@@ -153,68 +153,68 @@ export const createEventInBulk = (type, data, history) => {
     let month = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(now);
     let day = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(now);
 
-    fetch(`${process.env.REACT_APP_BULK_EVENT}`, {
-      method: 'POST',
-      headers: {
-        'Access-Token': getState().MyActivities.token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        events: [
-          {
-            person: getState().MyActivities.user.people[0].id,
-            create_time: `${year}-${month}-${day}`, // FIXME:is format correct???
-            type,
-            data,
-          },
-        ],
-      }),
-    })
-      .then((response) => {
-        if (response.status >= 500) {
-          throw response;
-        } else {
-          return response.json().then((res) => {
-            return { status: response.status, data: res };
-          });
-        }
-      })
-      .then((response) => {
-        if (response.status == 201) {
-          localStorage.setItem('eventResult', JSON.stringify(response.data));
-          localStorage.setItem('create_time', now);
-          if (getState().MyActivities.firstCreateTime === null) {
-            localStorage.setItem('first_create_time', now);
-          }
-
-          localStorage.setItem(
-            'eventCounter',
-            +getState().MyActivities.eventCounter + 1
-          );
-
-          dispatch({
-            type: ActionTypes.SAVE_SUCCESS_EVENT_RESPONSE_TO_STATE,
-            eventResult: response.data,
-            eventCounter: +getState().MyActivities.eventCounter + 1,
-            createTime: now,
-          });
-          dispatch(showNav());
-
-          history.push('/my-activities');
-        } else if (response.status == 400) {
-          //TODO:باید پیاده سازی شود
-          throw response;
-        } else if (response.status == 401) {
-          //TODO:باید پیاده سازی شود
-          throw response;
-        }
-      })
-      .catch((error) => {
-        //TODO:باید پیاده سازی شود
-        // console.log('erro in createHealthEventInBulk: ', error);
-        dispatch({
-          type: ActionTypes.ERROR_IN_HEALTH_EVENT_API,
-        });
-      });
+    // fetch(`${process.env.REACT_APP_BULK_EVENT}`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Access-Token': getState().MyActivities.token,
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     events: [
+    //       {
+    //         person: getState().MyActivities.user.people[0].id,
+    //         create_time: `${year}-${month}-${day}`, // FIXME:is format correct???
+    //         type,
+    //         data,
+    //       },
+    //     ],
+    //   }),
+    // })
+    //   .then((response) => {
+    //     if (response.status >= 500) {
+    //       throw response;
+    //     } else {
+    //       return response.json().then((res) => {
+    //         return { status: response.status, data: res };
+    //       });
+    //     }
+    //   })
+    //   .then((response) => {
+    //     if (response.status == 201) {
+    //       localStorage.setItem('eventResult', JSON.stringify(response.data));
+    //       localStorage.setItem('create_time', now);
+    //       if (getState().MyActivities.firstCreateTime === null) {
+    //         localStorage.setItem('first_create_time', now);
+    //       }
+    //
+    //       localStorage.setItem(
+    //         'eventCounter',
+    //         +getState().MyActivities.eventCounter + 1
+    //       );
+    //
+    //       dispatch({
+    //         type: ActionTypes.SAVE_SUCCESS_EVENT_RESPONSE_TO_STATE,
+    //         eventResult: response.data,
+    //         eventCounter: +getState().MyActivities.eventCounter + 1,
+    //         createTime: now,
+    //       });
+    //       dispatch(showNav());
+    //
+    //       history.push('/my-activities');
+    //     } else if (response.status == 400) {
+    //       //TODO:باید پیاده سازی شود
+    //       throw response;
+    //     } else if (response.status == 401) {
+    //       //TODO:باید پیاده سازی شود
+    //       throw response;
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     //TODO:باید پیاده سازی شود
+    //     // console.log('erro in createHealthEventInBulk: ', error);
+    //     dispatch({
+    //       type: ActionTypes.ERROR_IN_HEALTH_EVENT_API,
+    //     });
+    //   });
   };
 };
