@@ -1,13 +1,27 @@
+import {FETCH_MAP_REQUEST, FETCH_MAP_SUCCESS, FETCH_MAP_ERROR} from './MapActions';
+
 const initialState = {
-  test: true,
+  isMapFetching: false,
+  mapList: [],
 };
 
 export const MapReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'test':
+    case FETCH_MAP_REQUEST:
       return {
         ...state,
-        test: false,
+        isMapFetching: true,
+      };
+    case FETCH_MAP_SUCCESS:
+      return {
+        ...state,
+        isMapFetching: false,
+        mapList: action.payload,
+      };
+    case FETCH_MAP_ERROR:
+      return {
+        ...state,
+        isMapFetching: false,
       };
     default:
       return state;
