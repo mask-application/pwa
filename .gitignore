@@ -204,4 +204,4 @@ sketch
 
 # End of https://www.gitignore.io/api/git,react,intellij,intellij+all
 
-.idea
+/.idea
