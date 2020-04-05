@@ -22,9 +22,8 @@ import {
 export default function MyActivities() {
   const state = useSelector((store) => store.MyActivities);
   const dispatch = useDispatch();
-  const page = 'INDEX';
 
-  switch (page) {
+  switch (state.page) {
     case 'INDEX':
       // FIXME use formattedMessage from react-intl
       return <MyActivitiesLoggedin />;
