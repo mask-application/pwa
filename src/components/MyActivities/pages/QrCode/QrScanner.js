@@ -16,7 +16,8 @@ export default function QrScanner() {
 
   function handleScan(data) {
     if (data) {
-      setResult(data);
+      // It is assumed that QR code has always the form person:code
+      setResult(data.split(':')[1]);
       dispatch(createEventInBulk(1, { id: result }, history));
     }
   }
