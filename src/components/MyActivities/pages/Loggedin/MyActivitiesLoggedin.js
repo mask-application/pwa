@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import '../../MyActivitiesStyle.scss';
@@ -15,11 +15,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreator } from '../../../../redux/actions';
 import logo from '../../../../logo-header.png';
-import help from './help';
+import MyActivitiesHelp from './MyActivitiesHelp';
 
 function MyActivitiesLoggedin(props) {
   let history = useHistory();
-  const [helpId, setHelpId] = useState(0);
 
   const date =
     props.eventResult !== null
@@ -62,23 +61,7 @@ function MyActivitiesLoggedin(props) {
 
   return (
     <>
-      <div
-        className={
-          helpId == 0
-            ? 'overlay-help overlay-qr-code'
-            : helpId === 1
-            ? 'overlay-help overlay-camera'
-            : ''
-        }
-      />
-      {helpId !== 2 ? (
-        <div className="header-help">
-          <p>{help.msg[helpId]}</p>
-          <button className="btn-accept" onClick={() => setHelpId(helpId + 1)}>
-            تأیید
-          </button>
-        </div>
-      ) : null}
+      <MyActivitiesHelp />
 
       <AppBar position="static" className="activity-header">
         <Toolbar>
