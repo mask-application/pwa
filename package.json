@@ -2,7 +2,6 @@
   "name": "mask-pwa",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://185.97.116.63:8888/",
   "dependencies": {
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
