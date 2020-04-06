@@ -206,6 +206,7 @@ export default function Map() {
         list.map((item) => {
           return (
             <MenuItem
+              key={item.id}
               classes={{ root: 'map-menu-item' }}
               onClick={() => closeMenu(item)}
               disabled={item.id === 'testlabs' || item.id === 'hospitals'}
