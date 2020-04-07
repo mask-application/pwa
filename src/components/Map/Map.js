@@ -19,6 +19,7 @@ function Map() {
   const [chosenMap, setChosenMap] = useState(null);
   const [map, setMap] = useState(null);
   const [data, setData] = useState([]);
+  const [label, setLabel] = useState([]);
   const [zoom, setZoom] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDataFetching, setIsDataFetching] = useState(false);
@@ -41,6 +42,13 @@ function Map() {
   const clearPolygon = useCallback(() => {
     if (map) {
       d3.selectAll('.leaflet-interactive').remove();
+
+    }
+  }, [map]);
+
+  const clearLabel = useCallback(() => {
+    if (map) {
+      d3.selectAll('.leaflet-tooltip').remove();
     }
   }, [map]);
 
@@ -53,8 +61,22 @@ function Map() {
       if (line[i].length === 1) {
         let j = i + 1;
         let polygons = [];
+        let labels = [];
         while (j < lineNumber && line[j].length > 1) {
-          if (!isNaN(line[j][0])) polygons.push(line[j]);
+          if (!isNaN(line[j][0])){
+            polygons.push(line[j]);
+          }
+          else if (line[j][0] === 'L'){
+            labels.push({
+              text: line[j][1],
+              point: [line[j][2], line[j][3]],
+              size: line[j][4],
+              color: `#${Number(line[j][5]).toString(16)}`,
+            })
+          }
+          else if ( line[j][0] === 'P') {
+            polygons.push(line[j].splice(1));
+          }
           j++;
         }
         let sameColor = {};
@@ -75,6 +97,7 @@ function Map() {
           }
         }
         setData((prevData) => [...prevData, [Number(line[i][0]), sameColor]]);
+        if (labels.length > 0) setLabel((prevLabel => [...prevLabel, [Number(line[i][0]), labels]]));
         i = j;
       }
     }
@@ -99,15 +122,17 @@ function Map() {
     const inverseZoomLevel = 10 * Math.pow(2, -(map && map.getZoom()));
     const zoomLevels = data && findZoomLevels();
     for (let i = 0; i < zoomLevels.length - 1; i++) {
-      if (inverseZoomLevel < zoomLevels[i]) {
+      if (inverseZoomLevel <= zoomLevels[i]) {
         setZoom(i);
         break;
       } else if (
-          inverseZoomLevel >= zoomLevels[i] &&
-          inverseZoomLevel < zoomLevels[i + 1]
+          inverseZoomLevel > zoomLevels[i] &&
+          inverseZoomLevel <= zoomLevels[i + 1]
       ) {
         setZoom(i + 1);
         break;
+      } else {
+        setZoom(zoomLevels.length - 1)
       }
     }
   }, [map, data, findZoomLevels]);
@@ -168,6 +193,26 @@ function Map() {
     }
   }, [map, zoom, data, clearPolygon, drawPolygon]);
 
+  useEffect(() => {
+    clearLabel();
+    if (!((label || {})[zoom] || [])[1]) {
+      return;
+    }
+    // TODO clean this shit
+    let root = document.documentElement;
+    root.style.setProperty('--label-color', label[zoom][1][0].color);
+    root.style.setProperty('--label-size', label[zoom][1][0].size);
+    for (let entry of label[zoom][1]){
+      window.L.marker(entry.point, {
+        opacity: 0,
+      }).bindTooltip(entry.text, {
+        permanent: true,
+        className: 'map-label',
+        direction: 'top',
+      }).addTo(map);
+    }
+  }, [map, label, zoom, clearLabel]);
+
   const handleLocate = async () => {
     const myLatLngLocation = await utility.getCurrentPosition();
     map.flyTo(myLatLngLocation, 15);
@@ -198,7 +243,6 @@ function Map() {
             <MenuItem
               classes={{ root: 'map-menu-item' }}
               onClick={() => closeMenu(item)}
-              disabled={item.id === 'testlabs' || item.id === 'hospitals'}
             >
               {item.name}
             </MenuItem>

@@ -129,6 +129,14 @@
   }
 }
 
+.map-label {
+  border: none;
+  color: var(--label-color);
+  box-shadow: none;
+  font-size: var(--label-size);
+  font-family: IRANYekan, serif;
+}
+
 .dialog-content {
   display: flex;
   align-items: center;
