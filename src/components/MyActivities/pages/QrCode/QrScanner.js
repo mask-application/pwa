@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import QrReader from 'react-qr-reader';
 import './QrCode.scss';
 import { AppBar, IconButton, Toolbar } from '@material-ui/core';
@@ -12,13 +12,14 @@ import { createEventInBulk } from '../../MyActivitiesActions';
 export default function QrScanner() {
   let history = useHistory();
   const dispatch = useDispatch();
-  const [result, setResult] = useState('No Result');
 
   function handleScan(data) {
     if (data) {
       // It is assumed that QR code has always the form person:code
-      setResult(data.split(':')[1]);
-      dispatch(createEventInBulk(1, { id: result }, history));
+      if (/^person:[a-z0-9]+$/i.test(data)) {
+        // TODO: Check if meeting event is type 1 or 2
+        dispatch(createEventInBulk(1, { id: data.split(':')[1] }, history));
+      }
     }
   }
 
