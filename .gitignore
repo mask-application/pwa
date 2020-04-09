@@ -9,7 +9,7 @@
 /coverage
 
 # production
-#/build
+/build/
 
 # misc
 .DS_Store
@@ -174,7 +174,6 @@ fabric.properties
 # Ignores the whole .idea folder and all .iml files
 # See https://github.com/joeblau/gitignore.io/issues/186 and https://github.com/joeblau/gitignore.io/issues/360
 
-.idea/
 
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
@@ -204,4 +203,3 @@ sketch
 
 # End of https://www.gitignore.io/api/git,react,intellij,intellij+all
 
-.idea
