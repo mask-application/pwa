@@ -5,6 +5,8 @@ import help from './help';
 const helpQrCode = 0;
 const helpCamera = 1;
 
+const helpGuide = ['qr-code', 'camera'];
+
 function MyActivitiesHelp() {
   const [helpId, setHelpId] = useState(0);
 
@@ -14,10 +16,8 @@ function MyActivitiesHelp() {
         <>
           <div
             className={
-              helpId == helpQrCode
-                ? 'overlay-help overlay-qr-code'
-                : helpId === helpCamera
-                ? 'overlay-help overlay-camera'
+              helpId === helpQrCode || helpId === helpCamera
+                ? `overlay-help overlay-${helpGuide[helpId]}`
                 : ''
             }
           />
