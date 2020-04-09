@@ -248,7 +248,7 @@
   z-index: 20000;
   width: 80%;
 
-  p {
+  .header-help-text {
     text-align: justify;
     color: white;
   }
@@ -258,5 +258,7 @@
     font-size: 18px;
     font-family: IRANYekan;
     float: left;
+    background-color: transparent;
+    border: none;
   }
 }

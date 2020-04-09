@@ -62,7 +62,6 @@ function MyActivitiesLoggedin(props) {
   return (
     <>
       <MyActivitiesHelp />
-
       <AppBar position="static" className="activity-header">
         <Toolbar>
           <img src={logo} className="app-header-logo" />

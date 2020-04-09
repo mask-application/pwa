@@ -2,33 +2,37 @@ import React, { useState } from 'react';
 import '../../MyActivitiesStyle.scss';
 import help from './help';
 
+const helpQrCode = 0;
+const helpCamera = 1;
+
 function MyActivitiesHelp() {
   const [helpId, setHelpId] = useState(0);
 
   return (
     <>
-      {localStorage.getItem('help-visited') !== 'true' ? (
+      {localStorage.getItem('help-my-activity-visited') !== 'true' ? (
         <>
           <div
             className={
-              helpId == 0
+              helpId == helpQrCode
                 ? 'overlay-help overlay-qr-code'
-                : helpId === 1
+                : helpId === helpCamera
                 ? 'overlay-help overlay-camera'
                 : ''
             }
           />
-          {helpId !== 2 ? (
+          {helpId === helpQrCode || helpId === helpCamera ? (
             <div className="header-help">
-              <p>{help.msg[helpId]}</p>
+              <p className="header-help-text">{help.msg[helpId]}</p>
               <button
                 className="btn-accept"
                 onClick={() => {
-                  if (helpId === 1)
-                    localStorage.setItem('help-visited', 'true');
+                  if (helpId === helpCamera)
+                    localStorage.setItem('help-my-activity-visited', 'true');
                   setHelpId(helpId + 1);
                 }}
               >
+                {/*TODO: use formatted message*/}
                 تأیید
               </button>
             </div>
