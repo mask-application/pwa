@@ -1,0 +1,24 @@
+.add-to-home-screen {
+  .MuiPaper-root {
+    padding: 1rem;
+  }
+
+  .steps {
+    margin: 2rem 0.5rem 2rem 0.5rem;
+    text-decoration: none;
+    border-radius: 16px;
+    padding: 1rem;
+    line-height: 5rem;
+
+    .share-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: 0 0.1rem;
+    }
+
+    .add-to-home-screen-icon {
+      width: 2rem;
+      margin: 0 0.3rem;
+    }
+  }
+}
