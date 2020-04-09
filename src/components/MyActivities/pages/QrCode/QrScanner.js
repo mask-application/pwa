@@ -1,13 +1,13 @@
 import React from 'react';
 import QrReader from 'react-qr-reader';
-import './QrCode.scss';
 import { AppBar, IconButton, Toolbar } from '@material-ui/core';
-import logo from '../../../../logo-header.png';
-import { showNav } from '../../../../redux/actions/CommonActions';
 import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { showNav } from '../../../../redux/actions/CommonActions';
 import { createEventInBulk } from '../../MyActivitiesActions';
+import './QrCode.scss';
+import logo from '../../../../logo-header.png';
 
 export default function QrScanner() {
   let history = useHistory();

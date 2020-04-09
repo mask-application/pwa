@@ -10,9 +10,8 @@ import {
 import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import QrCode from 'qrcode.react';
-import './QrCode.scss';
-
 import { showNav } from '../../../../redux/actions/CommonActions';
+import './QrCode.scss';
 import logo from '../../../../logo-header.png';
 
 export default function QrCodeShow() {
