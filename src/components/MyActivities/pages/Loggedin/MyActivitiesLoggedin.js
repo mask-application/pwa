@@ -64,7 +64,13 @@ function MyActivitiesLoggedin(props) {
         <Toolbar>
           <img src={logo} className="app-header-logo" />
           <div>
-            <IconButton color="inherit" disabled={true}>
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                props.hideNavigation();
+                history.push('/qr-scanner');
+              }}
+            >
               <CameraAlt />
             </IconButton>
             <IconButton
