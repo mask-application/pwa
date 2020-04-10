@@ -17,9 +17,6 @@ export const StatisticalChartReducer = (state = initialState, action) => {
         ...state,
         isLoaded: true,
         data: action.payload,
-        patients: action.payload.iran.patients,
-        dead: action.payload.iran.dead,
-        recovered: action.payload.iran.recovered,
       };
 
     default:
