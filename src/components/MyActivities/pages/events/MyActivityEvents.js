@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { AppBar, Toolbar, IconButton } from '@material-ui/core';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Dialog,
+  Divider,
+  Modal,
+} from '@material-ui/core';
 import {
   Person,
   LocationOn,
@@ -14,9 +21,17 @@ import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسا�
 import { showNav } from '../../../../redux/actions/CommonActions';
 import logo from '../../../../logo-header.png';
 
-export default function MyActivityEvents(props) {
+import styles from './EventsStyle.module.scss';
+
+import { hideNavigation } from '../../../../redux/actions/CommonActions';
+
+export default function MyActivityEvents() {
+  const [showLocationOptionsDialog, setShowLocationOptionsDialog] = useState(
+    false
+  );
   let history = useHistory();
   const dispatch = useDispatch();
+
   return (
     <>
       <AppBar position="static" className="activity-header">
@@ -46,7 +61,12 @@ export default function MyActivityEvents(props) {
             <p>{PersianLan.myActivitiesTab.interHealthInfoContent}</p>
           </div>
         </div>
-        <div className="myActivityRow locationInfo disabled">
+        <div
+          className="myActivityRow locationInfo"
+          onClick={() => {
+            setShowLocationOptionsDialog(true);
+          }}
+        >
           <LocationOn color="primary" style={{ fontSize: 50 }} />
           <div className="content">
             <h3>{PersianLan.myActivitiesTab.interLocation}</h3>
@@ -61,6 +81,24 @@ export default function MyActivityEvents(props) {
           </div>
         </div>
       </div>
+
+      <Dialog
+        open={showLocationOptionsDialog}
+        onClose={() => setShowLocationOptionsDialog(false)}
+      >
+        <div className={styles.locationDialogContent}>
+          <div
+            onClick={() => {
+              dispatch(hideNavigation());
+              history.push('/my-location');
+            }}
+          >
+            نقشه
+          </div>
+          <Divider light />
+          <div>بارکد</div>
+        </div>
+      </Dialog>
     </>
   );
 }

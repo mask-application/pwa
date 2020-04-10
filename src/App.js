@@ -10,6 +10,7 @@ import MyActivityEventsPage from './containers/MyActivityEventsPage';
 import MyHealthEventPage from './containers/MyHealthEventPage';
 import InformingPage from './containers/InformingPage';
 import QrCodeShow from './components/MyActivities/pages/QrCode/QrCodeShow';
+import MyLocation from './components/MyActivities/pages/events/registerLocation/MyLocation';
 
 import './App.scss';
 
@@ -63,8 +64,11 @@ export default function App() {
           <PrivateRoute path="/my-health-event" exact>
             <MyHealthEventPage />
           </PrivateRoute>
-          <Route path="/my-qrcode" exact>
+          <PrivateRoute path="/my-qrcode" exact>
             <QrCodeShow />
+          </PrivateRoute>
+          <Route path="/my-location" exact>
+            <MyLocation />
           </Route>
         </Switch>
       </div>

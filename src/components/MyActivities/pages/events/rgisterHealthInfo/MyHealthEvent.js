@@ -18,13 +18,13 @@ import {
 import { ExpandMore, KeyboardBackspace } from '@material-ui/icons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import '../../MyActivitiesStyle.scss'; //TODO:باید استایل جداسازی بشه
-import { MyHealthEventConsts } from '../../../../constants/MyHealthEventConsts';
-import { ActionCreator } from '../../../../redux/actions';
-import { PersianLan } from '../../../../constants/Strings';
+import '../../../MyActivitiesStyle.scss'; //TODO:باید استایل جداسازی بشه
+import { MyHealthEventConsts } from '../../../../../constants/MyHealthEventConsts';
+import { ActionCreator } from '../../../../../redux/actions';
+import { PersianLan } from '../../../../../constants/Strings';
 
-import styles from '../SignUp/SignUp.module.scss';
-import logo from '../../../../logo-header.png';
+import styles from '../../SignUp/SignUp.module.scss';
+import logo from '../../../../../logo-header.png';
 
 function MyHealthEvent(props) {
   let history = useHistory();

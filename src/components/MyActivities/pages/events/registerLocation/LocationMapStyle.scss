@@ -1,0 +1,17 @@
+.location-map-container {
+  width: 100%;
+  height: calc(100% - 56px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .myLocationIcon {
+    position: fixed;
+    z-index: 10;
+    display: inline-block;
+
+    & > * {
+      transform: translateY(-50%);
+    }
+  }
+}
