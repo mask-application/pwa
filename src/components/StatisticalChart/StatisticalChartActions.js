@@ -16,7 +16,7 @@ const fetchDataError = () => ({
 });
 
 export function fetchData() {
-  // const URL = "http://185.97.116.63:8001/data/infected.json";
+  // const URL = "http://185.97.116.63:3000/data/infected.json";
   const URL = `${process.env.REACT_APP_GET_INFECTED_JSON_DATA}`;
   return (dispatch) => {
     dispatch(fetchDataRequest());
