@@ -37,12 +37,3 @@ h5 {
   min-height: 6em;
   min-width: 100%;
 }
-
-.last-update-text {
-  padding: 0 1rem;
-  font-size: 8px;
-  text-align: left;
-  width: 100%;
-  position: relative;
-  top: 16%;
-}

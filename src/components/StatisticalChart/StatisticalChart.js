@@ -58,7 +58,7 @@ function StatisticalChart(props) {
     return properDataLine;
   };
 
-  const drawChart = (dataArea, dataLine, keys, keysDataLen) => {
+  const drawChart = (dataArea, dataLine, keys, keysDataLen, lastUpdate) => {
     let margin = { top: 0, right: 0, bottom: 50, left: 0 };
     let width = window.innerWidth;
     let height =
@@ -78,8 +78,9 @@ function StatisticalChart(props) {
       .range([margin.left, width - margin.right]);
 
     let xDomain = [];
-    for (let i = 0; i < keysDataLen / 7; i++)
-      xDomain[i] = dataArea[i * 7].title;
+    let step = keysDataLen / 7;
+    for (let i = 0; i < 7; i++)
+      xDomain[i] = dataArea[Math.floor(step * i)].title;
 
     let xLabel = d3
       .scalePoint()
@@ -162,6 +163,15 @@ function StatisticalChart(props) {
       .attr('stroke-linecap', 'round');
 
     svg.append('g').call(xAxis);
+
+    const date = `تاریخ آخرین به‌روز‌رسانی: ${lastUpdate}`;
+    svg
+      .append('text')
+      .attr('dx', '.35em')
+      .attr('transform', `translate(160,${height - margin.bottom - 32})`)
+      .attr('font-family', 'IRANYekan')
+      .attr('font-size', 10)
+      .text(date);
   };
 
   const initialDraw = () => {
@@ -170,7 +180,10 @@ function StatisticalChart(props) {
     let keysDataLen = data[keys[0]].length;
     let dataArea = constructProperDataFormatArea(data, keys, keysDataLen);
     let dataLine = constructProperDataFormatLine(data, keys, keysDataLen);
-    drawChart(dataArea, dataLine, keys, keysDataLen);
+    let lastUpdate = new Date(props.data.last_update).toLocaleDateString(
+      'fa-IR'
+    );
+    drawChart(dataArea, dataLine, keys, keysDataLen, lastUpdate);
   };
 
   return (

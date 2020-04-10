@@ -34,16 +34,7 @@ function StatisticalChartGuide(props) {
     createGuide();
   }
 
-  return (
-    <>
-      <div>{guideRow}</div>
-      {/*<div className="last-update-text">*/}
-      {/*  تاریخ آخرین به‌روز‌رسانی:*/}
-      {/*  &nbsp;*/}
-      {/*  {new Date(props.data.last_update).toLocaleDateString('fa-IR')}*/}
-      {/*</div>*/}
-    </>
-  );
+  return <div>{guideRow}</div>;
 }
 
 export default StatisticalChartGuide;

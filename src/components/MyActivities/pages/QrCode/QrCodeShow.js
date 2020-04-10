@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AppBar,
@@ -10,12 +10,11 @@ import {
 import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import QrCode from 'qrcode.react';
-import '../../MyActivitiesStyle.scss'; //TODO: باید استایل جداسازی بشه
-
 import { showNav } from '../../../../redux/actions/CommonActions';
+import './QrCode.scss';
 import logo from '../../../../logo-header.png';
 
-export default function QrCodeShow(props) {
+export default function QrCodeShow() {
   let history = useHistory();
   const dispatch = useDispatch();
   const unique_id = useSelector((state) => state.MyActivities.user.unique_id);
@@ -24,7 +23,7 @@ export default function QrCodeShow(props) {
     <>
       <AppBar position="static" className="activity-header">
         <Toolbar>
-          <img src={logo} className="app-header-logo" />
+          <img alt="mask" src={logo} className="app-header-logo" />
           <IconButton
             color="inherit"
             onClick={() => {

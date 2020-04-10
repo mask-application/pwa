@@ -155,21 +155,26 @@
 }
 
 .myHealthDialogContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   background-color: #fff;
   max-height: 50%;
   width: 70%;
   border-radius: 10px;
   display: flex;
-  margin: 50vw auto;
   overflow: scroll;
   justify-content: center;
 
   & > div {
     width: 90%;
+
     & > div {
       text-align: center;
       border-bottom: 0.5px solid #e4e5e6;
     }
+
     & > div:last-child {
       border-bottom: none;
     }
@@ -186,37 +191,49 @@
   justify-content: space-between;
 }
 
-// ===============qr code style==================
-
-.qr-code-box {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 100px;
-}
-
-.qr-code-box > canvas {
-  height: 200px !important;
-  width: 200px !important;
-}
-
-.warning-box {
-  background-color: #1c2341;
-  position: fixed;
-  bottom: 0;
-  padding: 20px;
-  width: 100%;
-  text-align: center;
-  z-index: 999999;
-}
-
-.warning-box > p,
-.warning-box > span {
-  color: #fff !important;
-}
-
 .app-header-logo {
   height: 40px;
   padding-right: 0.5rem;
+}
+
+.overlay-help {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  box-shadow: 0 0 0 9999px rgba(28, 35, 65, 0.95);
+  border-radius: 50%;
+  z-index: 10000;
+}
+
+.overlay-qr-code {
+  top: -7px;
+  left: 2%;
+}
+
+.overlay-camera {
+  top: -7px;
+  left: calc(2% + 48px);
+}
+
+.header-help {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20000;
+  width: 80%;
+
+  .header-help-text {
+    text-align: justify;
+    color: white;
+  }
+
+  .btn-accept {
+    color: #ff005c;
+    font-size: 18px;
+    font-family: IRANYekan;
+    float: left;
+    background-color: transparent;
+    border: none;
+  }
 }
