@@ -38,6 +38,7 @@ function MyHealthEvent(props) {
   const [item, setItem] = useState([]); //for set modal values
   const [selectedItem, setSelectedItem] = useState(null); // for the item that selected to show it's modal
 
+  //FIXME: باید تو یک آبجکت ذخیره کنم تا اینجا هم بتونم از یک آبجکت بخونم
   const [fever, setFever] = useState(
     localStorage.getItem('myHealthFever') || ''
   ); // تب
