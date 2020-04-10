@@ -1,64 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import './MapStyle.scss';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MyLocationIcon from '@material-ui/icons/MyLocation';
+import * as utility from './utility';
 import Papa from 'papaparse';
 import * as d3 from 'd3';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import * as constants from './constants/mapConstants';
-import { Box, CircularProgress, Dialog } from '@material-ui/core';
 import logo from '../../logo1.png';
+import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MyLocationIcon from '@material-ui/icons/MyLocation';
+import CloseIcon from '@material-ui/icons/Close';
 
 export default function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
   // try to use react leaflet and help encapsulation components (and Separation of concerns)
 
-  const [type, setType] = useState(constants.types['patients'].key);
+  const [chosenMap, setChosenMap] = useState(null);
   const [map, setMap] = useState(null);
   const [data, setData] = useState([]);
   const [zoomLevels, setZoomLevels] = useState([]);
   const [zoom, setZoom] = useState(0);
   const [showData, setShowData] = useState(null);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  // #TODO move to a better Utility class
-  const getCurrentPosition = () => {
-    return new Promise((resolve, reject) => {
-      if (
-        'geolocation' in navigator &&
-        navigator.geolocation &&
-        typeof navigator.geolocation.getCurrentPosition === 'function'
-      ) {
-        try {
-          navigator.geolocation.getCurrentPosition(
-            (position) =>
-              resolve({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              }),
-            () => {
-              reject({
-                message:
-                  'از طریق \n Settings > Privacy > Location Services > Safari Websites \n دسترسی موقعیت مکانی را فعال کنید.',
-              });
-            },
-            { timeout: 10000 }
-          );
-        } catch (error) {
-          console.log(
-            'Error when calling navigator.geolocation.getCurrentPosition: ',
-            error
-          );
-          reject({ message: 'مرورگر شما قابلیت مکان‌یابی را ندارد' });
-        }
-      } else {
-        reject({ message: 'مرورگر شما قابلیت مکان‌یابی را ندارد' });
-      }
-    });
-  };
+  const [isMapFetching, setIsMapFetching] = useState(false);
+  const [vpnAlert, setVpnAlert] = useState(true);
 
   // #TODO polygons -> points ot latLongs
   const drawPolygon = (color, polygons) => {
@@ -81,7 +46,8 @@ export default function Map() {
   //  TODO explain about the code (Explain the goal for each section to help other developers).
   //   Maybe a separate file would be better to include such these functions
   const getData = (result) => {
-    setIsDialogOpen(false);
+    setIsMapFetching(false);
+    setZoomLevels([]);
     const line = result.data;
     const lineNumber = line.length;
     for (let i = 0; i < lineNumber; ) {
@@ -90,7 +56,7 @@ export default function Map() {
         let j = i + 1;
         let polygons = [];
         while (j < lineNumber && line[j].length > 1) {
-          polygons.push(line[j]);
+          if (!isNaN(line[j][0])) polygons.push(line[j]);
           j++;
         }
         let sameColor = {};
@@ -118,7 +84,7 @@ export default function Map() {
 
   const parseFile = (url) => {
     setData([]);
-    setIsDialogOpen(true);
+    setIsMapFetching(true);
     Papa.parse(url, {
       download: true,
       complete: getData,
@@ -126,12 +92,11 @@ export default function Map() {
   };
 
   function getMapTypeLists() {
-    // FIXME url ==> config file
-    setIsDialogOpen(true);
-    return fetch('/map-cdn/maps.json')
+    setIsMapFetching(true);
+    return fetch(`${process.env.REACT_APP_GET_MAP_TYPE_LISTS}`)
       .then((response) => response.json())
       .then((responseJson) => {
-        setList(responseJson);
+        setList(Object.values(responseJson)[0]);
       })
       .catch((error) => {
         console.error(error);
@@ -144,56 +109,57 @@ export default function Map() {
     setMap(
       new window.L.Map('map', {
         // FIXME CRITICAL set token
-        key: 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
+        key: process.env.REACT_APP_MAP_TOKEN,
+        // key: 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
         maptype: 'dreamy',
         poi: true,
         traffic: false,
         zoomControl: false,
-        center: [35.699739, 51.338097],
-        zoom: 14,
+        center: [32.4279, 53.688],
+        zoom: 4.2,
       })
     );
   }, []);
 
   useEffect(() => {
+    list && setChosenMap(list[0]);
+  }, [list]);
+
+  useEffect(() => {
     let version;
     if (list) {
-      const options = Object.values(list)[0] || [];
-      for (let i = 0; i < options.length; i++) {
-        if ((options[i] || {}).id === type) {
-          version = options[i].version;
+      for (let i = 0; i < list.length; i++) {
+        if ((list[i] || {}).id === chosenMap.id) {
+          version = list[i].version;
         }
       }
     }
-    // FIXME config file
-    version && parseFile(`/map-cdn/${type}.${version}.csv`);
-  }, [list, type]);
+    version &&
+      parseFile(
+        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${version}.csv`
+      );
+  }, [chosenMap]);
 
   useEffect(() => {
-    data && setShowData(data[zoom]);
+    setShowData(((data || {})[zoom] || [])[1]);
   }, [zoom, data]);
 
   useEffect(() => {
     clearPolygon();
     if (showData)
-      for (let key in showData[1]) {
-        drawPolygon(key, showData[1][key]);
+      for (let key in showData) {
+        drawPolygon(key, showData[key]);
       }
   }, [map, showData]);
 
   const handleLocate = async () => {
-    const myLatLngLocation = await getCurrentPosition();
+    const myLatLngLocation = await utility.getCurrentPosition();
     map.flyTo(myLatLngLocation, 15);
   };
 
-  const clickMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const closeMenu = (value) => {
-    value && setType(value);
-    setAnchorEl(null);
-  };
+  useEffect(() => {
+    setZoom(zoomLevels.length - 1);
+  }, [zoomLevels]);
 
   useEffect(() => {
     map &&
@@ -215,6 +181,15 @@ export default function Map() {
       });
   });
 
+  const clickMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closeMenu = (value) => {
+    value && setChosenMap(value);
+    setAnchorEl(null);
+  };
+
   const menu = (
     <Menu
       classes={{
@@ -225,25 +200,61 @@ export default function Map() {
       open={Boolean(anchorEl)}
       onClose={() => closeMenu()}
     >
-      {Object.keys(constants.types).map((type) => (
-        <MenuItem
-          classes={{ root: 'map-menu-item' }}
-          onClick={() => closeMenu(constants.types[type].key)}
-        >
-          {constants.types[type].text}
-        </MenuItem>
-      ))}
-      <MenuItem classes={{ root: 'map-menu-item' }} disabled={true}>
-        مراکز تشخیص کرونا
-      </MenuItem>
-      <MenuItem classes={{ root: 'map-menu-item' }} disabled={true}>
-        مراکز درمانی ۱۶ ساعته کرونا
-      </MenuItem>
+      {list &&
+        list.map((item) => {
+          return (
+            <MenuItem
+              classes={{ root: 'map-menu-item' }}
+              onClick={() => closeMenu(item)}
+              disabled={item.id === 'testlabs' || item.id === 'hospitals'}
+            >
+              {item.name}
+            </MenuItem>
+          );
+        })}
     </Menu>
   );
 
   return (
     <div className={`contentWrapper MapWrapper`}>
+      <div className="alerts">
+        <Collapse className="map-alert-wrapper" in={isMapFetching}>
+          <Alert
+            severity="info"
+            action={
+              <IconButton
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setIsMapFetching(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            تا دریافت اطلاعات منتظر بمانید.
+          </Alert>
+        </Collapse>
+        <Collapse className="map-alert-wrapper" in={vpnAlert}>
+          <Alert
+            severity="warning"
+            action={
+              <IconButton
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setVpnAlert(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            در صورت اتصال، vpn دستگاه را قطع کنید.
+          </Alert>
+        </Collapse>
+      </div>
       <div className="map-button-wrapper">
         <button
           type="button"
@@ -254,11 +265,11 @@ export default function Map() {
         </button>
         <button
           type="button"
-          name="type"
+          name="chosenMap"
           className="map-button type"
           onClick={(e) => clickMenu(e)}
         >
-          <div>{constants.types[type].text}</div>
+          <div>{(chosenMap || {}).name}</div>
           <ExpandMoreIcon />
         </button>
       </div>
@@ -274,19 +285,13 @@ export default function Map() {
           zIndex: 0,
         }}
       />
-      <div className="comment-logo-wrapper">
-        <div className="map-logo">
-          <img src={logo} alt="" />
-        </div>
-        <div className="map-comment">{constants.types[type].comment}</div>
+      <div className="comment-wrapper">
+        <div className="map-comment">{(chosenMap || {}).comment}</div>
+      </div>
+      <div className="logo-wrapper">
+        <img src={logo} alt="" />
       </div>
       {menu}
-      <Dialog open={isDialogOpen}>
-        <div className="dialog-content">
-          <CircularProgress />
-          <Box ml={3}>{'لطفا کمی صبر کنید.'}</Box>
-        </div>
-      </Dialog>
     </div>
   );
 }

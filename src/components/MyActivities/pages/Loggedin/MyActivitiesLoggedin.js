@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreator } from '../../../../redux/actions';
 import logo from '../../../../logo-header.png';
+import MyActivitiesHelp from './MyActivitiesHelp';
 
 function MyActivitiesLoggedin(props) {
   let history = useHistory();
@@ -60,11 +61,18 @@ function MyActivitiesLoggedin(props) {
 
   return (
     <>
+      <MyActivitiesHelp />
       <AppBar position="static" className="activity-header">
         <Toolbar>
           <img src={logo} className="app-header-logo" />
           <div>
-            <IconButton color="inherit" disabled={true}>
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                props.hideNavigation();
+                history.push('/qr-scanner');
+              }}
+            >
               <CameraAlt />
             </IconButton>
             <IconButton

@@ -17,27 +17,37 @@
     font-family: IRANYekan, serif;
   }
 
-  .comment-logo-wrapper {
+  .comment-wrapper {
+    font-size: 10px;
+    color: #ff005c;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 90%;
     position: fixed;
     z-index: 10;
-    width: 90%;
     bottom: 70px;
     left: 50%;
     transform: translate(-50%, 0);
+  }
+
+  .logo-wrapper {
+    position: fixed;
+    z-index: 10;
+    bottom: 100px;
+    left: 5%;
+    display: flex;
     img {
-      height: 100px;
+      height: 70px;
     }
-    font-size: 10px;
-    color: #ff005c;
-    .map-comment {
-      background-color: white;
-      border-radius: 10px;
-      padding: 10px;
-    }
-    .map-logo {
-      display: flex;
-      justify-content: flex-end;
-    }
+  }
+
+  .comment-logo-wrapper {
+    position: fixed;
+    z-index: 10;
+    bottom: 70px;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
 
   .map-button {
@@ -87,6 +97,23 @@
     background-color: #b2b2b2;
     color: #797979;
   }
+
+  @media screen and (min-width: 760px) {
+    .logo-wrapper {
+      img {
+        height: 100px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 328px) {
+    .logo-wrapper {
+      bottom: 120px;
+      img {
+        height: 50px;
+      }
+    }
+  }
 }
 
 .map-menu {
@@ -106,4 +133,30 @@
   display: flex;
   align-items: center;
   padding: 1rem 1.5rem;
+}
+.alerts {
+  display: flex;
+  flex-direction: column;
+
+  &:first-child {
+    margin-top: 90px;
+  }
+}
+.map-alert-wrapper {
+  z-index: 20;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+
+  .MuiAlert-root {
+    font-family: IRANYekan, serif;
+    font-size: 12px;
+  }
+
+  .MuiAlert-standardInfo {
+    background-color: rgba(232, 244, 253, 0.7);
+  }
+  .MuiAlert-standardWarning {
+    background-color: rgba(255, 244, 229, 0.7);
+  }
 }
