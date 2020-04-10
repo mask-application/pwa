@@ -3,11 +3,23 @@
 }
 
 .editIcon {
-    margin-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .dialogContent {
   display: flex;
   align-items: center;
   padding: 1rem 1.5rem;
+}
+
+.activationButtonContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.activationButton {
+  position: absolute !important;
+  bottom: calc(1rem + 56px) !important;
+  width: 90% !important;
+  border-radius: 16px !important;
 }

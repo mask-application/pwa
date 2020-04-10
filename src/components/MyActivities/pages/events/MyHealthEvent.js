@@ -5,19 +5,17 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Typography,
   Modal,
   List,
   ListItem,
   ListItemText,
-  Divider,
   Button,
   Dialog,
   CircularProgress,
   Box,
   Snackbar,
 } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import { ExpandMore, KeyboardBackspace } from '@material-ui/icons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import '../../MyActivitiesStyle.scss'; //TODO:باید استایل جداسازی بشه
@@ -27,7 +25,6 @@ import { PersianLan } from '../../../../constants/Strings';
 
 import styles from '../SignUp/SignUp.module.scss';
 import logo from '../../../../logo-header.png';
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
 function MyHealthEvent(props) {
   let history = useHistory();
@@ -74,7 +71,6 @@ function MyHealthEvent(props) {
   const [inaction, setInaction] = useState(
     localStorage.getItem('myHealthLethargy') || ''
   ); //بیحالی
-
   const addHealth = () => {
     if (
       fever === null ||
@@ -159,7 +155,7 @@ function MyHealthEvent(props) {
 
   return (
     <>
-      <AppBar position="fixed">
+      <AppBar position="fixed" className="activity-header">
         <Toolbar variant="regular">
           <img src={logo} className="app-header-logo" />
           <IconButton
@@ -168,7 +164,7 @@ function MyHealthEvent(props) {
               history.push('/add-myactivities');
             }}
           >
-            <KeyboardBackspaceIcon />
+            <KeyboardBackspace />
           </IconButton>
         </Toolbar>
       </AppBar>

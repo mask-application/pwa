@@ -13,12 +13,13 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { ArrowForward, Edit } from '@material-ui/icons';
+import { KeyboardBackspace, Edit } from '@material-ui/icons';
 import useTimer from 'react-commons/dist/hooks/timer';
 
 import { perToEngDigits } from '../../../../utils';
 
 import styles from './Activation.module.scss';
+import logo from '../../../../logo-header.png';
 
 export default function Activation({ onBackClick, onActivate }) {
   const ttl = useSelector((store) => store.MyActivities.ttl);
@@ -89,15 +90,12 @@ export default function Activation({ onBackClick, onActivate }) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" className="activity-header">
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={onBackClick}>
-            <ArrowForward />
+          <img src={logo} className="app-header-logo" />
+          <IconButton color="inherit" onClick={onBackClick}>
+            <KeyboardBackspace />
           </IconButton>
-          {/* #FIXME Use formattedMessage */}
-          <Typography variant="h6" color="inherit">
-            ثبت نام
-          </Typography>
         </Toolbar>
       </AppBar>
       <div className={styles.container}>
@@ -119,12 +117,12 @@ export default function Activation({ onBackClick, onActivate }) {
             fullWidth
           />
         </Box>
-        <Box mt={3}>
+        <Box mt={3} textAlign="center">
           <Button
             variant="contained"
             color="primary"
             size="large"
-            fullWidth
+            className="activation-btn"
             onClick={onSubmit}
           >
             فعال‌سازی

@@ -7,8 +7,8 @@ import * as d3 from 'd3';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as constants from './constants/mapConstants';
-import styles from '../MyActivities/pages/Activation/Activation.module.scss';
 import { Box, CircularProgress, Dialog } from '@material-ui/core';
+import logo from '../../logo1.png';
 
 export default function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
@@ -128,7 +128,7 @@ export default function Map() {
   function getMapTypeLists() {
     // FIXME url ==> config file
     setIsDialogOpen(true);
-    return fetch('http://185.97.116.63:8001/map-cdn/maps.json')
+    return fetch('/map-cdn/maps.json')
       .then((response) => response.json())
       .then((responseJson) => {
         setList(responseJson);
@@ -166,8 +166,7 @@ export default function Map() {
       }
     }
     // FIXME config file
-    version &&
-      parseFile(`http://185.97.116.63:8001/map-cdn/${type}.${version}.csv`);
+    version && parseFile(`/map-cdn/${type}.${version}.csv`);
   }, [list, type]);
 
   useEffect(() => {
@@ -275,7 +274,10 @@ export default function Map() {
           zIndex: 0,
         }}
       />
-      <div className="map-comment-wrapper">
+      <div className="comment-logo-wrapper">
+        <div className="map-logo">
+          <img src={logo} alt="" />
+        </div>
         <div className="map-comment">{constants.types[type].comment}</div>
       </div>
       {menu}
