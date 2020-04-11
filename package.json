@@ -22,6 +22,7 @@
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
     "react-commons": "file:react-commons-0.1.0.tgz",
+    "react-device-detect": "^1.11.14",
     "react-dom": "^16.13.1",
     "react-intl": "^4.2.2",
     "react-qr-reader": "^2.2.1",
