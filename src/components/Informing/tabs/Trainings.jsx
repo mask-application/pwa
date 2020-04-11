@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 import InfiniteScroll from 'react-infinite-scroller';
@@ -17,8 +17,8 @@ const states = {
 
 export default function Trainings() {
   const [posts, setPosts] = useState([]);
-  const [state, setState] = useState(states.LOADING);
-  const [hasMore, setHasMore] = useState(false);
+  const [state, setState] = useState(states.SUCCESS);
+  const [hasMore, setHasMore] = useState(true);
 
   function fetchPosts(page) {
     setState(states.LOADING);
@@ -41,11 +41,6 @@ export default function Trainings() {
       });
   }
 
-  useEffect(() => {
-    fetchPosts(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (state === states.LOADING) {
     return <LoadingBox />;
   }
@@ -56,7 +51,7 @@ export default function Trainings() {
     return (
       <div className={styles.listContainer}>
         <InfiniteScroll
-          pageStart={1}
+          pageStart={0}
           loadMore={fetchPosts}
           hasMore={hasMore}
           loader={<LoadingBox key={0} />}
