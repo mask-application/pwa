@@ -10,6 +10,7 @@ import MyActivityEventsPage from './containers/MyActivityEventsPage';
 import MyHealthEventPage from './containers/MyHealthEventPage';
 import InformingPage from './containers/InformingPage';
 import QrCodeShow from './components/MyActivities/pages/QrCode/QrCodeShow';
+import QrScanner from './components/MyActivities/pages/QrCode/QrScanner';
 import MyLocation from './components/MyActivities/pages/events/registerLocation/MyLocation';
 
 import './App.scss';
@@ -67,7 +68,12 @@ export default function App() {
           <PrivateRoute path="/my-qrcode" exact>
             <QrCodeShow />
           </PrivateRoute>
+          <PrivateRoute path="/qr-scanner" exact>
+            <QrScanner />
+          </PrivateRoute>
           <Route path="/my-location" exact>
+            {' '}
+            //FIXME:PrivateRoute
             <MyLocation />
           </Route>
         </Switch>
