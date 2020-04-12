@@ -1,9 +1,9 @@
-FROM library/node:8 as builder
+# node:12 image based on Debian
+FROM library/node:12 as builder
 
 WORKDIR /app
 
 ADD package.json yarn.lock ./
-# RUN yarn install --network-concurrency 1
 RUN yarn install
 
 ADD ./ ./
