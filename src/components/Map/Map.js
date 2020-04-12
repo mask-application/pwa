@@ -24,6 +24,7 @@ export default function Map() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isMapFetching, setIsMapFetching] = useState(false);
   const [vpnAlert, setVpnAlert] = useState(true);
+  const [serverError, setServerError] = useState(false);
 
   // #TODO polygons -> points ot latLongs
   const drawPolygon = (color, polygons) => {
@@ -99,6 +100,7 @@ export default function Map() {
         setList(Object.values(responseJson)[0]);
       })
       .catch((error) => {
+        setServerError(true);
         console.error(error);
       });
   }
@@ -204,6 +206,7 @@ export default function Map() {
         list.map((item) => {
           return (
             <MenuItem
+              key={item.id}
               classes={{ root: 'map-menu-item' }}
               onClick={() => closeMenu(item)}
               disabled={item.id === 'testlabs' || item.id === 'hospitals'}
@@ -236,24 +239,26 @@ export default function Map() {
             تا دریافت اطلاعات منتظر بمانید.
           </Alert>
         </Collapse>
-        <Collapse className="map-alert-wrapper" in={vpnAlert}>
-          <Alert
-            severity="warning"
-            action={
-              <IconButton
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setVpnAlert(false);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-          >
-            در صورت اتصال، vpn دستگاه را قطع کنید.
-          </Alert>
-        </Collapse>
+        {serverError && (
+          <Collapse className="map-alert-wrapper" in={vpnAlert}>
+            <Alert
+              severity="warning"
+              action={
+                <IconButton
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setVpnAlert(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              در صورت اتصال، vpn دستگاه را قطع کنید.
+            </Alert>
+          </Collapse>
+        )}
       </div>
       <div className="map-button-wrapper">
         <button
