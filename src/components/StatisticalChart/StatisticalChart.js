@@ -2,16 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import './StatisticalChart.css';
 
-function translateNum(n) {
-  let num = JSON.parse(
-    '{".":"/","0":"۰","1":"۱","2":"۲","3":"۳","4":"۴","5":"۵","6":"۶","7":"۷","8":"۸","9":"۹"}'
-  );
-  return n.replace(/./g, function (c) {
-    return typeof num[c] === 'undefined' ? (/\d+/.test(c) ? c : '') : num[c];
-  });
-  return n;
-}
-
 function StatisticalChart(props) {
   const hasMount = useRef(false);
 
@@ -26,11 +16,14 @@ function StatisticalChart(props) {
 
   const constructProperDataFormatArea = (data, keys, keysDataLen) => {
     let properDataArea = [];
-
     for (let i = 0; i < keysDataLen; i++) {
       let newObj = {};
       newObj['date'] = i;
-      newObj['title'] = String('روز ' + translateNum(String(i + 1)));
+      let dt = new Date(props.data.last_update);
+      let newDt = new Date(
+        dt.setDate(dt.getDate() + i + 1 - keysDataLen)
+      ).toLocaleDateString('fa-IR');
+      newObj['title'] = String(newDt);
       for (let j = 0; j < keys.length; j++) newObj[keys[j]] = data[keys[j]][i];
       properDataArea.push(newObj);
     }
@@ -78,7 +71,7 @@ function StatisticalChart(props) {
       .range([margin.left, width - margin.right]);
 
     let xDomain = [];
-    let step = keysDataLen / 7;
+    let step = (keysDataLen - 1) / 6;
     for (let i = 0; i < 7; i++)
       xDomain[i] = dataArea[Math.floor(step * i)].title;
 
@@ -89,11 +82,10 @@ function StatisticalChart(props) {
 
     let xAxis = (g) =>
       g
-        .attr('transform', `translate(0,${height - margin.bottom})`)
+        .attr('transform', `translate(-.5,${height - margin.bottom})`)
         .call(d3.axisBottom(xLabel))
         .selectAll('text')
-        .attr('transform', 'translate(12,0)rotate(45)')
-        .style('text-anchor', 'end')
+        .style('text-anchor', 'middle')
         .style('font-family', 'IRANYekan');
 
     let y = d3
@@ -163,12 +155,17 @@ function StatisticalChart(props) {
       .attr('stroke-linecap', 'round');
 
     svg.append('g').call(xAxis);
+    d3.selectAll('.tick').each(function (d, i) {
+      if (i == 0 || i == 6) {
+        this.remove();
+      }
+    });
 
     const date = `تاریخ آخرین به‌روز‌رسانی: ${lastUpdate}`;
     svg
       .append('text')
       .attr('dx', '.35em')
-      .attr('transform', `translate(160,${height - margin.bottom - 32})`)
+      .attr('transform', `translate(150,${height - margin.bottom - 32})`)
       .attr('font-family', 'IRANYekan')
       .attr('font-size', 10)
       .text(date);
