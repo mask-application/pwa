@@ -4,6 +4,8 @@ import * as utility from './utility';
 import Papa from 'papaparse';
 import * as d3 from 'd3';
 import logo from '../../logo1.png';
+import { db } from '../../services/db';
+
 import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -46,9 +48,18 @@ export default function Map() {
 
   //  TODO explain about the code (Explain the goal for each section to help other developers).
   //   Maybe a separate file would be better to include such these functions
-  const getData = (result) => {
+  const getData = (url, result, cached = false) => {
     setIsMapFetching(false);
     setZoomLevels([]);
+
+    // Add to cache if map does not exist
+    !cached &&
+      db.set({
+        data: result,
+        fileName: url,
+        mapName: chosenMap.id,
+      });
+
     const line = result.data;
     const lineNumber = line.length;
     for (let i = 0; i < lineNumber; ) {
@@ -83,13 +94,18 @@ export default function Map() {
     }
   };
 
-  const parseFile = (url) => {
+  const parseFile = async (url) => {
     setData([]);
     setIsMapFetching(true);
-    Papa.parse(url, {
-      download: true,
-      complete: getData,
-    });
+    const _cached = await db.get(url);
+    if (_cached) {
+      getData(url, _cached[0].data, true);
+    } else {
+      Papa.parse(url, {
+        download: true,
+        complete: (result) => getData(url, result, false),
+      });
+    }
   };
 
   function getMapTypeLists() {
@@ -128,17 +144,9 @@ export default function Map() {
   }, [list]);
 
   useEffect(() => {
-    let version;
-    if (list) {
-      for (let i = 0; i < list.length; i++) {
-        if ((list[i] || {}).id === chosenMap.id) {
-          version = list[i].version;
-        }
-      }
-    }
-    version &&
+    chosenMap &&
       parseFile(
-        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${version}.csv`
+        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${chosenMap.version}.csv`
       );
   }, [chosenMap]);
 
