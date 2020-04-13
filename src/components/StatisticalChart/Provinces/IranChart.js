@@ -1,29 +1,28 @@
-// FIXME this component should be in Home component's folder
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../StatisticalChartActions';
 import StatisticalChart from '../StatisticalChart';
 import StatisticalChartGuide from '../StatisticalChartGuide';
 
-function IranChart(props) {
+function IranChart() {
+  const dispatch = useDispatch();
+  const isLoaded = useSelector((store) => store.StatisticalChart.isLoaded);
+  const data = useSelector((store) => store.StatisticalChart.data);
+
   useEffect(() => {
-    props.fetchData();
+    dispatch(fetchData());
   });
 
   return (
     <>
-      {!props.isLoaded ? (
+      {!isLoaded ? (
         <div className="spinner"></div>
       ) : (
         <>
-          <StatisticalChartGuide
-            isLoaded={props.isLoaded}
-            data={props.data}
-            area="iran"
-          />
+          <StatisticalChartGuide isLoaded={isLoaded} data={data} area="iran" />
           <StatisticalChart
-            isLoaded={props.isLoaded}
-            data={props.data}
+            isLoaded={isLoaded}
+            data={data}
             area="iran"
             type="notStacked"
           />
@@ -33,11 +32,4 @@ function IranChart(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    isLoaded: state.StatisticalChart.isLoaded,
-    data: state.StatisticalChart.data,
-  };
-}
-
-export default connect(mapStateToProps, { fetchData })(IranChart);
+export default IranChart;

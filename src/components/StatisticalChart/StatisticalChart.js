@@ -97,9 +97,7 @@ function StatisticalChart(props) {
   const getArea = (x) =>
     d3
       .area()
-      .x((d) => {
-        return x(d.data.date);
-      })
+      .x((d) => x(d.data.date))
       .curve(d3.curveMonotoneX);
 
   const getLine = (x, y) =>

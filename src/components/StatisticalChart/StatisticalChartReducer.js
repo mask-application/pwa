@@ -2,9 +2,7 @@ import { FETCH_REQUEST, FETCH_SUCCESS } from './StatisticalChartActions';
 
 const initialState = {
   isLoaded: false,
-  patients: [],
-  dead: [],
-  recovered: [],
+  data: {},
 };
 
 export const StatisticalChartReducer = (state = initialState, action) => {
