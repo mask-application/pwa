@@ -3,16 +3,22 @@ import * as d3 from 'd3';
 import './StatisticalChart.css';
 
 function StatisticalChart(props) {
+  const dimension = {
+    margin: { top: 0, right: 0, bottom: 32, left: 0 },
+    width: window.innerWidth,
+    height: window.innerHeight * 0.25 < 250 ? 200 : window.innerHeight * 0.3,
+  };
+  const data = props.data[props.area];
+  const keys = Object.keys(data);
+  const keysDataLen = data[keys[0]].length;
   const hasMount = useRef(false);
 
   useEffect(() => {
     if (!hasMount.current && props.isLoaded) {
-      initialDraw();
+      drawChart();
       hasMount.current = true;
     }
   });
-
-  const getObjectKeys = (obj) => Object.keys(obj);
 
   const constructProperDataFormatArea = (data, keys, keysDataLen) => {
     let properDataArea = [];
@@ -29,6 +35,7 @@ function StatisticalChart(props) {
     }
     return properDataArea;
   };
+  const dataArea = constructProperDataFormatArea(data, keys, keysDataLen);
 
   const constructProperDataFormatLine = (data, keys, keysDataLen) => {
     let properDataLine = [];
@@ -50,51 +57,56 @@ function StatisticalChart(props) {
     }
     return properDataLine;
   };
+  const dataLine = constructProperDataFormatLine(data, keys, keysDataLen);
 
-  const drawChart = (dataArea, dataLine, keys, keysDataLen, lastUpdate) => {
-    let margin = { top: 0, right: 0, bottom: 50, left: 0 };
-    let width = window.innerWidth;
-    let height =
-      window.innerHeight * 0.25 < 250 ? 200 : window.innerHeight * 0.3;
-
-    let columns = getObjectKeys(dataArea[0]);
+  const getSeries = () => {
+    let columns = Object.keys(dataArea[0]);
     Object.assign(dataArea, { columns: columns });
-    let series = d3.stack().keys(keys)(dataArea);
+    return d3.stack().keys(keys)(dataArea);
+  };
 
-    let x = d3
+  const getX = () =>
+    d3
       .scaleLinear()
       .domain(
         d3.extent(dataArea, (d) => {
           return d.date;
         })
       )
-      .range([margin.left, width - margin.right]);
+      .range([dimension.margin.left, dimension.width - dimension.margin.right]);
 
-    let xDomain = [];
-    let step = (keysDataLen - 1) / 6;
-    for (let i = 0; i < 7; i++)
-      xDomain[i] = dataArea[Math.floor(step * i)].title;
-
-    let xLabel = d3
-      .scalePoint()
-      .domain(xDomain)
-      .range([margin.left, width - margin.right]);
-
-    let xAxis = (g) =>
-      g
-        .attr('transform', `translate(-.5,${height - margin.bottom})`)
-        .call(d3.axisBottom(xLabel))
-        .selectAll('text')
-        .style('text-anchor', 'middle')
-        .style('font-family', 'IRANYekan');
-
-    let y = d3
+  const getY = () =>
+    d3
       .scaleLinear()
-      .domain([0, d3.max(series, (d) => d3.max(d, (d) => d[1] - d[0]))])
+      .domain([0, d3.max(getSeries(), (d) => d3.max(d, (d) => d[1] - d[0]))])
       .nice()
-      .range([height - margin.bottom, margin.top]);
+      .range([
+        dimension.height - dimension.margin.bottom,
+        dimension.margin.top,
+      ]);
 
-    let colorArea = d3
+  const getArea = () => {
+    const x = getX();
+    return d3
+      .area()
+      .x((d) => {
+        return x(d.data.date);
+      })
+      .curve(d3.curveMonotoneX);
+  };
+
+  const getLine = () => {
+    const x = getX();
+    const y = getY();
+    return d3
+      .line()
+      .defined((d) => !isNaN(d))
+      .x((d, i) => x(i))
+      .y((d) => y(d));
+  };
+
+  const getAreaColor = () =>
+    d3
       .scaleOrdinal()
       .domain(keys)
       .range([
@@ -103,84 +115,103 @@ function StatisticalChart(props) {
         'rgba(0,255,186,0.15)',
       ]);
 
-    let colorLine = d3
+  const getLineColor = () =>
+    d3
       .scaleOrdinal()
       .domain(keys)
       .range(['rgb(235,59,93)', 'rgba(0,0,0,0.5)', 'rgb(0,255,186)']);
 
-    let area = d3
-      .area()
-      .x((d) => {
-        return x(d.data.date);
-      })
-      .curve(d3.curveMonotoneX);
+  const drawArea = (g) => {
+    const y = getY();
+    const area = getArea();
+    const areaColor = getAreaColor();
 
     if (props.type === 'notStacked')
       area.y0((d) => y(0)).y1((d) => y(d[1] - d[0]));
     else area.y0((d) => y(d[0])).y1((d) => y(d[1]));
 
-    let line = d3
-      .line()
-      .defined((d) => !isNaN(d))
-      .x((d, i) => x(i))
-      .y((d) => y(d));
-
-    let svg = d3
-      .select('.svg-daily-behavior')
-      .attr('width', width)
-      .attr('height', height)
-      .attr('viewBox', [0, 0, width, height]);
-
-    svg
-      .append('g')
+    return g
       .selectAll('path')
-      .data(series)
+      .data(getSeries())
       .join('path')
-      .attr('fill', ({ key }) => colorArea(key))
+      .attr('fill', ({ key }) => areaColor(key))
       .attr('d', area)
       .append('title')
       .text(({ key }) => key);
+  };
 
-    svg
-      .append('g')
+  const drawLine = (g) => {
+    const line = getLine();
+    const lineColor = getLineColor();
+
+    return g
       .selectAll('path')
       .data(dataLine.slice(1))
       .join('path')
       .style('mix-blend-mode', 'multiply')
       .attr('d', (d) => line(d.values))
       .attr('fill', 'none')
-      .attr('stroke', (d, i) => colorLine(i))
+      .attr('stroke', (d, i) => lineColor(i))
       .attr('stroke-width', 1)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round');
+  };
 
-    svg.append('g').call(xAxis);
-    d3.selectAll('.tick').each(function (d, i) {
-      if (i == 0 || i == 6) {
-        this.remove();
-      }
-    });
-
+  const lastUpdateTime = (g) => {
+    const lastUpdate = new Date(props.data.last_update).toLocaleDateString(
+      'fa-IR'
+    );
     const date = `تاریخ آخرین به‌روز‌رسانی: ${lastUpdate}`;
-    svg
-      .append('text')
+    return g
       .attr('dx', '.35em')
-      .attr('transform', `translate(150,${height - margin.bottom - 32})`)
+      .attr(
+        'transform',
+        `translate(150,${dimension.height - dimension.margin.bottom - 32})`
+      )
       .attr('font-family', 'IRANYekan')
       .attr('font-size', 10)
       .text(date);
   };
 
-  const initialDraw = () => {
-    let data = props.data[props.area];
-    let keys = getObjectKeys(data);
-    let keysDataLen = data[keys[0]].length;
-    let dataArea = constructProperDataFormatArea(data, keys, keysDataLen);
-    let dataLine = constructProperDataFormatLine(data, keys, keysDataLen);
-    let lastUpdate = new Date(props.data.last_update).toLocaleDateString(
-      'fa-IR'
-    );
-    drawChart(dataArea, dataLine, keys, keysDataLen, lastUpdate);
+  const drawXAxis = (g) => {
+    let xDomain = [];
+    let step = (keysDataLen - 1) / 6;
+    for (let i = 0; i < 7; i++)
+      xDomain[i] = dataArea[Math.floor(step * i)].title;
+
+    let xLabel = d3
+      .scalePoint()
+      .domain(xDomain)
+      .range([dimension.margin.left, dimension.width - dimension.margin.right]);
+
+    return g
+      .attr(
+        'transform',
+        `translate(-.5,${dimension.height - dimension.margin.bottom})`
+      )
+      .call(d3.axisBottom(xLabel))
+      .selectAll('text')
+      .style('text-anchor', 'middle')
+      .style('font-family', 'IRANYekan');
+  };
+
+  const drawChart = () => {
+    let svg = d3
+      .select('.svg-daily-behavior')
+      .attr('width', dimension.width)
+      .attr('height', dimension.height)
+      .attr('viewBox', [0, 0, dimension.width, dimension.height]);
+
+    svg.append('g').call(drawArea);
+    svg.append('g').call(drawLine);
+    svg.append('g').call(drawXAxis);
+    svg.append('text').call(lastUpdateTime);
+
+    d3.selectAll('.tick').each(function (d, i) {
+      if (i == 0 || i == 6) {
+        this.remove();
+      }
+    });
   };
 
   return (
