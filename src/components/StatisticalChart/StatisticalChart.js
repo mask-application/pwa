@@ -35,7 +35,6 @@ function StatisticalChart(props) {
     }
     return properDataArea;
   };
-  const dataArea = constructProperDataFormatArea(data, keys, keysDataLen);
 
   const constructProperDataFormatLine = (data, keys, keysDataLen) => {
     let properDataLine = [];
@@ -57,15 +56,22 @@ function StatisticalChart(props) {
     }
     return properDataLine;
   };
-  const dataLine = constructProperDataFormatLine(data, keys, keysDataLen);
 
-  const getSeries = () => {
+  const constructProperDataFormatAxis = (dataArea) => {
+    let xDomain = [];
+    let step = (keysDataLen - 1) / 6;
+    for (let i = 0; i < 7; i++)
+      xDomain[i] = dataArea[Math.floor(step * i)].title;
+    return xDomain;
+  };
+
+  const getSeries = (dataArea) => {
     let columns = Object.keys(dataArea[0]);
     Object.assign(dataArea, { columns: columns });
     return d3.stack().keys(keys)(dataArea);
   };
 
-  const getX = () =>
+  const getX = (dataArea) =>
     d3
       .scaleLinear()
       .domain(
@@ -75,35 +81,33 @@ function StatisticalChart(props) {
       )
       .range([dimension.margin.left, dimension.width - dimension.margin.right]);
 
-  const getY = () =>
+  const getY = (dataArea) =>
     d3
       .scaleLinear()
-      .domain([0, d3.max(getSeries(), (d) => d3.max(d, (d) => d[1] - d[0]))])
+      .domain([
+        0,
+        d3.max(getSeries(dataArea), (d) => d3.max(d, (d) => d[1] - d[0])),
+      ])
       .nice()
       .range([
         dimension.height - dimension.margin.bottom,
         dimension.margin.top,
       ]);
 
-  const getArea = () => {
-    const x = getX();
-    return d3
+  const getArea = (x) =>
+    d3
       .area()
       .x((d) => {
         return x(d.data.date);
       })
       .curve(d3.curveMonotoneX);
-  };
 
-  const getLine = () => {
-    const x = getX();
-    const y = getY();
-    return d3
+  const getLine = (x, y) =>
+    d3
       .line()
       .defined((d) => !isNaN(d))
       .x((d, i) => x(i))
       .y((d) => y(d));
-  };
 
   const getAreaColor = () =>
     d3
@@ -121,18 +125,14 @@ function StatisticalChart(props) {
       .domain(keys)
       .range(['rgb(235,59,93)', 'rgba(0,0,0,0.5)', 'rgb(0,255,186)']);
 
-  const drawArea = (g) => {
-    const y = getY();
-    const area = getArea();
-    const areaColor = getAreaColor();
-
+  const drawArea = (g, dataArea, y, area, areaColor) => {
     if (props.type === 'notStacked')
       area.y0((d) => y(0)).y1((d) => y(d[1] - d[0]));
     else area.y0((d) => y(d[0])).y1((d) => y(d[1]));
 
     return g
       .selectAll('path')
-      .data(getSeries())
+      .data(getSeries(dataArea))
       .join('path')
       .attr('fill', ({ key }) => areaColor(key))
       .attr('d', area)
@@ -140,11 +140,8 @@ function StatisticalChart(props) {
       .text(({ key }) => key);
   };
 
-  const drawLine = (g) => {
-    const line = getLine();
-    const lineColor = getLineColor();
-
-    return g
+  const drawLine = (g, dataLine, line, lineColor) =>
+    g
       .selectAll('path')
       .data(dataLine.slice(1))
       .join('path')
@@ -155,6 +152,28 @@ function StatisticalChart(props) {
       .attr('stroke-width', 1)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round');
+
+  const getXLabel = (dataArea) => {
+    const xDomain = constructProperDataFormatAxis(dataArea);
+
+    return d3
+      .scalePoint()
+      .domain(xDomain)
+      .range([dimension.margin.left, dimension.width - dimension.margin.right]);
+  };
+
+  const drawXAxis = (g, dataArea) => {
+    let xLabel = getXLabel(dataArea);
+
+    return g
+      .attr(
+        'transform',
+        `translate(-.5,${dimension.height - dimension.margin.bottom})`
+      )
+      .call(d3.axisBottom(xLabel))
+      .selectAll('text')
+      .style('text-anchor', 'middle')
+      .style('font-family', 'IRANYekan');
   };
 
   const lastUpdateTime = (g) => {
@@ -173,38 +192,27 @@ function StatisticalChart(props) {
       .text(date);
   };
 
-  const drawXAxis = (g) => {
-    let xDomain = [];
-    let step = (keysDataLen - 1) / 6;
-    for (let i = 0; i < 7; i++)
-      xDomain[i] = dataArea[Math.floor(step * i)].title;
-
-    let xLabel = d3
-      .scalePoint()
-      .domain(xDomain)
-      .range([dimension.margin.left, dimension.width - dimension.margin.right]);
-
-    return g
-      .attr(
-        'transform',
-        `translate(-.5,${dimension.height - dimension.margin.bottom})`
-      )
-      .call(d3.axisBottom(xLabel))
-      .selectAll('text')
-      .style('text-anchor', 'middle')
-      .style('font-family', 'IRANYekan');
-  };
-
   const drawChart = () => {
+    const dataArea = constructProperDataFormatArea(data, keys, keysDataLen);
+    const dataLine = constructProperDataFormatLine(data, keys, keysDataLen);
+    const x = getX(dataArea);
+    const y = getY(dataArea);
+
     let svg = d3
       .select('.svg-daily-behavior')
       .attr('width', dimension.width)
       .attr('height', dimension.height)
       .attr('viewBox', [0, 0, dimension.width, dimension.height]);
 
-    svg.append('g').call(drawArea);
-    svg.append('g').call(drawLine);
-    svg.append('g').call(drawXAxis);
+    svg.append('g').call((g) => {
+      drawArea(g, dataArea, y, getArea(x), getAreaColor());
+    });
+    svg.append('g').call((g) => {
+      drawLine(g, dataLine, getLine(x, y), getLineColor());
+    });
+    svg.append('g').call((g) => {
+      drawXAxis(g, dataArea);
+    });
     svg.append('text').call(lastUpdateTime);
 
     d3.selectAll('.tick').each(function (d, i) {
