@@ -20,7 +20,7 @@ function StatisticalChart(props) {
     }
   });
 
-  const constructProperDataFormatArea = (data, keys, keysDataLen) => {
+  const constructProperDataArea = (data, keys, keysDataLen) => {
     let properDataArea = [];
     for (let i = 0; i < keysDataLen; i++) {
       let newObj = {};
@@ -36,7 +36,7 @@ function StatisticalChart(props) {
     return properDataArea;
   };
 
-  const constructProperDataFormatLine = (data, keys, keysDataLen) => {
+  const constructProperDataLine = (data, keys, keysDataLen) => {
     let properDataLine = [];
 
     let date = [];
@@ -57,7 +57,7 @@ function StatisticalChart(props) {
     return properDataLine;
   };
 
-  const constructProperDataFormatAxis = (dataArea) => {
+  const constructProperDataAxis = (dataArea) => {
     let xDomain = [];
     let step = (keysDataLen - 1) / 6;
     for (let i = 0; i < 7; i++)
@@ -154,12 +154,15 @@ function StatisticalChart(props) {
       .attr('stroke-linecap', 'round');
 
   const getXLabel = (dataArea) => {
-    const xDomain = constructProperDataFormatAxis(dataArea);
+    const xDomain = constructProperDataAxis(dataArea);
 
     return d3
       .scalePoint()
       .domain(xDomain)
-      .range([dimension.margin.left, dimension.width - dimension.margin.right]);
+      .range([
+        dimension.margin.left - 1,
+        dimension.width - dimension.margin.right + 1,
+      ]);
   };
 
   const drawXAxis = (g, dataArea) => {
@@ -168,13 +171,20 @@ function StatisticalChart(props) {
     return g
       .attr(
         'transform',
-        `translate(-.5,${dimension.height - dimension.margin.bottom})`
+        `translate(0,${dimension.height - dimension.margin.bottom})`
       )
       .call(d3.axisBottom(xLabel))
       .selectAll('text')
       .style('text-anchor', 'middle')
       .style('font-family', 'IRANYekan');
   };
+
+  const removeFirstLastLabel = () =>
+    d3.selectAll('.tick').each(function (d, i) {
+      if (i == 0 || i == 6) {
+        this.remove();
+      }
+    });
 
   const lastUpdateTime = (g) => {
     const lastUpdate = new Date(props.data.last_update).toLocaleDateString(
@@ -192,18 +202,20 @@ function StatisticalChart(props) {
       .text(date);
   };
 
-  const drawChart = () => {
-    const dataArea = constructProperDataFormatArea(data, keys, keysDataLen);
-    const dataLine = constructProperDataFormatLine(data, keys, keysDataLen);
-    const x = getX(dataArea);
-    const y = getY(dataArea);
-
-    let svg = d3
+  const getSVG = () =>
+    d3
       .select('.svg-daily-behavior')
       .attr('width', dimension.width)
       .attr('height', dimension.height)
       .attr('viewBox', [0, 0, dimension.width, dimension.height]);
 
+  const drawChart = () => {
+    const dataArea = constructProperDataArea(data, keys, keysDataLen);
+    const dataLine = constructProperDataLine(data, keys, keysDataLen);
+    const x = getX(dataArea);
+    const y = getY(dataArea);
+
+    const svg = getSVG();
     svg.append('g').call((g) => {
       drawArea(g, dataArea, y, getArea(x), getAreaColor());
     });
@@ -215,11 +227,7 @@ function StatisticalChart(props) {
     });
     svg.append('text').call(lastUpdateTime);
 
-    d3.selectAll('.tick').each(function (d, i) {
-      if (i == 0 || i == 6) {
-        this.remove();
-      }
-    });
+    removeFirstLastLabel();
   };
 
   return (
