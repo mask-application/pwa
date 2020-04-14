@@ -15,7 +15,7 @@ function IranChart() {
 
   return (
     <>
-      {!isLoaded ? (
+      {!isLoaded || Object.keys(data).length < 1 ? (
         <div className="spinner"></div>
       ) : (
         <>
