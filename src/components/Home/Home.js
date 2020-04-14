@@ -41,7 +41,7 @@ const buttons = [
 export default function Home() {
   const intl = useIntl();
   return (
-    <div className={`contentWrapper HomeWrapper`}>
+    <div className={`HomeWrapper`}>
       {/*Header*/}
       {buttons.map((b) => (
         <Paper
