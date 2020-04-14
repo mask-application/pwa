@@ -1,23 +1,24 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import Navigation from './components/Navigation/Navigation';
-import MyActivitiesPage from './containers/MyActivitiesPage';
-import HomePage from './containers/HomePage';
-import MapPage from './containers/MapPage';
-import FamilyActivitiesPage from './containers/FamilyActivitiesPage';
-import MyActivityEventsPage from './containers/MyActivityEventsPage';
-import MyHealthEventPage from './containers/MyHealthEventPage';
-import InformingPage from './containers/InformingPage';
-import QrCodeShow from './components/MyActivities/pages/QrCode/QrCodeShow';
-import QrScanner from './components/MyActivities/pages/QrCode/QrScanner';
+import React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Navigation from "./components/Navigation/Navigation";
+import MyActivitiesPage from "./containers/MyActivitiesPage";
+import HomePage from "./containers/HomePage";
+import MapPage from "./containers/MapPage";
+import FamilyActivitiesPage from "./containers/FamilyActivitiesPage";
+import MyActivityEventsPage from "./containers/MyActivityEventsPage";
+import MyHealthEventPage from "./containers/MyHealthEventPage";
+import InformingPage from "./containers/InformingPage";
+import QrCodeShow from "./components/MyActivities/pages/QrCode/QrCodeShow";
+import QrScanner from "./components/MyActivities/pages/QrCode/QrScanner";
 
-import './App.scss';
+import "./App.scss";
+import AboutPage from "./containers/AboutPage";
 import AddToHomeScreenModal from './components/AddToHomeScreen/AddToHomeScreenModal';
 
 export default function App() {
   const showNavBar = useSelector((state) => state.Commons.showNavigation);
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem("user");
 
   const PrivateRoute = ({ children, ...rest }) => {
     return (
@@ -25,8 +26,9 @@ export default function App() {
         {...rest}
         render={(props) => {
           if (user === null) {
-            return <Redirect to="/home" />;
-          } else {
+            return <Redirect to="/home"/>;
+          }
+          else {
             return children;
           }
         }}
@@ -42,40 +44,43 @@ export default function App() {
          */}
         <Switch>
           <Route path="/" exact>
-            <Redirect to="/home" />
+            <Redirect to="/home"/>
           </Route>
           <Route path="/home" exact>
-            <HomePage />
+            <HomePage/>
           </Route>
           <Route path="/map" exact>
-            <MapPage />
+            <MapPage/>
           </Route>
           <Route path="/my-activities" exact>
-            <MyActivitiesPage />
+            <MyActivitiesPage/>
           </Route>
           <Route path="/family-activities" exact>
-            <FamilyActivitiesPage />
+            <FamilyActivitiesPage/>
           </Route>
           <Route path="/informing" exact>
-            <InformingPage />
+            <InformingPage/>
+          </Route>
+          <Route path="/about" exact>
+            <AboutPage/>
           </Route>
           <PrivateRoute path="/add-myactivities" exact>
-            <MyActivityEventsPage />
+            <MyActivityEventsPage/>
           </PrivateRoute>
           <PrivateRoute path="/my-health-event" exact>
-            <MyHealthEventPage />
+            <MyHealthEventPage/>
           </PrivateRoute>
           <PrivateRoute path="/my-qrcode" exact>
-            <QrCodeShow />
+            <QrCodeShow/>
           </PrivateRoute>
           <PrivateRoute path="/qr-scanner" exact>
-            <QrScanner />
+            <QrScanner/>
           </PrivateRoute>
         </Switch>
       </div>
       {showNavBar && (
         <div className="app-navigation">
-          <Navigation />
+          <Navigation/>
         </div>
       )}
       <AddToHomeScreenModal />
