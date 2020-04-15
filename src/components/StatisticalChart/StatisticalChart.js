@@ -107,38 +107,51 @@ function StatisticalChart(props) {
       .x((d, i) => x(i))
       .y((d) => y(d));
 
-  const getAreaColor = () =>
+  const getColor = () =>
     d3
       .scaleOrdinal()
       .domain(keys)
-      .range([
-        'rgba(255,65,105,0.15)',
-        'rgba(0, 0, 0, 0.3)',
-        'rgba(0,255,186,0.15)',
-      ]);
+      .range(['rgb(235,59,93)', 'rgba(0,0,0,0.68)', 'rgb(0,255,186)']);
 
-  const getLineColor = () =>
-    d3
-      .scaleOrdinal()
-      .domain(keys)
-      .range(['rgb(235,59,93)', 'rgba(0,0,0,0.5)', 'rgb(0,255,186)']);
+  const areaGradientColor = (g, keys, color) => {
+    for (let i = 0; i < keys.length; i++) {
+      const areaGradient = g
+        .append('defs')
+        .append('linearGradient')
+        .attr('id', `area-gradient-${keys[i]}`)
+        .attr('x1', '20%')
+        .attr('y1', '10%')
+        .attr('x2', '40%')
+        .attr('y2', '100%');
 
-  const drawArea = (g, dataArea, y, area, areaColor) => {
+      areaGradient
+        .append('stop')
+        .attr('offset', '0%')
+        .attr('stop-color', color(i))
+        .attr('stop-opacity', 0.9);
+      areaGradient
+        .append('stop')
+        .attr('offset', '100%')
+        .attr('stop-color', 'white')
+        .attr('stop-opacity', 0);
+    }
+  };
+
+  const drawArea = (g, dataArea, y, area) => {
     if (props.type === 'notStacked')
       area.y0((d) => y(0)).y1((d) => y(d[1] - d[0]));
     else area.y0((d) => y(d[0])).y1((d) => y(d[1]));
-
     return g
       .selectAll('path')
       .data(getSeries(dataArea))
       .join('path')
-      .attr('fill', ({ key }) => areaColor(key))
+      .attr('fill', ({ key }) => `url(#area-gradient-${key})`)
       .attr('d', area)
       .append('title')
       .text(({ key }) => key);
   };
 
-  const drawLine = (g, dataLine, line, lineColor) =>
+  const drawLine = (g, dataLine, line, color) =>
     g
       .selectAll('path')
       .data(dataLine.slice(1))
@@ -146,7 +159,7 @@ function StatisticalChart(props) {
       .style('mix-blend-mode', 'multiply')
       .attr('d', (d) => line(d.values))
       .attr('fill', 'none')
-      .attr('stroke', (d, i) => lineColor(i))
+      .attr('stroke', (d, i) => color(i))
       .attr('stroke-width', 1)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round');
@@ -215,10 +228,13 @@ function StatisticalChart(props) {
 
     const svg = getSVG();
     svg.append('g').call((g) => {
-      drawArea(g, dataArea, y, getArea(x), getAreaColor());
+      areaGradientColor(g, keys, getColor());
     });
     svg.append('g').call((g) => {
-      drawLine(g, dataLine, getLine(x, y), getLineColor());
+      drawArea(g, dataArea, y, getArea(x));
+    });
+    svg.append('g').call((g) => {
+      drawLine(g, dataLine, getLine(x, y), getColor());
     });
     svg.append('g').call((g) => {
       drawXAxis(g, dataArea);
