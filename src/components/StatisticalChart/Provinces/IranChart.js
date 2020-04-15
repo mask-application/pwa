@@ -8,14 +8,10 @@ function IranChart() {
   const dispatch = useDispatch();
   const isLoaded = useSelector((store) => store.StatisticalChart.isLoaded);
   const data = useSelector((store) => store.StatisticalChart.data);
-  const hasMount = useRef(false);
 
   useEffect(() => {
-    if (!hasMount.current) {
-      dispatch(fetchData());
-      hasMount.current = true;
-    }
-  });
+    dispatch(fetchData());
+  }, [isLoaded]);
 
   return (
     <>
