@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import './StatisticalChart.css';
+import { engToPerDigits } from '../../utils/persianize';
 
 function StatisticalChart(props) {
   const dimension = {
-    margin: { top: 0, right: 0, bottom: 32, left: 0 },
+    margin: { top: 32, right: 0, bottom: 32, left: 0 },
     width: window.innerWidth,
-    height: window.innerHeight * 0.25 < 250 ? 200 : window.innerHeight * 0.3,
+    height: window.innerHeight * 0.25 < 250 ? 250 : window.innerHeight * 0.3,
   };
   const data = props.data[props.area];
   const keys = Object.keys(data);
@@ -178,7 +179,6 @@ function StatisticalChart(props) {
 
   const drawXAxis = (g, dataArea) => {
     let xLabel = getXLabel(dataArea);
-
     return g
       .attr(
         'transform',
@@ -186,12 +186,27 @@ function StatisticalChart(props) {
       )
       .call(d3.axisBottom(xLabel))
       .selectAll('text')
-      .style('text-anchor', 'middle')
-      .style('font-family', 'IRANYekan');
+      .attr('class', 'x-axis-text');
   };
 
-  const removeFirstLastLabel = () =>
-    d3.selectAll('.tick').each(function (d, i) {
+  const drawYAxis = (g, y) => {
+    return g
+      .attr('class', 'y-axis')
+      .call(d3.axisLeft(y).tickSize(-dimension.width))
+      .call((g) => g.select('.domain').remove())
+      .selectAll('text')
+      .attr('class', 'y-axis-text')
+      .attr('x', 10)
+      .attr('dy', '-.32em');
+  };
+
+  const translateYAxis = () =>
+    d3.selectAll('.y-axis-text').each(function (d, i) {
+      d3.select(this).text(engToPerDigits(d));
+    });
+
+  const removeFirstLastLabelXAxis = () =>
+    d3.selectAll('.x-axis-text').each(function (d, i) {
       if (i == 0 || i == 6) {
         this.remove();
       }
@@ -201,13 +216,10 @@ function StatisticalChart(props) {
     const lastUpdate = new Date(props.data.last_update).toLocaleDateString(
       'fa-IR'
     );
-    const date = `تاریخ آخرین به‌روز‌رسانی: ${lastUpdate}`;
+    const date = `آخرین به‌روز ‌رسانی: ${lastUpdate}`;
     return g
       .attr('dx', '.35em')
-      .attr(
-        'transform',
-        `translate(150,${dimension.height - dimension.margin.bottom - 32})`
-      )
+      .attr('transform', `translate(${dimension.width - 24} ,16)`)
       .attr('font-family', 'IRANYekan')
       .attr('font-size', 10)
       .text(date);
@@ -228,6 +240,9 @@ function StatisticalChart(props) {
 
     const svg = getSVG();
     svg.append('g').call((g) => {
+      drawYAxis(g, y, dataArea);
+    });
+    svg.append('g').call((g) => {
       areaGradientColor(g, keys, getColor());
     });
     svg.append('g').call((g) => {
@@ -241,7 +256,8 @@ function StatisticalChart(props) {
     });
     svg.append('text').call(lastUpdateTime);
 
-    removeFirstLastLabel();
+    removeFirstLastLabelXAxis();
+    translateYAxis();
   };
 
   return (

@@ -32,3 +32,18 @@ h5 {
   min-height: 6em;
   min-width: 100%;
 }
+
+.x-axis-text {
+  text-anchor: middle;
+  font-family: IRANYekan;
+}
+
+.y-axis line {
+  stroke: lightgrey;
+  stroke-opacity: 0.3;
+}
+
+.y-axis-text {
+  text-anchor: end;
+  font-family: IRANYekan;
+}
