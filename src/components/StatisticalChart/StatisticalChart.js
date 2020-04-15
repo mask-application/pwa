@@ -120,15 +120,15 @@ function StatisticalChart(props) {
         .append('linearGradient')
         .attr('id', `area-gradient-${keys[i]}`)
         .attr('x1', '20%')
-        .attr('y1', '10%')
-        .attr('x2', '40%')
+        .attr('y1', '40%')
+        .attr('x2', '100%')
         .attr('y2', '100%');
 
       areaGradient
         .append('stop')
         .attr('offset', '0%')
         .attr('stop-color', color(i))
-        .attr('stop-opacity', 0.9);
+        .attr('stop-opacity', 1);
       areaGradient
         .append('stop')
         .attr('offset', '100%')
