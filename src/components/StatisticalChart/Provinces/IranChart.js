@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../StatisticalChartActions';
 import StatisticalChart from '../StatisticalChart';
@@ -8,9 +8,13 @@ function IranChart() {
   const dispatch = useDispatch();
   const isLoaded = useSelector((store) => store.StatisticalChart.isLoaded);
   const data = useSelector((store) => store.StatisticalChart.data);
+  const hasMount = useRef(false);
 
   useEffect(() => {
-    dispatch(fetchData());
+    if (!hasMount.current) {
+      dispatch(fetchData());
+      hasMount.current = true;
+    }
   });
 
   return (
