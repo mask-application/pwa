@@ -112,7 +112,7 @@ function Map() {
 
   const findZoomLevels = useCallback(() => {
     const result = [];
-    data.forEach((element) => result.push(element[0]));
+    data.map((element) => result.push(element[0]));
     return result;
   }, [data]);
 
