@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import './MapStyle.scss';
 import * as utility from './utility';
 import Papa from 'papaparse';
@@ -12,7 +12,7 @@ import { Alert } from '@material-ui/lab';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import CloseIcon from '@material-ui/icons/Close';
-import {fetchMap} from "./MapActions";
+import { fetchMap } from './MapActions';
 
 function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
@@ -25,21 +25,25 @@ function Map() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDataFetching, setIsDataFetching] = useState(false);
   const [vpnAlert, setVpnAlert] = useState(true);
-  const [serverError, setServerError] = useState(false);
 
-  const { isMapFetching, mapList } = useSelector(state => state.Map);
+  const { isMapFetching, mapList, serverError } = useSelector(
+    (state) => state.Map
+  );
   const dispatch = useDispatch();
 
-  const drawPolygon = useCallback((color, polygons) => {
-    map &&
-      polygons &&
-      window.L.polygon(polygons, {
-        fillColor: `#${Number(color).toString(16)}`,
-        fill: true,
-        stroke: false,
-        fillOpacity: 0.4,
-      }).addTo(map);
-  }, [map]);
+  const drawPolygon = useCallback(
+    (color, polygons) => {
+      map &&
+        polygons &&
+        window.L.polygon(polygons, {
+          fillColor: `#${Number(color).toString(16)}`,
+          fill: true,
+          stroke: false,
+          fillOpacity: 0.4,
+        }).addTo(map);
+    },
+    [map]
+  );
 
   const clearPolygon = useCallback(() => {
     if (map) {
@@ -49,8 +53,7 @@ function Map() {
 
   //  TODO explain about the code (Explain the goal for each section to help other developers).
   const getData = (url, result, cached = false) => {
-    setIsMapFetching(false);
-    setZoomLevels([]);
+    setIsDataFetching(false);
 
     // Add to cache if map does not exist
     !cached &&
@@ -93,7 +96,7 @@ function Map() {
     }
   };
 
-  const parseFile = async useCallback((url) => {
+  const parseFile = async (url) => {
     setData([]);
     setIsDataFetching(true);
     const _cached = await db.get(url);
@@ -105,12 +108,12 @@ function Map() {
         complete: (result) => getData(url, result, false),
       });
     }
-  }, []);
+  };
 
-  const findZoomLevels = useCallback( () => {
+  const findZoomLevels = useCallback(() => {
     const result = [];
-    data.forEach(element => result.push(element[0]));
-    return result
+    data.forEach((element) => result.push(element[0]));
+    return result;
   }, [data]);
 
   const findZoom = useCallback(() => {
@@ -121,8 +124,8 @@ function Map() {
         setZoom(i);
         break;
       } else if (
-          inverseZoomLevel >= zoomLevels[i] &&
-          inverseZoomLevel < zoomLevels[i + 1]
+        inverseZoomLevel >= zoomLevels[i] &&
+        inverseZoomLevel < zoomLevels[i + 1]
       ) {
         setZoom(i + 1);
         break;
@@ -136,9 +139,9 @@ function Map() {
 
   useEffect(() => {
     map &&
-    map.on('zoom', function () {
-      findZoom();
-    });
+      map.on('zoom', function () {
+        findZoom();
+      });
   });
 
   useEffect(() => {
@@ -174,7 +177,7 @@ function Map() {
     }
     for (let key in data[zoom][1]) {
       if (Object.prototype.hasOwnProperty.call(data[zoom][1], key))
-        drawPolygon(key, (data[zoom][1][key]));
+        drawPolygon(key, data[zoom][1][key]);
     }
   }, [map, zoom, data, clearPolygon, drawPolygon]);
 
@@ -192,36 +195,42 @@ function Map() {
     setAnchorEl(null);
   };
 
-  const renderMenu = () => { return (
-    <Menu
-      classes={{
-        paper: 'map-menu',
-      }}
-      anchorEl={anchorEl}
-      keepMounted
-      open={Boolean(anchorEl)}
-      onClose={() => closeMenu()}
-    >
-      {mapList &&
-        mapList.map((item) => {
-          return (
-            <MenuItem
-              key={item.id}
-              classes={{ root: 'map-menu-item' }}
-              onClick={() => closeMenu(item)}
-              disabled={item.id === 'testlabs' || item.id === 'hospitals'}
-            >
-              {item.name}
-            </MenuItem>
-          );
-        })}
-    </Menu>
-  ); };
+  const renderMenu = () => {
+    return (
+      <Menu
+        classes={{
+          paper: 'map-menu',
+        }}
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={() => closeMenu()}
+      >
+        {mapList &&
+          mapList.map((item) => {
+            return (
+              <MenuItem
+                key={item.id}
+                classes={{ root: 'map-menu-item' }}
+                onClick={() => closeMenu(item)}
+                disabled={item.id === 'testlabs' || item.id === 'hospitals'}
+              >
+                {item.name}
+              </MenuItem>
+            );
+          })}
+      </Menu>
+    );
+  };
 
   return (
     <div className={`contentWrapper MapWrapper`}>
       <div className="alerts">
-        <Collapse className="map-alert-wrapper" in={isDataFetching || isMapFetching} addEndListener={null}>
+        <Collapse
+          className="map-alert-wrapper"
+          in={isDataFetching || isMapFetching}
+          addEndListener={null}
+        >
           <Alert
             severity="info"
             action={
@@ -240,7 +249,11 @@ function Map() {
           </Alert>
         </Collapse>
         {serverError && (
-          <Collapse className="map-alert-wrapper" in={vpnAlert} addEndListener={null}>
+          <Collapse
+            className="map-alert-wrapper"
+            in={vpnAlert}
+            addEndListener={null}
+          >
             <Alert
               severity="warning"
               action={
@@ -278,7 +291,6 @@ function Map() {
           <ExpandMoreIcon />
         </button>
       </div>
-      {/* TODO config file */}
       <div
         id="map"
         style={{

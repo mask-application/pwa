@@ -1,8 +1,13 @@
-import {FETCH_MAP_REQUEST, FETCH_MAP_SUCCESS, FETCH_MAP_ERROR} from './MapActions';
+import {
+  FETCH_MAP_REQUEST,
+  FETCH_MAP_SUCCESS,
+  FETCH_MAP_ERROR,
+} from './MapActions';
 
 const initialState = {
   isMapFetching: false,
   mapList: [],
+  serverError: false,
 };
 
 export const MapReducer = (state = initialState, action) => {
@@ -22,6 +27,7 @@ export const MapReducer = (state = initialState, action) => {
       return {
         ...state,
         isMapFetching: false,
+        serverError: true,
       };
     default:
       return state;
