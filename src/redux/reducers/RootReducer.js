@@ -6,7 +6,6 @@ import { FamilyActivitiesReducer } from '../../components/FamilyActivities/Famil
 import { MyActivitiesReducer } from '../../components/MyActivities/MyActivitiesReducer';
 import { StatisticalChartReducer } from '../../components/StatisticalChart/StatisticalChartReducer';
 import { CommonsReducer } from './CommonsReducer';
-import { MapReducer } from "../../components/Map/MapReducer";
 
 export default combineReducers({
   Login: LoginReducer,
@@ -16,5 +15,4 @@ export default combineReducers({
   MyActivities: MyActivitiesReducer,
   StatisticalChart: StatisticalChartReducer,
   Commons: CommonsReducer,
-  Map: MapReducer,
 });
