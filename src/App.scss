@@ -53,7 +53,7 @@ html {
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  //height: 100vh;
 }
 
 .app-content {
@@ -78,7 +78,8 @@ html {
 .MuiInputBase-root,
 .MuiFormLabel-root,
 .MuiMenuItem-root,
-.MuiSnackbarContent-root {
+.MuiSnackbarContent-root,
+.MuiTab-root {
   font-family: IRANYekan !important;
 }
 

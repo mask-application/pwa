@@ -32,20 +32,16 @@ export default function Activation({ onBackClick, onActivate }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [smsSent, setSmsSent] = useState(false);
 
-  useEffect(
-    () => {
-      start();
-    },
-    [
-      /*eslint-disable-line react-hooks/exhaustive-deps*/
-    ]
-  );
+  useEffect(() => {
+    start();
+    /*eslint-disable-next-line react-hooks/exhaustive-deps*/
+  }, []);
 
   function sendActivationSMS() {
     setIsDialogOpen(true);
     axios({
       method: 'POST',
-      url: `${process.env.REACT_APP_REGISTER_USER}`,
+      url: `${process.env.REACT_APP_REGISTER_USER_AGAIN}`,
       data: {
         phone_number: phone,
         risk_group: condition,
