@@ -146,7 +146,6 @@ const createEventInBulk = (type, data, personId, token, now) => {
     }),
   })
     .then((response) => {
-      return response;
       if (response.status >= 500) {
         throw response;
       } else {
