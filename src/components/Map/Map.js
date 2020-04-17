@@ -110,39 +110,30 @@ function Map() {
     }
   };
 
-  const findZoomLevels = useCallback(() => {
-    const result = [];
-    data.map((element) => result.push(element[0]));
-    return result;
-  }, [data]);
-
-  const findZoom = useCallback(() => {
-    const inverseZoomLevel = 10 * Math.pow(2, -(map && map.getZoom()));
-    const zoomLevels = data && findZoomLevels();
-    for (let i = 0; i < zoomLevels.length - 1; i++) {
-      if (inverseZoomLevel < zoomLevels[i]) {
-        setZoom(i);
-        break;
-      } else if (
-        inverseZoomLevel >= zoomLevels[i] &&
-        inverseZoomLevel < zoomLevels[i + 1]
-      ) {
-        setZoom(i + 1);
-        break;
+  useEffect(() => {
+    const findZoom = () => {
+      const inverseZoomLevel = 10 * Math.pow(2, -(map && map.getZoom()));
+      const zoomLevels = data && data.map((element) => element[0]);
+      for (let i = 0; i < zoomLevels.length - 1; i++) {
+        if (inverseZoomLevel < zoomLevels[i]) {
+          setZoom(i);
+          break;
+        } else if (
+          inverseZoomLevel >= zoomLevels[i] &&
+          inverseZoomLevel < zoomLevels[i + 1]
+        ) {
+          setZoom(i + 1);
+          break;
+        }
       }
-    }
-  }, [map, data, findZoomLevels]);
+    };
 
-  useEffect(() => {
+    if (!map || !data) return;
+
     findZoom();
-  }, [findZoom, data]);
-
-  useEffect(() => {
-    map &&
-      map.on('zoom', function () {
-        findZoom();
-      });
-  });
+    map.on('zoom', findZoom);
+    return () => map.off(findZoom);
+  }, [data, map]);
 
   useEffect(() => {
     dispatch(fetchMap());
