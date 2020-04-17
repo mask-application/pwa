@@ -101,7 +101,7 @@ function MyHealthEvent(props) {
         headache: headache,
         lethargy: inaction,
       };
-      props.createHealthEventInBulk(data, history);
+      props.createHealthEvent(data, history);
     }
   };
 
