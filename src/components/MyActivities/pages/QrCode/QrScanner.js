@@ -45,7 +45,7 @@ export default function QrScanner() {
       <div className="qr-reader-container">
         <QrReader
           className="qr-reader"
-          delay={300}
+          delay={1000}
           onError={() => handleError()}
           onScan={(data) => handleScan(data)}
         />
