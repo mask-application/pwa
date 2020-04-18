@@ -33,7 +33,7 @@ function MyActivitiesHelp() {
                 }}
               >
                 {/*TODO: use formatted message*/}
-                تأیید
+                <h1>تأیید</h1>
               </button>
             </div>
           ) : null}

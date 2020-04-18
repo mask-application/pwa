@@ -210,6 +210,17 @@
   left: calc(2% + 48px);
 }
 
+@media (min-width: 1025px) {
+  .overlay-qr-code {
+    left: 1%;
+  }
+
+  .overlay-camera {
+    top: -7px;
+    left: calc(1% + 48px);
+  }
+}
+
 .header-help {
   position: absolute;
   top: 25%;
@@ -225,10 +236,11 @@
 
   .btn-accept {
     color: #ff005c;
-    font-size: 18px;
     font-family: IRANYekan;
     float: left;
     background-color: transparent;
     border: none;
+    outline: none;
+    padding: 1rem 1rem 1rem 0;
   }
 }
