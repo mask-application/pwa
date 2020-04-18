@@ -5,7 +5,7 @@ import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { showNav } from '../../../../redux/actions/CommonActions';
-import { createEventInBulk } from '../../MyActivitiesActions';
+import { createQrEventInBulk } from '../../MyActivitiesActions';
 import './QrCode.scss';
 import logo from '../../../../logo-header.png';
 
@@ -18,7 +18,7 @@ export default function QrScanner() {
       // It is assumed that QR code has always the form person:code
       if (/^person:[a-z0-9]+$/i.test(data)) {
         // TODO: Check if meeting event is type 1 or 2
-        dispatch(createEventInBulk(1, { id: data.split(':')[1] }, history));
+        dispatch(createQrEventInBulk(1, { id: data.split(':')[1] }, history)); // FIXME:نام این متد رو موقتی تغیر دادم بهتره که هرنامی که صلاح هست گذاشته بشه
       }
     }
   }
