@@ -38,49 +38,53 @@ function MyHealthEvent(props) {
   const [item, setItem] = useState([]); //for set modal values
   const [selectedItem, setSelectedItem] = useState(null); // for the item that selected to show it's modal
 
-  const [fever, setFever] = useState(localStorage.getItem('myHealthFever')); // تب
+  //FIXME: باید تو یک آبجکت ذخیره کنم تا اینجا هم بتونم از یک آبجکت بخونم
+  const [fever, setFever] = useState(
+    localStorage.getItem('myHealthFever') || ''
+  ); // تب
   const [soreThroat, setSoreThroat] = useState(
-    localStorage.getItem('myHealthSoreThroat')
+    localStorage.getItem('myHealthSoreThroat') || ''
   ); // گلودرد
   const [dryCough, setDryCough] = useState(
-    localStorage.getItem('myHealthDryCough')
+    localStorage.getItem('myHealthDryCough') || ''
   ); // سرفه خشگ
   const [holdingThe‌ٰ‌‌‌‌Breath, setHoldingTheBreath] = useState(
-    localStorage.getItem('myHealthShortnessOfBreath')
+    localStorage.getItem('myHealthShortnessOfBreath') || ''
   ); // نگه داشتن نفس
   const [breathrate, setBreathrate] = useState(
-    localStorage.getItem('myHealthBreathRate')
+    localStorage.getItem('myHealthBreathRate') || ''
   ); // تعداد تنفس
   const [adenoid, setAdenoid] = useState(
-    localStorage.getItem('myHealthNasalCongestion')
+    localStorage.getItem('myHealthNasalCongestion') || ''
   ); // گرفتگی بینی
   const [bodyPain, setBodyPain] = useState(
-    localStorage.getItem('myHealthIBodyPain')
+    localStorage.getItem('myHealthIBodyPain') || ''
   ); // بدن درد
   const [runnynose, setRunnynose] = useState(
-    localStorage.getItem('myHealthIRunnyNose')
+    localStorage.getItem('myHealthIRunnyNose') || ''
   ); // آبریزش بینی
-  const [sneeze, setSneeze] = useState(localStorage.getItem('myHealthSneeze')); //عطسه
+  const [sneeze, setSneeze] = useState(
+    localStorage.getItem('myHealthSneeze') || ''
+  ); //عطسه
   const [headache, setHeadache] = useState(
-    localStorage.getItem('myHealthIHeadache')
+    localStorage.getItem('myHealthIHeadache') || ''
   ); //سردرد
   const [inaction, setInaction] = useState(
-    localStorage.getItem('myHealthLethargy')
+    localStorage.getItem('myHealthLethargy') || ''
   ); //بیحالی
-
   const addHealth = () => {
     if (
-      fever === null ||
-      soreThroat === null ||
-      dryCough === null ||
-      holdingThe‌ٰ‌‌‌‌Breath === null ||
-      breathrate === null ||
-      adenoid === null ||
-      bodyPain === null ||
-      runnynose === null ||
-      sneeze === null ||
-      headache === null ||
-      inaction === null
+      fever === '' ||
+      soreThroat === '' ||
+      dryCough === '' ||
+      holdingThe‌ٰ‌‌‌‌Breath === '' ||
+      breathrate === '' ||
+      adenoid === '' ||
+      bodyPain === '' ||
+      runnynose === '' ||
+      sneeze === '' ||
+      headache === '' ||
+      inaction === ''
     ) {
       setOpenSnack(true);
     } else {
@@ -97,7 +101,7 @@ function MyHealthEvent(props) {
         headache: headache,
         lethargy: inaction,
       };
-      props.createHealthEventInBulk(data, history);
+      props.createHealthEvent(data, history);
     }
   };
 
