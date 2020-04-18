@@ -81,7 +81,6 @@ export function MyActivitiesReducer(state = initialState, action) {
           createTime: action.createTime,
         };
       }
-
     case ActionTypes.SHOW_HEALTH_EVENT_LOADING:
       return {
         ...state,
@@ -93,6 +92,18 @@ export function MyActivitiesReducer(state = initialState, action) {
         ...state,
         errorHealthEvent: true,
         healthEventLoading: false,
+      };
+    case ActionTypes.ADD_MEETING_EVENT_REQUEST:
+      return {
+        ...state,
+      };
+    case ActionTypes.ADD_MEETING_EVENT_SUCCESS:
+      return {
+        ...state,
+      };
+    case ActionTypes.ADD_MEETING_EVENT_FAILURE:
+      return {
+        ...state,
       };
     default:
       return state;
