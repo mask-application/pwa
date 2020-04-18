@@ -13,6 +13,7 @@ import QrCodeShow from './components/MyActivities/pages/QrCode/QrCodeShow';
 import QrScanner from './components/MyActivities/pages/QrCode/QrScanner';
 
 import './App.scss';
+import NewVersionDialog from './components/NewVersionDialog/NewVersionDialog';
 import AddToHomeScreenModal from './components/AddToHomeScreen/AddToHomeScreenModal';
 
 export default function App() {
@@ -78,6 +79,7 @@ export default function App() {
           <Navigation />
         </div>
       )}
+      <NewVersionDialog />
       <AddToHomeScreenModal />
     </div>
   );
