@@ -50,6 +50,11 @@ html {
   /*  overflow: hidden;*/
 }
 
+*:focus,
+*:active {
+  outline: none;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
