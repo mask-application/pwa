@@ -99,14 +99,14 @@ export default function Map() {
     setData([]);
     setIsMapFetching(true);
     const _cached = await db.get(url);
-    // if (_cached) {
-    //   getData(url, _cached[0].data, true);
-    // } else {
+    if (_cached) {
+      getData(url, _cached[0].data, true);
+    } else {
       Papa.parse(url, {
         download: true,
         complete: (result) => getData(url, result, false),
       });
-    // }
+    }
   };
 
   function getMapTypeLists() {
