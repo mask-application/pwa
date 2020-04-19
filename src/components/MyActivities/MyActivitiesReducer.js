@@ -27,6 +27,11 @@ const initialState = {
   errorHealthEvent: false,
   createTime: localStorage.getItem('create_time'),
   firstCreateTime: localStorage.getItem('first_create_time'),
+  qrEvent: {
+    loading: false,
+    success: false,
+    error: false,
+  },
 };
 
 export function MyActivitiesReducer(state = initialState, action) {
@@ -96,14 +101,28 @@ export function MyActivitiesReducer(state = initialState, action) {
     case ActionTypes.ADD_MEETING_EVENT_REQUEST:
       return {
         ...state,
+        qrEvent: {
+          ...state.qrEvent,
+          loading: true,
+        },
       };
     case ActionTypes.ADD_MEETING_EVENT_SUCCESS:
       return {
         ...state,
+        eventResult: action.eventResult,
+        eventCounter: action.eventCounter,
+        qrEvent: {
+          ...state.qrEvent,
+          success: true,
+        },
       };
     case ActionTypes.ADD_MEETING_EVENT_FAILURE:
       return {
         ...state,
+        qrEvent: {
+          ...state.qrEvent,
+          error: true,
+        },
       };
     default:
       return state;

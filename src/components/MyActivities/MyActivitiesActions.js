@@ -131,7 +131,7 @@ export const createQrEvent = (data, history) => {
       now
     )
       .then((response) => {
-        if (response.status == 201) {
+        if (response.status === 201) {
           dispatch({
             type: ActionTypes.ADD_MEETING_EVENT_SUCCESS,
             eventResult: response.data,
@@ -141,10 +141,7 @@ export const createQrEvent = (data, history) => {
           dispatch(showNav());
 
           history.push('/my-activities');
-        } else if (response.status == 400) {
-          //TODO:باید پیاده سازی شود
-          throw response;
-        } else if (response.status == 401) {
+        } else {
           //TODO:باید پیاده سازی شود
           throw response;
         }
