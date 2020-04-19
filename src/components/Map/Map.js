@@ -100,7 +100,7 @@ function Map() {
     setData([]);
     setIsDataFetching(true);
     const _cached = await db.get(url);
-    if (_cached) {
+    if (_cached.length) {
       getData(url, _cached[0].data, true);
     } else {
       Papa.parse(url, {
