@@ -13,6 +13,7 @@ import QrCodeShow from './components/MyActivities/pages/QrCode/QrCodeShow';
 import QrScanner from './components/MyActivities/pages/QrCode/QrScanner';
 
 import './App.scss';
+import AddToHomeScreenModal from './components/AddToHomeScreen/AddToHomeScreenModal';
 
 export default function App() {
   const showNavBar = useSelector((state) => state.Commons.showNavigation);
@@ -77,6 +78,7 @@ export default function App() {
           <Navigation />
         </div>
       )}
+      <AddToHomeScreenModal />
     </div>
   );
 }
