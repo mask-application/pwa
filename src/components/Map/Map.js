@@ -3,7 +3,8 @@ import './MapStyle.scss';
 import * as utility from './utility';
 import Papa from 'papaparse';
 import * as d3 from 'd3';
-import logo from '../../logo1.png';
+import logo from '../../logo.png';
+import neshanLogo from '../../Logo_copyright-min.png';
 import { db } from '../../services/db';
 
 import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
@@ -98,14 +99,14 @@ export default function Map() {
     setData([]);
     setIsMapFetching(true);
     const _cached = await db.get(url);
-    if (_cached) {
-      getData(url, _cached[0].data, true);
-    } else {
+    // if (_cached) {
+    //   getData(url, _cached[0].data, true);
+    // } else {
       Papa.parse(url, {
         download: true,
         complete: (result) => getData(url, result, false),
       });
-    }
+    // }
   };
 
   function getMapTypeLists() {
@@ -299,10 +300,13 @@ export default function Map() {
         }}
       />
       <div className="comment-wrapper">
-        <div className="map-comment">{(chosenMap || {}).comment}</div>
+        <div className="map-comment">{(chosenMap || {}).comment || 'ــ'}</div>
       </div>
-      <div className="logo-wrapper">
+      <div className="logo-wrapper right">
         <img src={logo} alt="" />
+      </div>
+      <div className="logo-wrapper left">
+        <img src={neshanLogo} alt="" />
       </div>
       {menu}
     </div>
