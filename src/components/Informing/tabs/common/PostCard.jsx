@@ -7,9 +7,12 @@ import styles from './PostCard.module.scss';
 
 import { engToPerDigits } from '../../../../utils';
 
-export default function PostCard({ post, large }) {
+export default function PostCard({ post, large, onClick }) {
   return (
-    <div className={`${styles.container} ${large ? styles.large : ''}`}>
+    <div
+      className={`${styles.container} ${large ? styles.large : ''}`}
+      onClick={onClick}
+    >
       <div
         style={{ backgroundImage: `url("${post.image}")` }}
         className={styles.thumbnail}

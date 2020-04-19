@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import LoadingBox from './LoadingBox';
 import FailureBox from './FailureBox';
 import PostCard from './PostCard';
+import PostDetails from './PostDetails';
 
 import styles from './PostsList.module.scss';
 
@@ -13,6 +14,7 @@ export default function PostsList({ type }) {
   const [posts, setPosts] = useState([]);
   const [hasFailed, setHasFailed] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   function fetchPosts(page) {
     setHasFailed(false);
@@ -35,23 +37,29 @@ export default function PostsList({ type }) {
       });
   }
 
-  if (!hasFailed) {
-    return (
-      <div className={styles.listContainer}>
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={fetchPosts}
-          hasMore={hasMore}
-          loader={<LoadingBox key={0} />}
-          useWindow={false}
-        >
-          {posts.map((post, index) => (
-            <PostCard key={post.id} post={post} large={index === 0} />
-          ))}
-        </InfiniteScroll>
-      </div>
-    );
-  } else {
+  if (hasFailed) {
     return <FailureBox />;
   }
+
+  return (
+    <div className={styles.listContainer}>
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={fetchPosts}
+        hasMore={hasMore}
+        loader={<LoadingBox key={0} />}
+        useWindow={false}
+      >
+        {posts.map((post, index) => (
+          <PostCard
+            key={post.id}
+            post={post}
+            large={index === 0}
+            onClick={() => setSelectedPost(post)}
+          />
+        ))}
+      </InfiniteScroll>
+      <PostDetails post={selectedPost} onClose={() => setSelectedPost(null)} />
+    </div>
+  );
 }
