@@ -9,19 +9,13 @@ import PostCard from './PostCard';
 
 import styles from './PostsList.module.scss';
 
-const states = {
-  LOADING: 'LOADING',
-  SUCCESS: 'SUCCESS',
-  FAILURE: 'FAILURE',
-};
-
 export default function PostsList({ type }) {
   const [posts, setPosts] = useState([]);
-  const [state, setState] = useState(states.SUCCESS);
+  const [hasFailed, setHasFailed] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   function fetchPosts(page) {
-    setState(states.LOADING);
+    setHasFailed(false);
     axios({
       url: process.env.REACT_APP_GET_POSTS,
       params: {
@@ -33,21 +27,15 @@ export default function PostsList({ type }) {
       .then(({ data }) => {
         setPosts(posts.concat(data.list));
         setHasMore(data.meta.has_next);
-        setState(states.SUCCESS);
+        setHasFailed(false);
       })
       .catch((err) => {
         console.error(err);
-        setState(states.FAILURE);
+        setHasFailed(true);
       });
   }
 
-  if (state === states.LOADING) {
-    return <LoadingBox />;
-  }
-  if (state === states.FAILURE) {
-    return <FailureBox />;
-  }
-  if (state === states.SUCCESS) {
+  if (!hasFailed) {
     return (
       <div className={styles.listContainer}>
         <InfiniteScroll
@@ -63,5 +51,7 @@ export default function PostsList({ type }) {
         </InfiniteScroll>
       </div>
     );
+  } else {
+    return <FailureBox />;
   }
 }
