@@ -14,7 +14,7 @@ import QrScanner from "./components/MyActivities/pages/QrCode/QrScanner";
 
 import "./App.scss";
 import AboutPage from "./containers/AboutPage";
-import AddToHomeScreenModal from './components/AddToHomeScreen/AddToHomeScreenModal';
+import AddToHomeScreenModal from "./components/AddToHomeScreen/AddToHomeScreenModal";
 
 export default function App() {
   const showNavBar = useSelector((state) => state.Commons.showNavigation);
@@ -83,7 +83,7 @@ export default function App() {
           <Navigation/>
         </div>
       )}
-      <AddToHomeScreenModal />
+      <AddToHomeScreenModal/>
     </div>
   );
 }
