@@ -23,7 +23,6 @@ function MyActivitiesHelp() {
           />
           {helpId === helpQrCode || helpId === helpCamera ? (
             <div className="header-help">
-              <p className="header-help-text">{help.msg[helpId]}</p>
               <button
                 className="btn-accept"
                 onClick={() => {
@@ -32,8 +31,9 @@ function MyActivitiesHelp() {
                   setHelpId(helpId + 1);
                 }}
               >
+                <p className="header-help-text">{help.msg[helpId]}</p>
                 {/*TODO: use formatted message*/}
-                تأیید
+                <h2>تأیید</h2>
               </button>
             </div>
           ) : null}
