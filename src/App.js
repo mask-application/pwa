@@ -13,6 +13,7 @@ import QrCodeShow from './components/MyActivities/pages/QrCode/QrCodeShow';
 import QrScanner from './components/MyActivities/pages/QrCode/QrScanner';
 
 import './App.scss';
+import AddToHomeScreenModal from './components/AddToHomeScreen/AddToHomeScreenModal';
 
 export default function App() {
   const showNavBar = useSelector((state) => state.Commons.showNavigation);
@@ -64,12 +65,12 @@ export default function App() {
           <PrivateRoute path="/my-health-event" exact>
             <MyHealthEventPage />
           </PrivateRoute>
-          <Route path="/my-qrcode" exact>
+          <PrivateRoute path="/my-qrcode" exact>
             <QrCodeShow />
-          </Route>
-          <Route path="/qr-scanner" exact>
+          </PrivateRoute>
+          <PrivateRoute path="/qr-scanner" exact>
             <QrScanner />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </div>
       {showNavBar && (
@@ -77,6 +78,7 @@ export default function App() {
           <Navigation />
         </div>
       )}
+      <AddToHomeScreenModal />
     </div>
   );
 }

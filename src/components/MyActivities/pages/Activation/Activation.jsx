@@ -12,6 +12,7 @@ import {
   TextField,
   Toolbar,
   Typography,
+  Snackbar,
 } from '@material-ui/core';
 import { KeyboardBackspace, Edit } from '@material-ui/icons';
 import useTimer from 'react-commons/dist/hooks/timer';
@@ -32,20 +33,19 @@ export default function Activation({ onBackClick, onActivate }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [smsSent, setSmsSent] = useState(false);
 
-  useEffect(
-    () => {
-      start();
-    },
-    [
-      /*eslint-disable-line react-hooks/exhaustive-deps*/
-    ]
-  );
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState('');
+
+  useEffect(() => {
+    start();
+    /*eslint-disable-next-line react-hooks/exhaustive-deps*/
+  }, []);
 
   function sendActivationSMS() {
     setIsDialogOpen(true);
     axios({
       method: 'POST',
-      url: `${process.env.REACT_APP_REGISTER_USER}`,
+      url: `${process.env.REACT_APP_REGISTER_USER_AGAIN}`,
       data: {
         phone_number: phone,
         risk_group: condition,
@@ -57,8 +57,8 @@ export default function Activation({ onBackClick, onActivate }) {
       })
       .catch((err) => {
         console.error(err);
-        // FIXME: Use proper notification
-        alert('ارسال کد با خطا مواجه شد!');
+        setAlertText('ارسال کد با خطا مواجه شد!');
+        setIsAlertOpen(true);
         setIsDialogOpen(false);
       });
   }
@@ -82,8 +82,8 @@ export default function Activation({ onBackClick, onActivate }) {
       })
       .catch((err) => {
         console.error(err);
-        // FIXME: Use proper notification
-        alert('کد واردشده اشتباه است!');
+        setAlertText('کد واردشده اشتباه است!');
+        setIsAlertOpen(true);
         setIsDialogOpen(false);
       });
   }
@@ -92,7 +92,7 @@ export default function Activation({ onBackClick, onActivate }) {
     <>
       <AppBar position="static" className="activity-header">
         <Toolbar>
-          <img src={logo} className="app-header-logo" />
+          <img src={logo} className="app-header-logo" alt="logo" />
           <IconButton color="inherit" onClick={onBackClick}>
             <KeyboardBackspace />
           </IconButton>
@@ -149,6 +149,16 @@ export default function Activation({ onBackClick, onActivate }) {
           <Box ml={3}>{'لطفا کمی صبر کنید.'}</Box>
         </div>
       </Dialog>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        open={isAlertOpen}
+        autoHideDuration={5000}
+        onClose={() => setIsAlertOpen(false)}
+        message={alertText}
+      />
     </>
   );
 }
