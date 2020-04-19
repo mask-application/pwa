@@ -25,8 +25,8 @@ export default function PostsList({ type }) {
       },
     })
       .then(({ data }) => {
-        setPosts(posts.concat(data.list));
         setHasMore(data.meta.has_next);
+        setPosts(posts.concat(data.list));
         setHasFailed(false);
       })
       .catch((err) => {
