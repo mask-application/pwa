@@ -52,14 +52,16 @@ export default function PostDetails({ post, onClose }) {
                     .format('DD MMMM YYYY')
                 )}
               </Typography>
-              <a
-                className={styles.source}
-                href={post.source}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {'منبع'}
-              </a>
+              {post.source && (
+                <a
+                  className={styles.source}
+                  href={post.source}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {'منبع'}
+                </a>
+              )}
             </div>
           </div>
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
