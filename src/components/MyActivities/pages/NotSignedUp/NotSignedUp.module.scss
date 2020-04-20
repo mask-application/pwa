@@ -2,11 +2,11 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 56px);
+  justify-content: space-around;
+  height: 100%;
 }
 
 .description {
-  flex-grow: 1;
   text-align: center;
   direction: rtl;
   display: flex;
