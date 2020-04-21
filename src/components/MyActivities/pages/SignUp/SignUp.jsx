@@ -15,6 +15,7 @@ import {
   FormControl,
   Dialog,
   CircularProgress,
+  Snackbar,
 } from '@material-ui/core';
 import { KeyboardBackspace } from '@material-ui/icons';
 import logo from '../../../../logo-header.png';
@@ -29,15 +30,18 @@ export default function SignUp({ onBackClick, onSMSSent }) {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState('');
+
   function onSubmit() {
     if (!/09\d{9}/.test(perToEngDigits(phone))) {
-      // TODO: Use proper notification
-      alert('شماره همراه وارد شده صحیح نمی‌باشد.');
+      setAlertText('شماره همراه وارد شده صحیح نمی‌باشد.');
+      setIsAlertOpen(true);
       return;
     }
     if (condition === '') {
-      // TODO: Use proper notification
-      alert('وضعیت شرایط خاص را مشخص کنید.');
+      setAlertText('وضعیت شرایط خاص را مشخص کنید.');
+      setIsAlertOpen(true);
       return;
     }
     sendActivationSMS();
@@ -63,9 +67,9 @@ export default function SignUp({ onBackClick, onSMSSent }) {
       })
       .catch((err) => {
         console.error(err);
-        // TODO: Use proper notification
-        alert('ارسال کد با خطا مواجه شد!');
         setIsDialogOpen(false);
+        setAlertText('ارسال کد با خطا مواجه شد!');
+        setIsAlertOpen(true);
       });
   }
 
@@ -73,7 +77,7 @@ export default function SignUp({ onBackClick, onSMSSent }) {
     <>
       <AppBar position="static" className="activity-header">
         <Toolbar>
-          <img src={logo} className="app-header-logo" />
+          <img src={logo} className="app-header-logo" alt="logo" />
           <IconButton color="inherit" onClick={onBackClick}>
             <KeyboardBackspace />
           </IconButton>
@@ -149,6 +153,16 @@ export default function SignUp({ onBackClick, onSMSSent }) {
           <Box ml={3}>{'لطفا کمی صبر کنید.'}</Box>
         </div>
       </Dialog>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        open={isAlertOpen}
+        autoHideDuration={5000}
+        onClose={() => setIsAlertOpen(false)}
+        message={alertText}
+      />
     </>
   );
 }

@@ -74,17 +74,17 @@ function MyHealthEvent(props) {
   ); //بیحالی
   const addHealth = () => {
     if (
-      fever === null ||
-      soreThroat === null ||
-      dryCough === null ||
-      holdingThe‌ٰ‌‌‌‌Breath === null ||
-      breathrate === null ||
-      adenoid === null ||
-      bodyPain === null ||
-      runnynose === null ||
-      sneeze === null ||
-      headache === null ||
-      inaction === null
+      fever === '' ||
+      soreThroat === '' ||
+      dryCough === '' ||
+      holdingThe‌ٰ‌‌‌‌Breath === '' ||
+      breathrate === '' ||
+      adenoid === '' ||
+      bodyPain === '' ||
+      runnynose === '' ||
+      sneeze === '' ||
+      headache === '' ||
+      inaction === ''
     ) {
       setOpenSnack(true);
     } else {
@@ -101,7 +101,7 @@ function MyHealthEvent(props) {
         headache: headache,
         lethargy: inaction,
       };
-      props.createHealthEventInBulk(data, history);
+      props.createHealthEvent(data, history);
     }
   };
 
