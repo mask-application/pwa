@@ -4,7 +4,8 @@ import './MapStyle.scss';
 import * as utility from './utility';
 import Papa from 'papaparse';
 import * as d3 from 'd3';
-import logo from '../../logo1.png';
+import logo from '../../logo.png';
+import neshanLogo from '../../Logo_copyright-min.png';
 import { db } from '../../services/db';
 
 import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
@@ -124,8 +125,8 @@ function Map() {
         setZoom(i);
         break;
       } else if (
-          inverseZoomLevel >= zoomLevels[i] &&
-          inverseZoomLevel < zoomLevels[i + 1]
+        inverseZoomLevel >= zoomLevels[i] &&
+        inverseZoomLevel < zoomLevels[i + 1]
       ) {
         setZoom(i + 1);
         break;
@@ -139,9 +140,9 @@ function Map() {
 
   useEffect(() => {
     map &&
-    map.on('zoom', function () {
-      findZoom();
-    });
+      map.on('zoom', function () {
+        findZoom();
+      });
   });
 
   useEffect(() => {
@@ -303,10 +304,13 @@ function Map() {
         }}
       />
       <div className="comment-wrapper">
-        <div className="map-comment">{(chosenMap || {}).comment}</div>
+        <div className="map-comment">{(chosenMap || {}).comment || 'ــ'}</div>
       </div>
-      <div className="logo-wrapper">
+      <div className="logo-wrapper right">
         <img src={logo} alt="" />
+      </div>
+      <div className="logo-wrapper left">
+        <img src={neshanLogo} alt="" />
       </div>
       {renderMenu()}
     </div>
