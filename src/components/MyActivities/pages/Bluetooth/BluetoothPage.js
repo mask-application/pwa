@@ -38,7 +38,7 @@ export default function BluetoothPage() {
       </AppBar>
       <Box className="bt-box">
         <div className="bt-box-body">
-          <BluetoothSearching style={{ fontSize: 150 }} />
+          <BluetoothSearching style={{ fontSize: 150, color: '#ff005c' }} />
           <Paper elevation={0} className="uid-paper">
             <span>{'کد شخصی شما'}</span>
             <Button
