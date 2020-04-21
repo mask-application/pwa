@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   AppBar,
   Toolbar,
@@ -8,12 +8,8 @@ import {
   Box,
   Paper,
   Button,
-  InputBase,
 } from '@material-ui/core';
 import { KeyboardBackspace, BluetoothSearching } from '@material-ui/icons';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
 import { useHistory } from 'react-router-dom';
 import { showNav } from '../../../../redux/actions/CommonActions';
 import './BluetoothPage.scss';
@@ -22,7 +18,7 @@ import logo from '../../../../logo-header.png';
 export default function BluetoothPage() {
   let history = useHistory();
   const dispatch = useDispatch();
-  const unique_id = 's13mec0d3'; // useSelector((state) => state.MyActivities.user.unique_id);
+  const unique_id = useSelector((state) => state.MyActivities.user.unique_id);
 
   return (
     <>
