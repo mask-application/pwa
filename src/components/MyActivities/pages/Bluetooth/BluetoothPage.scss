@@ -1,0 +1,28 @@
+.bt-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.bt-box-body {
+  text-align: center;
+}
+
+.uid-paper {
+  padding: 5px 10px;
+  margin-top: 50px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.uid-btn {
+  border-radius: 3px 0 0 3px !important;
+  background: #ffffff !important;
+  border-right: 3px solid #ff005c !important;
+  font-weight: bold !important;
+  padding: 8px 16px !important;
+  margin: 10px !important;
+}
