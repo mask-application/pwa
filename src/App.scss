@@ -58,11 +58,12 @@ html {
 .app-container {
   display: flex;
   flex-direction: column;
-  //height: 100vh;
+  height: 100vh;
 }
 
 .app-content {
   flex-grow: 1;
+  overflow-y: hidden;
 }
 
 .contentWrapper {
@@ -70,10 +71,6 @@ html {
 }
 
 .app-navigation {
-  box-shadow: 0 0 7px #ccc;
-  position: fixed;
-  left: 0;
-  bottom: 0;
   width: 100%;
 }
 
