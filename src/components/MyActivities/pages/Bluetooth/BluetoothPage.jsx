@@ -12,7 +12,7 @@ import {
 import { KeyboardBackspace, BluetoothSearching } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { showNav } from '../../../../redux/actions/CommonActions';
-import './BluetoothPage.scss';
+import styles from './BluetoothPage.module.scss';
 import logo from '../../../../logo-header.png';
 
 export default function BluetoothPage() {
@@ -36,16 +36,14 @@ export default function BluetoothPage() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box className="bt-box">
-        <div className="bt-box-body">
+      <Box className={styles['bt-box']}>
+        <div className={styles['bt-box-body']}>
           <BluetoothSearching style={{ fontSize: 150, color: '#ff005c' }} />
-          <Paper elevation={0} className="uid-paper">
+          <Paper elevation={0} className={styles['uid-paper']}>
             <span>{'کد شخصی شما'}</span>
             <Button
-              className="uid-btn"
-              onClick={() => {
-                navigator.clipboard.writeText(unique_id);
-              }}
+              className={styles['uid-btn']}
+              onClick={() => navigator.clipboard.writeText(unique_id)}
             >
               {unique_id}
             </Button>
