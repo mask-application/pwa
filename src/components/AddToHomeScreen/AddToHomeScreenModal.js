@@ -4,7 +4,7 @@ import { isInStandaloneMode } from '../../utils/isInStandaloneMode';
 import { Button, Dialog, Paper } from '@material-ui/core';
 import logo from '../../logo.png';
 import ShareIcon from '../../assets/images/ShareIcon.svg';
-import AndroidChromeMenu from '../../assets/images/AndroidChromeMenu.svg';
+// import AndroidChromeMenu from '../../assets/images/AndroidChromeMenu.svg';
 import AddToHomeScreenIcon from '../../assets/images/AddToHomeScreenIcon.svg';
 import { useIntl } from '../../intl';
 import { isAndroid, isMobile, isIOS, isIPad13 } from 'react-device-detect';
@@ -35,7 +35,7 @@ export default function AddToHomeScreenModal() {
             <img src={logo} alt="logo" />
           </div>
           <h3 className="flex-column perfect-center">
-            {isAndroid && intl.formatMessage('add-to-home.android.title')}
+            {isAndroid && intl.formatMessage('add-to-home.android.title1')}
             {(isIOS || isIPad13) && intl.formatMessage('add-to-home.ios.title')}
           </h3>
           <Paper className="steps flex-column perfect-center">
@@ -45,7 +45,10 @@ export default function AddToHomeScreenModal() {
               {(isIOS || isIPad13) && (
                 <img className="share-icon" src={ShareIcon} alt="Share" />
               )}
-              {isAndroid &&
+
+              {/* ANDROID USING WEB */}
+
+              {/* {isAndroid &&
                 intl.formatMessage('add-to-home.android.step1.first')}
               {isAndroid && (
                 <img
@@ -53,7 +56,7 @@ export default function AddToHomeScreenModal() {
                   src={AndroidChromeMenu}
                   alt="Menu"
                 />
-              )}
+              )} */}
               {intl.formatMessage('add-to-home.ios.step1.end')}
             </span>
             <span>
@@ -65,13 +68,19 @@ export default function AddToHomeScreenModal() {
                   alt="Add To Home Screen"
                 />
               )}
-              {isAndroid && (
+
+
+              {/* ANDROID USING WEB */}
+
+
+
+              {/* {isAndroid && (
                 <span className="add-to-home-screen-icon">
                   {intl.formatMessage(
                     'add-to-home.android.step2.add-to-home-screen'
                   )}
                 </span>
-              )}
+              )} */}
               {intl.formatMessage('add-to-home.step2.end')}
             </span>
             <span>{intl.formatMessage('add-to-home.step3.first')}</span>

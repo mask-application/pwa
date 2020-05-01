@@ -35,9 +35,9 @@ class Header extends Component {
           <div className="logo">
             <img src={logo} alt="logo" />
           </div>
-          <Typography variant="subtitle2" className="beta-version">
+          {/* <Typography variant="subtitle2" className="beta-version">
             نسخه آزمایشی
-          </Typography>
+          </Typography> */}
         </div>
 
         <Dialog open={this.state.isDialogOpen}>
