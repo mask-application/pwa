@@ -11,6 +11,7 @@ import MyHealthEventPage from './containers/MyHealthEventPage';
 import InformingPage from './containers/InformingPage';
 import QrCodeShow from './components/MyActivities/pages/QrCode/QrCodeShow';
 import QrScanner from './components/MyActivities/pages/QrCode/QrScanner';
+import BluetoothPage from './components/MyActivities/pages/Bluetooth/BluetoothPage';
 
 import './App.scss';
 import NewVersionDialog from './components/NewVersionDialog/NewVersionDialog';
@@ -71,6 +72,9 @@ export default function App() {
           </PrivateRoute>
           <PrivateRoute path="/qr-scanner" exact>
             <QrScanner />
+          </PrivateRoute>
+          <PrivateRoute path="/bluetooth" exact>
+            <BluetoothPage />
           </PrivateRoute>
         </Switch>
       </div>
