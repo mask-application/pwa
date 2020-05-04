@@ -17,11 +17,9 @@ export default function About() {
   });
 
   return (
-    <div>
-      <div
-        className="content"
-        dangerouslySetInnerHTML={{ __html: html_response }}
-      ></div>
-    </div>
+    <div
+      className="content"
+      dangerouslySetInnerHTML={{ __html: html_response }}
+    />
   );
 }
