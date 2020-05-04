@@ -1,10 +1,10 @@
-import React from "react";
-import { About } from "../components/About/About";
+import React from 'react';
+import About from '../components/About/About.jsx';
 
 function AboutPage() {
   return (
     <div>
-      <About/>
+      <About />
     </div>
   );
 }
