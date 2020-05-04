@@ -9,6 +9,7 @@ import {
   Warning,
   PlaylistAdd,
   Favorite,
+  Bluetooth,
 } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
@@ -83,6 +84,15 @@ function MyActivitiesLoggedin(props) {
               }}
             >
               <CropFree />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                props.hideNavigation();
+                history.push('/bluetooth');
+              }}
+            >
+              <Bluetooth />
             </IconButton>
           </div>
         </Toolbar>

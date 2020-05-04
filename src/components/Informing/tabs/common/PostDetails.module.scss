@@ -1,0 +1,41 @@
+.container {
+  height: calc(100vh - 56px);
+  padding: 0.5rem;
+  background-color: #f5f5f5;
+  overflow-y: auto;
+}
+
+.imageTitleContainer {
+  border-radius: 10px;
+  background-color: white;
+  margin-bottom: 0.5rem;
+
+  .thumbnail {
+    width: 100%;
+    height: 30vh;
+    background-color: #ddd;
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
+  }
+
+  .title {
+    font-weight: 500;
+    padding: 0.5rem;
+  }
+
+  .dateSourceContainer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+
+    .date {
+      color: #777;
+    }
+
+    .source {
+      text-decoration: none;
+    }
+  }
+}
