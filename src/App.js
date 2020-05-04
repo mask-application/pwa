@@ -14,6 +14,7 @@ import QrScanner from './components/MyActivities/pages/QrCode/QrScanner';
 import BluetoothPage from './components/MyActivities/pages/Bluetooth/BluetoothPage';
 
 import './App.scss';
+import NewVersionDialog from './components/NewVersionDialog/NewVersionDialog';
 import AddToHomeScreenModal from './components/AddToHomeScreen/AddToHomeScreenModal';
 
 export default function App() {
@@ -82,6 +83,7 @@ export default function App() {
           <Navigation />
         </div>
       )}
+      <NewVersionDialog />
       <AddToHomeScreenModal />
     </div>
   );
