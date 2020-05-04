@@ -16,6 +16,7 @@ import BluetoothPage from "./components/MyActivities/pages/Bluetooth/BluetoothPa
 import "./App.scss";
 import AboutPage from "./containers/AboutPage";
 import AddToHomeScreenModal from "./components/AddToHomeScreen/AddToHomeScreenModal";
+import NewVersionDialog from './components/NewVersionDialog/NewVersionDialog';
 
 export default function App() {
   const showNavBar = useSelector((state) => state.Commons.showNavigation);
@@ -87,7 +88,8 @@ export default function App() {
           <Navigation/>
         </div>
       )}
-      <AddToHomeScreenModal/>
+      <NewVersionDialog />
+      <AddToHomeScreenModal />
     </div>
   );
 }

@@ -17,3 +17,17 @@ export const showNav = () => {
     });
   };
 };
+
+export const showNewVersionDialog = () => {
+  return {
+    type: ActionTypes.NEW_VERSION_AVAILABLE,
+    payload: true,
+  };
+};
+
+export const hideNewVersionDialog = () => {
+  return {
+    type: ActionTypes.NEW_VERSION_AVAILABLE,
+    payload: false,
+  };
+};
