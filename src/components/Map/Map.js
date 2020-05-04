@@ -37,10 +37,10 @@ function Map() {
       map &&
         polygons &&
         window.L.polygon(polygons, {
-          fillColor: `#${Number(color).toString(16)}`,
+          fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
           fill: true,
           stroke: false,
-          fillOpacity: 0.4,
+          fillOpacity: Number(color) / 0x1000000 / 255.0,
         }).addTo(map);
     },
     [map]
@@ -71,7 +71,12 @@ function Map() {
         let j = i + 1;
         let polygons = [];
         while (j < lineNumber && line[j].length > 1) {
-          if (!isNaN(line[j][0])) polygons.push(line[j]);
+          if (!isNaN(line[j][0])) {
+            polygons.push(line[j]);
+          }
+          if (line[j][0] === 'P') {
+            polygons.push(line[j].slice(1));
+          }
           j++;
         }
         let sameColor = {};
