@@ -206,24 +206,35 @@
   z-index: 10000;
 }
 
-.overlay-qr-code {
+.overlay-bluetooth {
   top: -7px;
   left: 2%;
 }
 
-.overlay-camera {
+.overlay-qr-code {
   top: -7px;
   left: calc(2% + 48px);
 }
 
+.overlay-camera {
+  top: -7px;
+  left: calc(2% + 96px);
+}
+
 @media (min-width: 1025px) {
-  .overlay-qr-code {
+  .overlay-bluetooth {
+    top: 0;
     left: 1%;
   }
 
-  .overlay-camera {
-    top: -7px;
+  .overlay-qr-code {
+    top: 0;
     left: calc(1% + 48px);
+  }
+
+  .overlay-camera {
+    top: 0;
+    left: calc(1% + 96px);
   }
 }
 
