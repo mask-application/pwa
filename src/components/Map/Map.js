@@ -37,10 +37,10 @@ function Map() {
       map &&
         polygons &&
         window.L.polygon(polygons, {
-          fillColor: `#${Number(color % 0x1000000).toString(16)}`,
+          fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
           fill: true,
           stroke: false,
-          fillOpacity: color / 0x1000000 / 255.0,
+          fillOpacity: Number(color) / 0x1000000 / 255.0,
         }).addTo(map);
     },
     [map]
