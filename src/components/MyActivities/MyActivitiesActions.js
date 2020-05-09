@@ -36,6 +36,7 @@ export const createHealthEvent = (data, history) => {
     dispatch({ type: ActionTypes.SHOW_HEALTH_EVENT_LOADING });
 
     let indexedData = {
+      version: process.env.REACT_APP_VERSION,
       fever: MyHealthEventConsts.fever.indexOf(data.fever),
       sore_throat: MyHealthEventConsts.soreThroat.indexOf(data.sore_throat),
       dry_cough: MyHealthEventConsts.dryCough.indexOf(data.dry_cough),
