@@ -32,6 +32,11 @@ const initialState = {
     success: false,
     error: false,
   },
+  qrPlaceEvent: {
+    loading: false,
+    success: false,
+    error: false,
+  },
 };
 
 export function MyActivitiesReducer(state = initialState, action) {
@@ -121,6 +126,32 @@ export function MyActivitiesReducer(state = initialState, action) {
         ...state,
         qrEvent: {
           ...state.qrEvent,
+          error: true,
+        },
+      };
+    case ActionTypes.ADD_PLACE_EVENT_REQUEST:
+      return {
+        ...state,
+        qrPlaceEvent: {
+          ...state.qrPlaceEvent,
+          loading: true,
+        },
+      };
+    case ActionTypes.ADD_PLACE_EVENT_SUCCESS:
+      return {
+        ...state,
+        eventResult: action.eventResult,
+        eventCounter: action.eventCounter,
+        qrPlaceEvent: {
+          ...state.qrPlaceEvent,
+          success: true,
+        },
+      };
+    case ActionTypes.ADD_PLACE_EVENT_FAILURE:
+      return {
+        ...state,
+        qrPlaceEvent: {
+          ...state.qrPlaceEvent,
           error: true,
         },
       };

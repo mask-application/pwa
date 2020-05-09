@@ -154,6 +154,45 @@ export const createQrEvent = (data, history) => {
   };
 };
 
+export const createQrPlaceEvent = (data, history) => {
+  return (dispatch, getState) => {
+    dispatch({ type: ActionTypes.ADD_PLACE_EVENT_REQUEST });
+
+    let now = new Date();
+
+    console.log(now);
+
+    createEventInBulk(
+      2,
+      data,
+      getState().MyActivities.user.people[0].id,
+      getState().MyActivities.token,
+      now
+    )
+      .then((response) => {
+        if (response.status === 201) {
+          dispatch({
+            type: ActionTypes.ADD_PLACE_EVENT_SUCCESS,
+            eventResult: response.data,
+            eventCounter: +getState().MyActivities.eventCounter + 1,
+            createTime: now,
+          });
+          dispatch(showNav());
+
+          history.push('/my-activities');
+        } else {
+          //TODO:باید پیاده سازی شود
+          throw response;
+        }
+      })
+      .catch(() => {
+        dispatch({
+          type: ActionTypes.ADD_PLACE_EVENT_FAILURE,
+        });
+      });
+  };
+};
+
 const createEventInBulk = (type, data, personId, token, now) => {
   let year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(now);
   let month = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(now);
