@@ -151,6 +151,7 @@
 }
 
 .activation-btn {
+  width: 90%;
   border-radius: 16px !important;
 }
 
@@ -205,14 +206,36 @@
   z-index: 10000;
 }
 
-.overlay-qr-code {
+.overlay-bluetooth {
   top: -7px;
   left: 2%;
 }
 
-.overlay-camera {
+.overlay-qr-code {
   top: -7px;
   left: calc(2% + 48px);
+}
+
+.overlay-camera {
+  top: -7px;
+  left: calc(2% + 96px);
+}
+
+@media (min-width: 1025px) {
+  .overlay-bluetooth {
+    top: 0;
+    left: 1%;
+  }
+
+  .overlay-qr-code {
+    top: 0;
+    left: calc(1% + 48px);
+  }
+
+  .overlay-camera {
+    top: 0;
+    left: calc(1% + 96px);
+  }
 }
 
 .header-help {
@@ -230,10 +253,11 @@
 
   .btn-accept {
     color: #ff005c;
-    font-size: 18px;
     font-family: IRANYekan;
     float: left;
     background-color: transparent;
     border: none;
+    outline: none;
+    padding: 1rem 1rem 1rem 0;
   }
 }
