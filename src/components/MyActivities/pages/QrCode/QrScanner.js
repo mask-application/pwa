@@ -5,7 +5,10 @@ import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { showNav } from '../../../../redux/actions/CommonActions';
-import { createQrEvent, createQrPlaceEvent } from '../../MyActivitiesActions';
+import {
+  createQrMeetEvent,
+  createQrPlaceEvent,
+} from '../../MyActivitiesActions';
 import './QrCode.scss';
 import logo from '../../../../logo-header.png';
 
@@ -15,19 +18,18 @@ export default function QrScanner() {
 
   function handleScan(data) {
     if (data) {
-      // check if place
-      const place = data.split('\n');
-      if (place.length >= 6) {
-        const name = place[1].split('NAM')[1];
-        const tel = place[2].split('TEL')[1];
-        const psc = place[3].split('PSC')[1];
-        const geo = place[4].split('GEO')[1];
-
-        dispatch(createQrPlaceEvent({ name, tel, psc, geo }, history));
-      }
       // It is assumed that QR code has always the form person:code
       if (/^person:[a-z0-9]+$/i.test(data)) {
-        dispatch(createQrEvent({ id: data.split(':')[1] }, history));
+        dispatch(createQrMeetEvent({ id: data.split(':')[1] }, history));
+      } else {
+        // check if place
+        const place = data.split('\n');
+        const location = place.find((value) => value.includes('GEO'));
+        if (location) {
+          const latitude = location.split('GEO')[1].split(',')[0];
+          const longitude = location.split('GEO')[1].split(',')[1];
+          dispatch(createQrPlaceEvent({ latitude, longitude }, history));
+        }
       }
     }
   }

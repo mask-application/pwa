@@ -118,7 +118,7 @@ export const createHealthEvent = (data, history) => {
   };
 };
 
-export const createQrEvent = (data, history) => {
+export const createQrMeetEvent = (data, history) => {
   return (dispatch, getState) => {
     dispatch({ type: ActionTypes.ADD_MEETING_EVENT_REQUEST });
 
@@ -161,10 +161,8 @@ export const createQrPlaceEvent = (data, history) => {
 
     let now = new Date();
 
-    console.log(now);
-
     createEventInBulk(
-      2,
+      3,
       data,
       getState().MyActivities.user.people[0].id,
       getState().MyActivities.token,
