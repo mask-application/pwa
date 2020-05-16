@@ -5,7 +5,10 @@ import { KeyboardBackspace } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { showNav } from '../../../../redux/actions/CommonActions';
-import { createQrEvent } from '../../MyActivitiesActions';
+import {
+  createQrMeetEvent,
+  createQrPlaceEvent,
+} from '../../MyActivitiesActions';
 import './QrCode.scss';
 import logo from '../../../../logo-header.png';
 
@@ -17,7 +20,16 @@ export default function QrScanner() {
     if (data) {
       // It is assumed that QR code has always the form person:code
       if (/^person:[a-z0-9]+$/i.test(data)) {
-        dispatch(createQrEvent({ id: data.split(':')[1] }, history));
+        dispatch(createQrMeetEvent({ id: data.split(':')[1] }, history));
+      } else {
+        // check if place
+        const place = data.split('\n');
+        const location = place.find((value) => value.includes('GEO'));
+        if (location) {
+          const latitude = location.split('GEO')[1].split(',')[0];
+          const longitude = location.split('GEO')[1].split(',')[1];
+          dispatch(createQrPlaceEvent({ latitude, longitude }, history));
+        }
       }
     }
   }
