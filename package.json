@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "crypto-js": "^4.0.0",
     "d3": "^5.15.1",
     "dayjs": "^1.8.24",
     "flat": "^5.0.0",
