@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import './MapStyle.scss';
 import * as utility from './utility';
 import Papa from 'papaparse';
@@ -28,9 +29,7 @@ function Map() {
   const [isDataFetching, setIsDataFetching] = useState(false);
   const [vpnAlert, setVpnAlert] = useState(true);
 
-  const permissions = useSelector(
-    (state) => state.MyActivities.user.permissions
-  );
+  const { user, token } = useSelector((state) => state.MyActivities);
 
   const {
     isMapFetching,
@@ -61,11 +60,10 @@ function Map() {
   }, [map]);
 
   //  TODO explain about the code (Explain the goal for each section to help other developers).
-  const getData = (url, result, key, cached = false) => {
+  const getData = (url, result, cached = false) => {
     setIsDataFetching(false);
 
-    const content = !!key ? decryptPrivateMap(result, key) : result.data;
-    if (!content) return undefined;
+    if (!result) return undefined;
 
     // Add to cache if map does not exist
     !cached &&
@@ -75,7 +73,7 @@ function Map() {
         mapName: chosenMap.id,
       });
 
-    const line = content;
+    const line = result;
     const lineNumber = line.length;
     for (let i = 0; i < lineNumber; ) {
       if (line[i].length === 1) {
@@ -118,12 +116,24 @@ function Map() {
     setIsDataFetching(true);
     const _cached = await db.get(url);
     if (_cached.length) {
-      getData(url, _cached[0].data, key, true);
+      getData(url, _cached[0].data, true);
     } else {
-      Papa.parse(url, {
-        download: true,
-        complete: (result) => getData(url, result, key, false),
-      });
+      if (key) {
+        const response = await axios({
+          url,
+          method: 'GET',
+          responseType: 'blob',
+        });
+        const decrypted = decryptPrivateMap(response.data, key);
+        Papa.parse(decrypted, {
+          complete: (result) => getData(url, result, false),
+        });
+      } else {
+        Papa.parse(url, {
+          download: true,
+          complete: (result) => getData(url, result.data, false),
+        });
+      }
     }
   };
 
@@ -163,15 +173,16 @@ function Map() {
 
   const hasPrivateAccess = () => {
     return (
-      permissions.filter((perm) => {
+      user &&
+      user.permissions.some((perm) => {
         return perm.includes('maps_') || perm.includes('webmap');
-      }).length > 0
+      })
     );
   };
 
   useEffect(() => {
     dispatch(fetchMaps());
-    hasPrivateAccess() && dispatch(fetchPrivateMaps());
+    hasPrivateAccess() && dispatch(fetchPrivateMaps(token));
     setMap(
       new window.L.Map('map', {
         key: process.env.REACT_APP_MAP_TOKEN,

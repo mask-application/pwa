@@ -1,38 +1,48 @@
 var CryptoJS = require('crypto-js');
 
-function pack(bytes) {
-  var chars = [];
-  for (var i = 0, n = bytes.length; i < n; ) {
-    chars.push(((bytes[i++] & 0xff) << 8) | (bytes[i++] & 0xff));
+const pack = (bytes) => {
+  let str = [];
+  let hex = bytes.toString().split(',');
+  for (let i = 0; i < bytes.length; i++) {
+    str.push(String.fromCharCode(hex[i]));
   }
-  return String.fromCharCode.apply(null, chars);
-}
+  return str.join('');
+};
 
-function unpack(str) {
-  var bytes = [];
-  for (var i = 0, n = str.length; i < n; i++) {
-    var char = str.charCodeAt(i);
-    bytes.push(char >>> 8, char & 0xff);
+const unpack = (str) => {
+  let bytes = [];
+  for (let i = 0; i < str.length; ++i) {
+    bytes.push(str.charCodeAt(i));
   }
   return bytes;
-}
+};
+
+const blobToString = (b) => {
+  var u, x;
+  u = URL.createObjectURL(b);
+  x = new XMLHttpRequest();
+  x.open('GET', u, false);
+  x.send();
+  URL.revokeObjectURL(u);
+  return x.responseText;
+};
 
 const decryptPrivateMap = (result, key) => {
   try {
-    const decodedKey = CryptoJS.enc.Base64.parse(key).toString(
-      CryptoJS.enc.Utf8
-    );
-    const decodedResult = CryptoJS.enc.Base64.parse(result);
+    const blob = new Blob([result]);
+    const data = blobToString(blob);
 
-    var secret = unpack(decodedKey).slice(0, 8);
-    var iv = unpack(decodedKey).slice(9, 24);
+    const decodedKey = CryptoJS.enc.Base64.parse(key).toString();
+    const decodedResult = CryptoJS.enc.Base64.parse(data);
 
-    var decrypted = CryptoJS.AES.decrypt(
-      { ciphertext: decodedResult },
-      secret,
-      { iv: iv }
-    );
-    return decrypted.toString(CryptoJS.enc.Utf8);
+    var iv = CryptoJS.enc.Hex.parse(pack(unpack(decodedKey).slice(0, 16)));
+    var secret = CryptoJS.enc.Hex.parse(pack(unpack(decodedKey).slice(16, 48)));
+
+    var decrypted = CryptoJS.TripleDES.decrypt(decodedResult, secret, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+    });
+    return decrypted.toString();
   } catch (e) {
     console.log(e);
     return undefined;
