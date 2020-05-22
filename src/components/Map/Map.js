@@ -114,7 +114,7 @@ function Map() {
   const parseFile = async (url, key) => {
     setData([]);
     setIsDataFetching(true);
-    const _cached = await db.get(url);
+    const _cached = false; // await db.get(url);
     if (_cached.length) {
       getData(url, _cached[0].data, true);
     } else {
@@ -125,9 +125,10 @@ function Map() {
           responseType: 'blob',
         });
         const decrypted = decryptPrivateMap(response.data, key);
-        Papa.parse(decrypted, {
-          complete: (result) => getData(url, result, false),
-        });
+        decrypted &&
+          Papa.parse(decrypted, {
+            complete: (result) => getData(url, result, false),
+          });
       } else {
         Papa.parse(url, {
           download: true,

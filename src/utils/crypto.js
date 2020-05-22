@@ -33,16 +33,20 @@ const decryptPrivateMap = (result, key) => {
     const data = blobToString(blob);
 
     const decodedKey = CryptoJS.enc.Base64.parse(key).toString();
-    const decodedResult = CryptoJS.enc.Base64.parse(data);
+    const decodedResult = CryptoJS.enc.Base64.parse(data).toString();
 
-    var iv = CryptoJS.enc.Hex.parse(pack(unpack(decodedKey).slice(0, 16)));
-    var secret = CryptoJS.enc.Hex.parse(pack(unpack(decodedKey).slice(16, 48)));
+    const iv = CryptoJS.enc.Utf8.parse(pack(unpack(decodedKey).slice(0, 16)));
+    const secret = CryptoJS.enc.Utf8.parse(
+      pack(unpack(decodedKey).slice(16, 48))
+    );
 
-    var decrypted = CryptoJS.TripleDES.decrypt(decodedResult, secret, {
+    const decrypted = CryptoJS.TripleDES.decrypt(decodedResult, secret, {
       iv: iv,
       mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.NoPadding,
     });
-    return decrypted.toString();
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
   } catch (e) {
     console.log(e);
     return undefined;
