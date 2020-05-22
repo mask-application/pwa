@@ -127,7 +127,7 @@ function Map() {
         const decrypted = decryptPrivateMap(response.data, key);
         decrypted &&
           Papa.parse(decrypted, {
-            complete: (result) => getData(url, result, false),
+            complete: (result) => getData(url, result.data, false),
           });
       } else {
         Papa.parse(url, {
