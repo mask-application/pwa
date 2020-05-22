@@ -25,7 +25,7 @@ export const MapReducer = (state = initialState, action) => {
       return {
         ...state,
         isMapFetching: false,
-        mapList: [...state.mapList, action.payload],
+        mapList: [...state.mapList, ...action.payload],
       };
     case FETCH_MAP_ERROR:
       return {
@@ -42,7 +42,7 @@ export const MapReducer = (state = initialState, action) => {
       return {
         ...state,
         isPrivateMapFetching: false,
-        mapList: [...state.mapList, action.payload],
+        mapList: [...state.mapList, ...action.payload],
       };
     case FETCH_PRIVATE_MAP_ERROR:
       return {
