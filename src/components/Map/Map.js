@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import './MapStyle.scss';
@@ -47,7 +47,7 @@ function Map() {
           fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
           fill: true,
           stroke: false,
-          fillOpacity: Number(color) / 0x1000000 / 255.0,
+          fillOpacity: 0.5,
         }).addTo(map);
     },
     [map]
