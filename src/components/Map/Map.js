@@ -114,7 +114,7 @@ function Map() {
   const parseFile = async (url, key) => {
     setData([]);
     setIsDataFetching(true);
-    const _cached = false; // await db.get(url);
+    const _cached = await db.get(url);
     if (_cached.length) {
       getData(url, _cached[0].data, true);
     } else {
