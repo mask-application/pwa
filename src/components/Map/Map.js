@@ -175,8 +175,9 @@ function Map() {
   const hasPrivateAccess = () => {
     return (
       user &&
+      user.permissions.filter((perm) => perm === 'webmap').length &&
       user.permissions.some((perm) => {
-        return perm.includes('maps_') || perm.includes('webmap');
+        return perm.includes('maps_');
       })
     );
   };

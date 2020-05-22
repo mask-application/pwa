@@ -25,8 +25,8 @@ export const MapReducer = (state = initialState, action) => {
       return {
         ...state,
         isMapFetching: false,
-        mapList: [...state.mapList, ...action.payload].sort(
-          (a, b) => a.priority || 'zzzzzzz' > b.priority || 'zzzzzzz'
+        mapList: [...state.mapList, ...action.payload].sort((a, b) =>
+          a.priority || 'zzzzzzz' > b.priority || 'zzzzzzz' ? 1 : -1
         ),
       };
     case FETCH_MAP_ERROR:
@@ -44,8 +44,8 @@ export const MapReducer = (state = initialState, action) => {
       return {
         ...state,
         isPrivateMapFetching: false,
-        mapList: [...state.mapList, ...action.payload].sort(
-          (a, b) => a.priority || 'zzzzzzz' > b.priority || 'zzzzzzz'
+        mapList: [...state.mapList, ...action.payload].sort((a, b) =>
+          a.priority || 'zzzzzzz' > b.priority || 'zzzzzzz' ? 1 : -1
         ),
       };
     case FETCH_PRIVATE_MAP_ERROR:
