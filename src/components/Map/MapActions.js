@@ -2,8 +2,8 @@ export const FETCH_MAP_REQUEST = 'FETCH_MAP_REQUEST';
 export const FETCH_MAP_SUCCESS = 'FETCH_MAP_SUCCESS';
 export const FETCH_MAP_ERROR = 'FETCH_MAP_ERROR';
 export const FETCH_PRIVATE_MAP_REQUEST = 'FETCH_PRIVATE_MAP_REQUEST';
-export const FETCH_PRIVATE_MAP_SUCCESS = 'FETCH_PRIVATE_MAP_REQUEST';
-export const FETCH_PRIVATE_MAP_ERROR = 'FETCH_PRIVATE_MAP_REQUEST';
+export const FETCH_PRIVATE_MAP_SUCCESS = 'FETCH_PRIVATE_MAP_SUCCESS';
+export const FETCH_PRIVATE_MAP_ERROR = 'FETCH_PRIVATE_MAP_ERROR';
 
 const fetchMapRequest = () => {
   return {
@@ -36,27 +36,31 @@ export const fetchMaps = () => (dispatch) => {
 
 const fetchPrivateMapRequest = () => {
   return {
-    type: FETCH_MAP_REQUEST,
+    type: FETCH_PRIVATE_MAP_REQUEST,
   };
 };
 const fetchPrivateMapSuccess = (payload) => {
   return {
-    type: FETCH_MAP_SUCCESS,
+    type: FETCH_PRIVATE_MAP_SUCCESS,
     payload,
   };
 };
 const fetchPrivateMapError = () => {
   return {
-    type: FETCH_MAP_ERROR,
+    type: FETCH_PRIVATE_MAP_ERROR,
   };
 };
 
-export const fetchPrivateMaps = () => (dispatch) => {
+export const fetchPrivateMaps = (token) => (dispatch) => {
   dispatch(fetchPrivateMapRequest());
-  return fetch(`${process.env.REACT_APP_GET_PRIVATE_MAPS}`)
+  return fetch(`${process.env.REACT_APP_GET_PRIVATE_MAPS}`, {
+    headers: {
+      'Access-Token': token,
+    },
+  })
     .then((response) => response.json())
     .then((responseJson) => {
-      dispatch(fetchPrivateMapSuccess(Object.values(responseJson)));
+      dispatch(fetchPrivateMapSuccess(responseJson.list));
     })
     .catch((error) => {
       dispatch(fetchPrivateMapError());
