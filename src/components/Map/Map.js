@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import './MapStyle.scss';
 import * as utility from './utility';
 import Papa from 'papaparse';
@@ -7,13 +8,14 @@ import * as d3 from 'd3';
 import logo from '../../logo.png';
 import neshanLogo from '../../Logo_copyright-min.png';
 import { db } from '../../services/db';
+import { fetchMaps, fetchPrivateMaps } from './MapActions';
+import { decryptPrivateMap } from '../../utils/crypto';
 
 import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import CloseIcon from '@material-ui/icons/Close';
-import { fetchMap } from './MapActions';
 
 function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
@@ -27,9 +29,14 @@ function Map() {
   const [isDataFetching, setIsDataFetching] = useState(false);
   const [vpnAlert, setVpnAlert] = useState(true);
 
-  const { isMapFetching, mapList, serverError } = useSelector(
-    (state) => state.Map
-  );
+  const { user, token } = useSelector((state) => state.MyActivities);
+
+  const {
+    isMapFetching,
+    isPrivateMapFetching,
+    mapList,
+    serverError,
+  } = useSelector((state) => state.Map);
   const dispatch = useDispatch();
 
   const drawPolygon = useCallback(
@@ -40,7 +47,7 @@ function Map() {
           fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
           fill: true,
           stroke: false,
-          fillOpacity: Number(color) / 0x1000000 / 255.0,
+          fillOpacity: 0.5,
         }).addTo(map);
     },
     [map]
@@ -56,6 +63,8 @@ function Map() {
   const getData = (url, result, cached = false) => {
     setIsDataFetching(false);
 
+    if (!result) return undefined;
+
     // Add to cache if map does not exist
     !cached &&
       db.set({
@@ -64,7 +73,7 @@ function Map() {
         mapName: chosenMap.id,
       });
 
-    const line = result.data;
+    const line = result;
     const lineNumber = line.length;
     for (let i = 0; i < lineNumber; ) {
       if (line[i].length === 1) {
@@ -102,17 +111,30 @@ function Map() {
     }
   };
 
-  const parseFile = async (url) => {
+  const parseFile = async (url, key) => {
     setData([]);
     setIsDataFetching(true);
     const _cached = await db.get(url);
     if (_cached.length) {
       getData(url, _cached[0].data, true);
     } else {
-      Papa.parse(url, {
-        download: true,
-        complete: (result) => getData(url, result, false),
-      });
+      if (key) {
+        const response = await axios({
+          url,
+          method: 'GET',
+          responseType: 'blob',
+        });
+        const decrypted = decryptPrivateMap(response.data, key);
+        decrypted &&
+          Papa.parse(decrypted, {
+            complete: (result) => getData(url, result.data, false),
+          });
+      } else {
+        Papa.parse(url, {
+          download: true,
+          complete: (result) => getData(url, result.data, false),
+        });
+      }
     }
   };
 
@@ -150,8 +172,19 @@ function Map() {
       });
   });
 
+  const hasPrivateAccess = () => {
+    return (
+      user &&
+      user.permissions.filter((perm) => perm === 'webmap').length &&
+      user.permissions.some((perm) => {
+        return perm.includes('maps_');
+      })
+    );
+  };
+
   useEffect(() => {
-    dispatch(fetchMap());
+    dispatch(fetchMaps());
+    hasPrivateAccess() && dispatch(fetchPrivateMaps(token));
     setMap(
       new window.L.Map('map', {
         key: process.env.REACT_APP_MAP_TOKEN,
@@ -172,7 +205,8 @@ function Map() {
   useEffect(() => {
     chosenMap &&
       parseFile(
-        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${chosenMap.version}.csv`
+        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${chosenMap.version}.csv`,
+        chosenMap.key
       );
   }, [chosenMap]);
 
@@ -234,7 +268,7 @@ function Map() {
       <div className="alerts">
         <Collapse
           className="map-alert-wrapper"
-          in={isDataFetching || isMapFetching}
+          in={isDataFetching || isMapFetching || isPrivateMapFetching}
           addEndListener={null}
         >
           <Alert
