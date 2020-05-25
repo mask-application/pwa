@@ -1,4 +1,4 @@
-@import './assets/fonts/Fonts';
+@import './assets/fonts/IRANSans';
 
 :root {
   box-sizing: border-box;
@@ -16,7 +16,7 @@
 
 html,
 body {
-  font-family: IRANYekan;
+  font-family: IRANSans;
 }
 
 body {
@@ -85,7 +85,7 @@ html {
 .MuiMenuItem-root,
 .MuiSnackbarContent-root,
 .MuiTab-root {
-  font-family: IRANYekan !important;
+  font-family: IRANSans !important;
 }
 
 .MuiBottomNavigationAction-label {

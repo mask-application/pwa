@@ -47,7 +47,7 @@ function Map() {
           fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
           fill: true,
           stroke: false,
-          fillOpacity: 0.5,
+          fillOpacity: Number(color) / 0x1000000 / 255.0,
         }).addTo(map);
     },
     [map]
