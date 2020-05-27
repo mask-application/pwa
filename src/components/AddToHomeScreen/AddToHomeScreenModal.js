@@ -4,7 +4,6 @@ import { isInStandaloneMode } from '../../utils/isInStandaloneMode';
 import { Button, Dialog, Paper } from '@material-ui/core';
 import logo from '../../logo.png';
 import ShareIcon from '../../assets/images/ShareIcon.svg';
-import AndroidChromeMenu from '../../assets/images/AndroidChromeMenu.svg';
 import AddToHomeScreenIcon from '../../assets/images/AddToHomeScreenIcon.svg';
 import { useIntl } from '../../intl';
 import { isAndroid, isMobile, isIOS, isIPad13 } from 'react-device-detect';
@@ -80,7 +79,7 @@ export default function AddToHomeScreenModal() {
               <Paper className="steps flex-column perfect-center">
                 <h3 className="flex-column perfect-center text">
                   {isAndroid &&
-                    intl.formatMessage('add-to-home.android.title1')}
+                    intl.formatMessage('add-to-home.android.description')}
                 </h3>
               </Paper>
               <Button
