@@ -29,7 +29,7 @@ export const MapReducer = (state = initialState, action) => {
           ...state.mapList,
           ...action.payload.filter(
             (item) =>
-              state.mapList.map((item) => item.id).indexOf(item.id) !== -1
+              state.mapList.map((item) => item.id).indexOf(item.id) === -1
           ),
         ].sort((a, b) =>
           a.priority || 'zzzzzzz' > b.priority || 'zzzzzzz' ? 1 : -1
@@ -54,7 +54,7 @@ export const MapReducer = (state = initialState, action) => {
           ...state.mapList,
           ...action.payload.filter(
             (item) =>
-              state.mapList.map((item) => item.id).indexOf(item.id) !== -1
+              state.mapList.map((item) => item.id).indexOf(item.id) === -1
           ),
         ].sort((a, b) =>
           a.priority || 'zzzzzzz' > b.priority || 'zzzzzzz' ? 1 : -1
