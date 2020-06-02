@@ -25,7 +25,13 @@ export const MapReducer = (state = initialState, action) => {
       return {
         ...state,
         isMapFetching: false,
-        mapList: [...state.mapList, ...action.payload].sort((a, b) =>
+        mapList: [
+          ...state.mapList,
+          ...action.payload.filter(
+            (item) =>
+              state.mapList.map((item) => item.id).indexOf(item.id) === -1
+          ),
+        ].sort((a, b) =>
           a.priority || 'zzzzzzz' > b.priority || 'zzzzzzz' ? 1 : -1
         ),
       };
@@ -43,8 +49,14 @@ export const MapReducer = (state = initialState, action) => {
     case FETCH_PRIVATE_MAP_SUCCESS:
       return {
         ...state,
-        isPrivateMapFetching: false,
-        mapList: [...state.mapList, ...action.payload].sort((a, b) =>
+        isMapFetching: false,
+        mapList: [
+          ...state.mapList,
+          ...action.payload.filter(
+            (item) =>
+              state.mapList.map((item) => item.id).indexOf(item.id) === -1
+          ),
+        ].sort((a, b) =>
           a.priority || 'zzzzzzz' > b.priority || 'zzzzzzz' ? 1 : -1
         ),
       };
