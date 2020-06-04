@@ -36,6 +36,7 @@ export const createHealthEvent = (data, history) => {
     dispatch({ type: ActionTypes.SHOW_HEALTH_EVENT_LOADING });
 
     let indexedData = {
+      version: process.env.REACT_APP_VERSION,
       fever: MyHealthEventConsts.fever.indexOf(data.fever),
       sore_throat: MyHealthEventConsts.soreThroat.indexOf(data.sore_throat),
       dry_cough: MyHealthEventConsts.dryCough.indexOf(data.dry_cough),
@@ -117,9 +118,40 @@ export const createHealthEvent = (data, history) => {
   };
 };
 
-export const createQrEventInBulk = (type, data, history) => {
+export const createQrEvent = (data, history) => {
   return (dispatch, getState) => {
-    //FIXME CRITICAL:پیاده سازی نشده . باید قبل دپلوی حتما پیاده سازی شود
+    dispatch({ type: ActionTypes.ADD_MEETING_EVENT_REQUEST });
+
+    let now = new Date();
+
+    createEventInBulk(
+      1,
+      data,
+      getState().MyActivities.user.people[0].id,
+      getState().MyActivities.token,
+      now
+    )
+      .then((response) => {
+        if (response.status === 201) {
+          dispatch({
+            type: ActionTypes.ADD_MEETING_EVENT_SUCCESS,
+            eventResult: response.data,
+            eventCounter: +getState().MyActivities.eventCounter + 1,
+            createTime: now,
+          });
+          dispatch(showNav());
+
+          history.push('/my-activities');
+        } else {
+          //TODO:باید پیاده سازی شود
+          throw response;
+        }
+      })
+      .catch(() => {
+        dispatch({
+          type: ActionTypes.ADD_MEETING_EVENT_FAILURE,
+        });
+      });
   };
 };
 

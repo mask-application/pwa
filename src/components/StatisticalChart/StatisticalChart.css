@@ -43,7 +43,7 @@ h5 {
 
 .x-axis-text {
   text-anchor: middle;
-  font-family: IRANYekan;
+  font-family: IRANSans;
 }
 
 .y-axis line {
@@ -53,5 +53,5 @@ h5 {
 
 .y-axis-text {
   text-anchor: end;
-  font-family: IRANYekan;
+  font-family: IRANSans;
 }

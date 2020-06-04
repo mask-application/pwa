@@ -14,7 +14,7 @@
     align-items: center;
     padding: 20px;
     width: 100%;
-    font-family: IRANYekan, serif;
+    font-family: IRANSans, serif;
   }
 
   .comment-wrapper {
@@ -34,11 +34,16 @@
   .logo-wrapper {
     position: fixed;
     z-index: 10;
-    bottom: 100px;
-    left: 5%;
-    display: flex;
-    img {
-      height: 70px;
+    display: inline;
+
+    &.left {
+      left: 5%;
+      bottom: 105px;
+    }
+
+    &.right {
+      right: 5%;
+      bottom: 95px;
     }
   }
 
@@ -98,19 +103,42 @@
     color: #797979;
   }
 
-  @media screen and (min-width: 760px) {
+  @media (max-width: 760px) {
     .logo-wrapper {
       img {
-        height: 100px;
+        width: 70px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 761px) {
+    .logo-wrapper {
+      img {
+        width: 100px;
+      }
+
+      &.left {
+        bottom: 110px;
+      }
+
+      &.right {
+        bottom: 90px;
       }
     }
   }
 
   @media screen and (max-width: 328px) {
     .logo-wrapper {
-      bottom: 120px;
       img {
-        height: 50px;
+        width: 50px;
+      }
+
+      &.left {
+        bottom: 122px;
+      }
+
+      &.right {
+        bottom: 112px;
       }
     }
   }
@@ -125,7 +153,7 @@
 
   .map-menu-item {
     font-size: 14px;
-    font-family: IRANYekan, serif;
+    font-family: IRANSans, serif;
   }
 }
 
@@ -149,7 +177,7 @@
   margin-left: 20px;
 
   .MuiAlert-root {
-    font-family: IRANYekan, serif;
+    font-family: IRANSans, serif;
     font-size: 12px;
   }
 

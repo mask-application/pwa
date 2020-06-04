@@ -220,7 +220,7 @@ function StatisticalChart(props) {
     return g
       .attr('dx', '.35em')
       .attr('transform', `translate(${dimension.width - 24} ,16)`)
-      .attr('font-family', 'IRANYekan')
+      .attr('font-family', 'IRANSans')
       .attr('font-size', 10)
       .text(date);
   };

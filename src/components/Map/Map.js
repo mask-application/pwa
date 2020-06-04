@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import './MapStyle.scss';
 import * as utility from './utility';
 import Papa from 'papaparse';
 import * as d3 from 'd3';
-import logo from '../../logo1.png';
+import logo from '../../logo.png';
+import neshanLogo from '../../Logo_copyright-min.png';
 import { db } from '../../services/db';
+import { fetchMaps, fetchPrivateMaps } from './MapActions';
+import { decryptPrivateMap } from '../../utils/crypto';
 
 import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
@@ -12,45 +17,53 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import CloseIcon from '@material-ui/icons/Close';
 
-export default function Map() {
+function Map() {
   // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
   // try to use react leaflet and help encapsulation components (and Separation of concerns)
 
   const [chosenMap, setChosenMap] = useState(null);
   const [map, setMap] = useState(null);
   const [data, setData] = useState([]);
-  const [zoomLevels, setZoomLevels] = useState([]);
   const [zoom, setZoom] = useState(0);
-  const [showData, setShowData] = useState(null);
-  const [list, setList] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isMapFetching, setIsMapFetching] = useState(false);
+  const [isDataFetching, setIsDataFetching] = useState(false);
   const [vpnAlert, setVpnAlert] = useState(true);
-  const [serverError, setServerError] = useState(false);
 
-  // #TODO polygons -> points ot latLongs
-  const drawPolygon = (color, polygons) => {
-    map &&
-      polygons &&
-      window.L.polygon(polygons, {
-        fillColor: `#${Number(color).toString(16)}`,
-        fill: true,
-        stroke: false,
-        fillOpacity: 0.4,
-      }).addTo(map);
-  };
+  const { user, token } = useSelector((state) => state.MyActivities);
 
-  const clearPolygon = () => {
+  const {
+    isMapFetching,
+    isPrivateMapFetching,
+    mapList,
+    serverError,
+  } = useSelector((state) => state.Map);
+  const dispatch = useDispatch();
+
+  const drawPolygon = useCallback(
+    (color, polygons) => {
+      map &&
+        polygons &&
+        window.L.polygon(polygons, {
+          fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
+          fill: true,
+          stroke: false,
+          fillOpacity: Number(color) / 0x1000000 / 255.0,
+        }).addTo(map);
+    },
+    [map]
+  );
+
+  const clearPolygon = useCallback(() => {
     if (map) {
       d3.selectAll('.leaflet-interactive').remove();
     }
-  };
+  }, [map]);
 
   //  TODO explain about the code (Explain the goal for each section to help other developers).
-  //   Maybe a separate file would be better to include such these functions
   const getData = (url, result, cached = false) => {
-    setIsMapFetching(false);
-    setZoomLevels([]);
+    setIsDataFetching(false);
+
+    if (!result) return undefined;
 
     // Add to cache if map does not exist
     !cached &&
@@ -60,15 +73,19 @@ export default function Map() {
         mapName: chosenMap.id,
       });
 
-    const line = result.data;
+    const line = result;
     const lineNumber = line.length;
     for (let i = 0; i < lineNumber; ) {
       if (line[i].length === 1) {
-        setZoomLevels((prevLevels) => [...prevLevels, result.data[i][0]]);
         let j = i + 1;
         let polygons = [];
         while (j < lineNumber && line[j].length > 1) {
-          if (!isNaN(line[j][0])) polygons.push(line[j]);
+          if (!isNaN(line[j][0])) {
+            polygons.push(line[j]);
+          }
+          if (line[j][0] === 'P') {
+            polygons.push(line[j].slice(1));
+          }
           j++;
         }
         let sameColor = {};
@@ -94,41 +111,83 @@ export default function Map() {
     }
   };
 
-  const parseFile = async (url) => {
+  const parseFile = async (url, key) => {
     setData([]);
-    setIsMapFetching(true);
+    setIsDataFetching(true);
     const _cached = await db.get(url);
-    if (_cached) {
+    if (_cached.length) {
       getData(url, _cached[0].data, true);
     } else {
-      Papa.parse(url, {
-        download: true,
-        complete: (result) => getData(url, result, false),
-      });
+      if (key) {
+        const response = await axios({
+          url,
+          method: 'GET',
+          responseType: 'blob',
+        });
+        const decrypted = decryptPrivateMap(response.data, key);
+        decrypted &&
+          Papa.parse(decrypted, {
+            complete: (result) => getData(url, result.data, false),
+          });
+      } else {
+        Papa.parse(url, {
+          download: true,
+          complete: (result) => getData(url, result.data, false),
+        });
+      }
     }
   };
 
-  function getMapTypeLists() {
-    setIsMapFetching(true);
-    return fetch(`${process.env.REACT_APP_GET_MAP_TYPE_LISTS}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setList(Object.values(responseJson)[0]);
-      })
-      .catch((error) => {
-        setServerError(true);
-        console.error(error);
-      });
-  }
+  const findZoomLevels = useCallback(() => {
+    const result = [];
+    data.map((element) => result.push(element[0]));
+    return result;
+  }, [data]);
+
+  const findZoom = useCallback(() => {
+    const inverseZoomLevel = 10 * Math.pow(2, -(map && map.getZoom()));
+    const zoomLevels = data && findZoomLevels();
+    for (let i = 0; i < zoomLevels.length - 1; i++) {
+      if (inverseZoomLevel < zoomLevels[i]) {
+        setZoom(i);
+        break;
+      } else if (
+        inverseZoomLevel >= zoomLevels[i] &&
+        inverseZoomLevel < zoomLevels[i + 1]
+      ) {
+        setZoom(i + 1);
+        break;
+      }
+    }
+  }, [map, data, findZoomLevels]);
 
   useEffect(() => {
-    getMapTypeLists().then();
-    // FIXME configs should be moved in the config file
+    findZoom();
+  }, [findZoom, data]);
+
+  useEffect(() => {
+    map &&
+      map.on('zoom', function () {
+        findZoom();
+      });
+  });
+
+  const hasPrivateAccess = () => {
+    return (
+      user &&
+      user.permissions.filter((perm) => perm === 'webmap').length &&
+      user.permissions.some((perm) => {
+        return perm.includes('maps_');
+      })
+    );
+  };
+
+  useEffect(() => {
+    dispatch(fetchMaps());
+    hasPrivateAccess() && dispatch(fetchPrivateMaps(token));
     setMap(
       new window.L.Map('map', {
-        // FIXME CRITICAL set token
         key: process.env.REACT_APP_MAP_TOKEN,
-        // key: 'web.VeNZSu3YdgN4YfaaI0AwLeoCRdi8oZ1jeOj6jm5x',
         maptype: 'dreamy',
         poi: true,
         traffic: false,
@@ -137,59 +196,35 @@ export default function Map() {
         zoom: 4.2,
       })
     );
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    list && setChosenMap(list[0]);
-  }, [list]);
+    mapList && setChosenMap(mapList[0]);
+  }, [mapList]);
 
   useEffect(() => {
     chosenMap &&
       parseFile(
-        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${chosenMap.version}.csv`
+        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${chosenMap.version}.csv`,
+        chosenMap.key
       );
   }, [chosenMap]);
 
   useEffect(() => {
-    setShowData(((data || {})[zoom] || [])[1]);
-  }, [zoom, data]);
-
-  useEffect(() => {
     clearPolygon();
-    if (showData)
-      for (let key in showData) {
-        drawPolygon(key, showData[key]);
-      }
-  }, [map, showData]);
+    if (!((data || {})[zoom] || [])[1]) {
+      return;
+    }
+    for (let key in data[zoom][1]) {
+      if (Object.prototype.hasOwnProperty.call(data[zoom][1], key))
+        drawPolygon(key, data[zoom][1][key]);
+    }
+  }, [map, zoom, data, clearPolygon, drawPolygon]);
 
   const handleLocate = async () => {
     const myLatLngLocation = await utility.getCurrentPosition();
     map.flyTo(myLatLngLocation, 15);
   };
-
-  useEffect(() => {
-    setZoom(zoomLevels.length - 1);
-  }, [zoomLevels]);
-
-  useEffect(() => {
-    map &&
-      map.on('zoom', function () {
-        const inverseZoomLevel = 10 * Math.pow(2, -(map && map.getZoom()));
-        //TODO check the condition
-        for (let i = 0; i < zoomLevels.length - 1; i++) {
-          if (inverseZoomLevel < zoomLevels[i]) {
-            setZoom(i);
-            break;
-          } else if (
-            inverseZoomLevel >= zoomLevels[i] &&
-            inverseZoomLevel < zoomLevels[i + 1]
-          ) {
-            setZoom(i + 1);
-            break;
-          }
-        }
-      });
-  });
 
   const clickMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -200,36 +235,42 @@ export default function Map() {
     setAnchorEl(null);
   };
 
-  const menu = (
-    <Menu
-      classes={{
-        paper: 'map-menu',
-      }}
-      anchorEl={anchorEl}
-      keepMounted
-      open={Boolean(anchorEl)}
-      onClose={() => closeMenu()}
-    >
-      {list &&
-        list.map((item) => {
-          return (
-            <MenuItem
-              key={item.id}
-              classes={{ root: 'map-menu-item' }}
-              onClick={() => closeMenu(item)}
-              disabled={item.id === 'testlabs' || item.id === 'hospitals'}
-            >
-              {item.name}
-            </MenuItem>
-          );
-        })}
-    </Menu>
-  );
+  const renderMenu = () => {
+    return (
+      <Menu
+        classes={{
+          paper: 'map-menu',
+        }}
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={() => closeMenu()}
+      >
+        {mapList &&
+          mapList.map((item) => {
+            return (
+              <MenuItem
+                key={item.id}
+                classes={{ root: 'map-menu-item' }}
+                onClick={() => closeMenu(item)}
+                disabled={item.id === 'testlabs' || item.id === 'hospitals'}
+              >
+                {item.name}
+              </MenuItem>
+            );
+          })}
+      </Menu>
+    );
+  };
 
   return (
     <div className={`contentWrapper MapWrapper`}>
       <div className="alerts">
-        <Collapse className="map-alert-wrapper" in={isMapFetching}>
+        <Collapse
+          className="map-alert-wrapper"
+          in={isDataFetching || isMapFetching || isPrivateMapFetching}
+          addEndListener={null}
+        >
           <Alert
             severity="info"
             action={
@@ -237,7 +278,7 @@ export default function Map() {
                 color="inherit"
                 size="small"
                 onClick={() => {
-                  setIsMapFetching(false);
+                  setIsDataFetching(false);
                 }}
               >
                 <CloseIcon fontSize="inherit" />
@@ -248,7 +289,11 @@ export default function Map() {
           </Alert>
         </Collapse>
         {serverError && (
-          <Collapse className="map-alert-wrapper" in={vpnAlert}>
+          <Collapse
+            className="map-alert-wrapper"
+            in={vpnAlert}
+            addEndListener={null}
+          >
             <Alert
               severity="warning"
               action={
@@ -286,7 +331,6 @@ export default function Map() {
           <ExpandMoreIcon />
         </button>
       </div>
-      {/* TODO config file */}
       <div
         id="map"
         style={{
@@ -299,12 +343,17 @@ export default function Map() {
         }}
       />
       <div className="comment-wrapper">
-        <div className="map-comment">{(chosenMap || {}).comment}</div>
+        <div className="map-comment">{(chosenMap || {}).comment || 'ــ'}</div>
       </div>
-      <div className="logo-wrapper">
+      <div className="logo-wrapper right">
         <img src={logo} alt="" />
       </div>
-      {menu}
+      <div className="logo-wrapper left">
+        <img src={neshanLogo} alt="" />
+      </div>
+      {renderMenu()}
     </div>
   );
 }
+
+export default Map;
