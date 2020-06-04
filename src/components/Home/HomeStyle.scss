@@ -2,15 +2,16 @@
   display: grid;
   padding: 1rem;
   grid-template-columns: 50% 50%;
+  height: 60%;
+  // margin-bottom: 56px;
   position: relative;
   top: -5em;
-  height: 60% !important;
 
   .home-icon {
     margin: 0.5rem 0.5rem 0.75rem 0.5rem;
     text-decoration: none;
     border-radius: 16px;
-    padding: 0.25rem;
+    padding: 1.25rem 0.5rem;
 
     span {
       color: #5d5d5d;

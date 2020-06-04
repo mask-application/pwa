@@ -14,8 +14,14 @@ h5 {
 }
 
 .statistics-text {
+  /*display: grid;*/
+  /*grid-template-columns: 10% 40% 30% 10% 10%;*/
+  /*justify-content: space-around;*/
+  /*padding: 0 1rem;*/
+  /*font-size: 12px;*/
+  /*align-items: center;*/
   padding-top: 2%;
-  padding-left: 4%;
+  padding-left: 6%;
   text-align: left;
 }
 
@@ -24,7 +30,28 @@ h5 {
   top: -5em;
 }
 
+@media (min-width: 700px) {
+  .statistics-text {
+    width: 50%;
+  }
+}
+
 .spinner {
   min-height: 6em;
   min-width: 100%;
+}
+
+.x-axis-text {
+  text-anchor: middle;
+  font-family: IRANSans;
+}
+
+.y-axis line {
+  stroke: lightgrey;
+  stroke-opacity: 0.3;
+}
+
+.y-axis-text {
+  text-anchor: end;
+  font-family: IRANSans;
 }
