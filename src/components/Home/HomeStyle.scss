@@ -3,7 +3,9 @@
   padding: 1rem;
   grid-template-columns: 50% 50%;
   height: 60%;
-  margin-bottom: 56px;
+  // margin-bottom: 56px;
+  position: relative;
+  top: -5em;
 
   .home-icon {
     margin: 0.5rem 0.5rem 0.75rem 0.5rem;

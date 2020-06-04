@@ -30,11 +30,28 @@ function StatisticalChartGuide(props) {
       guideRow.push(<StatisticalChartGuideItem key={i} data={data[i]} />);
   }
 
+  function lastUpdateTime() {
+    const lastUpdate = new Date(props.data.last_update).toLocaleDateString(
+      'fa-IR'
+    );
+    const date = `آخرین به‌روزرسانی: ${lastUpdate}`;
+    return (
+      <div className="statistics-text" style={{ fontSize: 8 }}>
+        {date}
+      </div>
+    );
+  }
+
   if (props.isLoaded) {
     createGuide();
   }
 
-  return <div>{guideRow}</div>;
+  return (
+    <div>
+      {guideRow}
+      {lastUpdateTime()}
+    </div>
+  );
 }
 
 export default StatisticalChartGuide;

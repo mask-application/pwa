@@ -239,9 +239,9 @@ function StatisticalChart(props) {
     const y = getY(dataArea);
 
     const svg = getSVG();
-    svg.append('g').call((g) => {
-      drawYAxis(g, y, dataArea);
-    });
+    // svg.append('g').call((g) => {
+    //   drawYAxis(g, y, dataArea);
+    // });
     svg.append('g').call((g) => {
       areaGradientColor(g, keys, getColor());
     });
@@ -254,7 +254,7 @@ function StatisticalChart(props) {
     svg.append('g').call((g) => {
       drawXAxis(g, dataArea);
     });
-    svg.append('text').call(lastUpdateTime);
+    // svg.append('text').call(lastUpdateTime);
 
     removeFirstLastLabelXAxis();
     translateYAxis();
