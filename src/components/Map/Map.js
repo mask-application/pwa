@@ -39,19 +39,40 @@ function Map() {
   } = useSelector((state) => state.Map);
   const dispatch = useDispatch();
 
+  var popup = map && window.L.popup();
+
   const drawPolygon = useCallback(
     (color, polygons) => {
-      map &&
-        polygons &&
-        window.L.polygon(polygons, {
-          fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
-          fill: true,
-          stroke: false,
-          fillOpacity: Number(color) / 0x1000000 / 255.0,
-        }).addTo(map);
+      if(map && polygons){
+        for (let polygon of polygons){
+          let tooltip= null;
+          if(isNaN(polygon[polygon.length-1][0])){
+            tooltip = polygon[polygon.length-1][0];
+            polygon = polygon.slice(0,polygon.length-1);
+          }
+          window.L.polygon([polygon], {
+            fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
+            fill: true,
+            stroke: false,
+            fillOpacity: Number(color) / 0x1000000 / 255.0,
+          }).on('click', function (e) {showTooltip(tooltip, e)}).addTo(map);
+        }
+      }
     },
     [map]
   );
+
+  function showTooltip(tooltip, e) {
+    if (tooltip !== null) {
+      let url = `${process.env.REACT_APP_MAP_IMAGE_CDN}${tooltip}`;
+      popup
+          .setLatLng(e.latlng)
+          .setContent("<div><img class='tooltip' src="+url+" /> </div>")
+          .openOn(map);
+    }
+  }
+
+
 
   const clearPolygon = useCallback(() => {
     if (map) {
@@ -80,10 +101,11 @@ function Map() {
         let j = i + 1;
         let polygons = [];
         while (j < lineNumber && line[j].length > 1) {
-          if (!isNaN(line[j][0])) {
-            polygons.push(line[j]);
-          }
+
           if (line[j][0] === 'P') {
+            polygons.push(line[j].slice(1));
+          }
+          if (line[j][0] === 'S') {
             polygons.push(line[j].slice(1));
           }
           j++;
@@ -97,7 +119,7 @@ function Map() {
             for (let k = 0; k < temp.length; k += 2) {
               points.push([temp[k], temp[k + 1]]);
             }
-            if (color in sameColor) sameColor[color].push([points]);
+            if (color in sameColor) sameColor[color].push(points);
             else sameColor[color] = [points];
             polygons.splice(k, 1);
             k = 0;
