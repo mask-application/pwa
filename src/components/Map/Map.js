@@ -28,6 +28,7 @@ function Map() {
     const [zoom, setZoom] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const [isDataFetching, setIsDataFetching] = useState(false);
+    const [isDataProcessing, setisDataProcessing] = useState(false);
     const [vpnAlert, setVpnAlert] = useState(true);
 
     const {user, token} = useSelector((state) => state.MyActivities);
@@ -39,8 +40,6 @@ function Map() {
         serverError,
     } = useSelector((state) => state.Map);
     const dispatch = useDispatch();
-
-    var popup = map && window.L.popup();
 
     const drawPolygon = useCallback(
         (color, polygons) => {
@@ -65,12 +64,14 @@ function Map() {
         [map]
     );
 
+    var popup = map && window.L.popup();
+
     function showTooltip(tooltip, e) {
         if (tooltip !== null) {
             let url = `${process.env.REACT_APP_MAP_IMAGE_CDN}${tooltip}`;
             popup
                 .setLatLng(e.latlng)
-                .setContent("<div><img class='tooltip' src=" + url + " /> </div>")
+                .setContent("<div><img class='tooltip' alt=\"stats\" src=" + url + " /> </div>")
                 .openOn(map);
         }
     }
@@ -79,7 +80,6 @@ function Map() {
     const clearPolygon = useCallback(() => {
         if (map) {
             d3.selectAll('.leaflet-interactive').remove();
-
         }
     }, [map]);
 
@@ -89,7 +89,6 @@ function Map() {
         }
     }, [map]);
 
-    //  TODO explain about the code (Explain the goal for each section to help other developers).
     const getData = (url, result, cached = false) => {
         setIsDataFetching(false);
 
@@ -103,54 +102,59 @@ function Map() {
             mapName: chosenMap.id,
         });
 
+        setisDataProcessing(true);
         const line = result;
         const lineNumber = line.length;
-        for (let i = 0; i < lineNumber;) {
-            if (line[i].length === 1) {
-                let j = i + 1;
-                let polygons = [];
-                let labels = [];
-                while (j < lineNumber && line[j].length > 1) {
-
-                    if (line[j][0] === 'P') {
-                        polygons.push(line[j].slice(1));
-                    }
-                    if (line[j][0] === 'S') {
-                        polygons.push(line[j].slice(1));
-                    }
-                    if (line[j][0] === 'L') {
-                        labels.push({
-                            text: line[j][1],
-                            point: [line[j][2], line[j][3]],
-                            size: line[j][4],
-                            color: `#${(Number(line[j][5]) % 0x1000000).toString(16)}`,
-                            opacity: Number(line[j][5]) / 0x1000000 / 255.0,
-                        })
-                    }
-                    j++;
-                }
-                let sameColor = {};
-                for (let k = 0; k < polygons.length;) {
-                    let color = polygons[0][0];
-                    if (polygons[k][0] === color) {
+        let zzoom = null;
+        let polygons = [];
+        let sPolygons = [];
+        let labels = [];
+        for (let i = 0; i <= lineNumber; i++) {
+            if (i === lineNumber || line[i].length === 1) {
+                if (i > 0) {
+                    let sameColor = {};
+                    polygons.push(...sPolygons);
+                    for (let j = 0; j < polygons.length; j++) {
+                        let color = polygons[j][0];
                         let points = [];
-                        let temp = polygons[k].slice(1);
-                        for (let k = 0; k < temp.length; k += 2) {
-                            points.push([temp[k], temp[k + 1]]);
-                        }
-                        if (color in sameColor) sameColor[color].push(points);
-                        else sameColor[color] = [points];
-                        polygons.splice(k, 1);
-                        k = 0;
-                    } else {
-                        k++;
+                        for (let k = 1; k < polygons[j].length; k += 2)
+                            points.push([polygons[j][k], polygons[j][k + 1]]);
+                        if (color in sameColor)
+                            sameColor[color].push(points);
+                        else
+                            sameColor[color] = [points];
                     }
+                    setData((prevData) => [...prevData, [zzoom, sameColor]]);
+                    setLabel((prevLabel) => [...prevLabel, [zzoom, labels]]);
+                    polygons = [];
+                    sPolygons = [];
+                    labels = [];
                 }
-                setData((prevData) => [...prevData, [Number(line[i][0]), sameColor]]);
-                setLabel((prevLabel) => [...prevLabel, [Number(line[i][0]), labels]]);
-                i = j;
+                if (i < lineNumber)
+                    zzoom = Number(line[i][0]);
+                continue;
+            }
+            if (line[i][0] === 'P') {
+                polygons.push(line[i].slice(1));
+            }
+            if (line[i][0] === 'S') {
+                let polygon = line[i].slice(1);
+                polygon.push(...[""])
+                sPolygons.push(polygon);
+            }
+            if (line[i][0] === 'L') {
+                labels.push({
+                    text: line[i][1],
+                    point: [line[i][2], line[i][3]],
+                    size: line[i][4],
+                    color: `#${(Number(line[i][5]) % 0x1000000).toString(16)}`,
+                    opacity: Number(line[i][5]) / 0x1000000 / 255.0,
+                })
             }
         }
+        setisDataProcessing(false);
+        setData((prevData) => [...prevData]);
+        setLabel((prevData) => [...prevData]);
     };
 
     const parseFile = async (url, key) => {
@@ -256,10 +260,13 @@ function Map() {
     }, [chosenMap]);
 
     useEffect(() => {
+        if (isDataProcessing)
+            return;
         clearPolygon();
         if (!((data || {})[zoom] || [])[1]) {
             return;
         }
+        console.log("drawpolygon")
         for (let key in data[zoom][1]) {
             if (Object.prototype.hasOwnProperty.call(data[zoom][1], key))
                 drawPolygon(key, data[zoom][1][key]);
@@ -267,6 +274,8 @@ function Map() {
     }, [map, zoom, data, clearPolygon, drawPolygon]);
 
     useEffect(() => {
+        if (isDataProcessing)
+            return;
         clearLabel();
         if (!((label || {})[zoom] || [])[1]) {
             return;
