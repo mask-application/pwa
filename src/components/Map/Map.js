@@ -117,16 +117,14 @@ function Map() {
           if (line[j][0] === 'S') {
             polygons.push(line[j].slice(1));
           }
-          if (line[j][0] === 'L'){
+          if (line[j][0] === 'L') {
             labels.push({
               text: line[j][1],
               point: [line[j][2], line[j][3]],
               size: line[j][4],
-              color: `#${Number(line[j][5]).toString(16)}`,
+              color: `#${(Number(line[j][5]) % 0x1000000).toString(16)}`,
+              opacity: Number(line[j][5]) / 0x1000000 / 255.0,
             })
-          }
-          else if ( line[j][0] === 'P') {
-            polygons.push(line[j].splice(1));
           }
           j++;
         }
@@ -148,7 +146,7 @@ function Map() {
           }
         }
         setData((prevData) => [...prevData, [Number(line[i][0]), sameColor]]);
-        if (labels.length > 0) setLabel((prevLabel => [...prevLabel, [Number(line[i][0]), labels]]));
+        setLabel((prevLabel) => [...prevLabel, [Number(line[i][0]), labels]]);
         i = j;
       }
     }
@@ -156,6 +154,7 @@ function Map() {
 
   const parseFile = async (url, key) => {
     setData([]);
+	setLabel([]);
     setIsDataFetching(true);
     const _cached = await db.get(url);
     if (_cached.length) {
@@ -273,8 +272,8 @@ function Map() {
     }
     // TODO clean this shit
     let root = document.documentElement;
-    root.style.setProperty('--label-color', label[zoom][1][0].color);
-    root.style.setProperty('--label-size', label[zoom][1][0].size);
+    root.style.setProperty('--label-color', '#000000');
+    root.style.setProperty('--label-size', 10);
     for (let entry of label[zoom][1]){
       window.L.marker(entry.point, {
         opacity: 0,
