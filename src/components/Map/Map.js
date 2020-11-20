@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
 import './MapStyle.scss';
 import * as utility from './utility';
@@ -7,416 +7,417 @@ import Papa from 'papaparse';
 import * as d3 from 'd3';
 import logo from '../../logo.png';
 import neshanLogo from '../../Logo_copyright-min.png';
-import { db } from '../../services/db';
-import { fetchMaps, fetchPrivateMaps } from './MapActions';
-import { decryptPrivateMap } from '../../utils/crypto';
+import {db} from '../../services/db';
+import {fetchMaps, fetchPrivateMaps} from './MapActions';
+import {decryptPrivateMap} from '../../utils/crypto';
 
-import { Menu, MenuItem, IconButton, Collapse } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import {Menu, MenuItem, IconButton, Collapse} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import CloseIcon from '@material-ui/icons/Close';
 
 function Map() {
-  // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
-  // try to use react leaflet and help encapsulation components (and Separation of concerns)
+    // FIXME you are using leaflet but you haven't imported it in this component because you have put it in index.html
+    // try to use react leaflet and help encapsulation components (and Separation of concerns)
 
-  const [chosenMap, setChosenMap] = useState(null);
-  const [map, setMap] = useState(null);
-  const [data, setData] = useState([]);
-  const [label, setLabel] = useState([]);
-  const [zoom, setZoom] = useState(0);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [isDataFetching, setIsDataFetching] = useState(false);
-  const [vpnAlert, setVpnAlert] = useState(true);
+    const [chosenMap, setChosenMap] = useState(null);
+    const [map, setMap] = useState(null);
+    const [data, setData] = useState([]);
+    const [label, setLabel] = useState([]);
+    const [zoom, setZoom] = useState(0);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [isDataFetching, setIsDataFetching] = useState(false);
+    const [vpnAlert, setVpnAlert] = useState(true);
 
-  const { user, token } = useSelector((state) => state.MyActivities);
+    const {user, token} = useSelector((state) => state.MyActivities);
 
-  const {
-    isMapFetching,
-    isPrivateMapFetching,
-    mapList,
-    serverError,
-  } = useSelector((state) => state.Map);
-  const dispatch = useDispatch();
+    const {
+        isMapFetching,
+        isPrivateMapFetching,
+        mapList,
+        serverError,
+    } = useSelector((state) => state.Map);
+    const dispatch = useDispatch();
 
-  var popup = map && window.L.popup();
+    var popup = map && window.L.popup();
 
-  const drawPolygon = useCallback(
-    (color, polygons) => {
-      if(map && polygons){
-        for (let polygon of polygons){
-          let tooltip= null;
-          if(isNaN(polygon[polygon.length-1][0])){
-            tooltip = polygon[polygon.length-1][0];
-            polygon = polygon.slice(0,polygon.length-1);
-          }
-          window.L.polygon([polygon], {
-            fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
-            fill: true,
-            stroke: false,
-            fillOpacity: Number(color) / 0x1000000 / 255.0,
-          }).on('click', function (e) {showTooltip(tooltip, e)}).addTo(map);
-        }
-      }
-    },
-    [map]
-  );
-
-  function showTooltip(tooltip, e) {
-    if (tooltip !== null) {
-      let url = `${process.env.REACT_APP_MAP_IMAGE_CDN}${tooltip}`;
-      popup
-          .setLatLng(e.latlng)
-          .setContent("<div><img class='tooltip' src="+url+" /> </div>")
-          .openOn(map);
-    }
-  }
-
-
-
-  const clearPolygon = useCallback(() => {
-    if (map) {
-      d3.selectAll('.leaflet-interactive').remove();
-
-    }
-  }, [map]);
-
-  const clearLabel = useCallback(() => {
-    if (map) {
-      d3.selectAll('.leaflet-tooltip').remove();
-    }
-  }, [map]);
-
-  //  TODO explain about the code (Explain the goal for each section to help other developers).
-  const getData = (url, result, cached = false) => {
-    setIsDataFetching(false);
-
-    if (!result) return undefined;
-
-    // Add to cache if map does not exist
-    !cached &&
-      db.set({
-        data: result,
-        fileName: url,
-        mapName: chosenMap.id,
-      });
-
-    const line = result;
-    const lineNumber = line.length;
-    for (let i = 0; i < lineNumber; ) {
-      if (line[i].length === 1) {
-        let j = i + 1;
-        let polygons = [];
-        let labels = [];
-        while (j < lineNumber && line[j].length > 1) {
-
-          if (line[j][0] === 'P') {
-            polygons.push(line[j].slice(1));
-          }
-          if (line[j][0] === 'S') {
-            polygons.push(line[j].slice(1));
-          }
-          if (line[j][0] === 'L') {
-            labels.push({
-              text: line[j][1],
-              point: [line[j][2], line[j][3]],
-              size: line[j][4],
-              color: `#${(Number(line[j][5]) % 0x1000000).toString(16)}`,
-              opacity: Number(line[j][5]) / 0x1000000 / 255.0,
-            })
-          }
-          j++;
-        }
-        let sameColor = {};
-        for (let k = 0; k < polygons.length; ) {
-          let color = polygons[0][0];
-          if (polygons[k][0] === color) {
-            let points = [];
-            let temp = polygons[k].slice(1);
-            for (let k = 0; k < temp.length; k += 2) {
-              points.push([temp[k], temp[k + 1]]);
+    const drawPolygon = useCallback(
+        (color, polygons) => {
+            if (map && polygons) {
+                for (let polygon of polygons) {
+                    let tooltip = null;
+                    if (isNaN(polygon[polygon.length - 1][0])) {
+                        tooltip = polygon[polygon.length - 1][0];
+                        polygon = polygon.slice(0, polygon.length - 1);
+                    }
+                    window.L.polygon([polygon], {
+                        fillColor: `#${(Number(color) % 0x1000000).toString(16)}`,
+                        fill: true,
+                        stroke: false,
+                        fillOpacity: Number(color) / 0x1000000 / 255.0,
+                    }).on('click', function (e) {
+                        showTooltip(tooltip, e)
+                    }).addTo(map);
+                }
             }
-            if (color in sameColor) sameColor[color].push(points);
-            else sameColor[color] = [points];
-            polygons.splice(k, 1);
-            k = 0;
-          } else {
-            k++;
-          }
+        },
+        [map]
+    );
+
+    function showTooltip(tooltip, e) {
+        if (tooltip !== null) {
+            let url = `${process.env.REACT_APP_MAP_IMAGE_CDN}${tooltip}`;
+            popup
+                .setLatLng(e.latlng)
+                .setContent("<div><img class='tooltip' src=" + url + " /> </div>")
+                .openOn(map);
         }
-        setData((prevData) => [...prevData, [Number(line[i][0]), sameColor]]);
-        setLabel((prevLabel) => [...prevLabel, [Number(line[i][0]), labels]]);
-        i = j;
-      }
     }
-  };
 
-  const parseFile = async (url, key) => {
-    setData([]);
-	setLabel([]);
-    setIsDataFetching(true);
-    const _cached = await db.get(url);
-    if (_cached.length) {
-      getData(url, _cached[0].data, true);
-    } else {
-      if (key) {
-        const response = await axios({
-          url,
-          method: 'GET',
-          responseType: 'blob',
+
+    const clearPolygon = useCallback(() => {
+        if (map) {
+            d3.selectAll('.leaflet-interactive').remove();
+
+        }
+    }, [map]);
+
+    const clearLabel = useCallback(() => {
+        if (map) {
+            d3.selectAll('.leaflet-tooltip').remove();
+        }
+    }, [map]);
+
+    //  TODO explain about the code (Explain the goal for each section to help other developers).
+    const getData = (url, result, cached = false) => {
+        setIsDataFetching(false);
+
+        if (!result) return undefined;
+
+        // Add to cache if map does not exist
+        !cached &&
+        db.set({
+            data: result,
+            fileName: url,
+            mapName: chosenMap.id,
         });
-        const decrypted = decryptPrivateMap(response.data, key);
-        decrypted &&
-          Papa.parse(decrypted, {
-            complete: (result) => getData(url, result.data, false),
-          });
-      } else {
-        Papa.parse(url, {
-          download: true,
-          complete: (result) => getData(url, result.data, false),
-        });
-      }
-    }
-  };
 
-  const findZoomLevels = useCallback(() => {
-    const result = [];
-    data.map((element) => result.push(element[0]));
-    return result;
-  }, [data]);
+        const line = result;
+        const lineNumber = line.length;
+        for (let i = 0; i < lineNumber;) {
+            if (line[i].length === 1) {
+                let j = i + 1;
+                let polygons = [];
+                let labels = [];
+                while (j < lineNumber && line[j].length > 1) {
 
-  const findZoom = useCallback(() => {
-    const inverseZoomLevel = 10 * Math.pow(2, -(map && map.getZoom()));
-    const zoomLevels = data && findZoomLevels();
-    for (let i = 0; i < zoomLevels.length - 1; i++) {
-      if (inverseZoomLevel <= zoomLevels[i]) {
-        setZoom(i);
-        break;
-      } else if (
-          inverseZoomLevel > zoomLevels[i] &&
-          inverseZoomLevel <= zoomLevels[i + 1]
-      ) {
-        setZoom(i + 1);
-        break;
-      } else {
-        setZoom(zoomLevels.length - 1)
-      }
-    }
-  }, [map, data, findZoomLevels]);
+                    if (line[j][0] === 'P') {
+                        polygons.push(line[j].slice(1));
+                    }
+                    if (line[j][0] === 'S') {
+                        polygons.push(line[j].slice(1));
+                    }
+                    if (line[j][0] === 'L') {
+                        labels.push({
+                            text: line[j][1],
+                            point: [line[j][2], line[j][3]],
+                            size: line[j][4],
+                            color: `#${(Number(line[j][5]) % 0x1000000).toString(16)}`,
+                            opacity: Number(line[j][5]) / 0x1000000 / 255.0,
+                        })
+                    }
+                    j++;
+                }
+                let sameColor = {};
+                for (let k = 0; k < polygons.length;) {
+                    let color = polygons[0][0];
+                    if (polygons[k][0] === color) {
+                        let points = [];
+                        let temp = polygons[k].slice(1);
+                        for (let k = 0; k < temp.length; k += 2) {
+                            points.push([temp[k], temp[k + 1]]);
+                        }
+                        if (color in sameColor) sameColor[color].push(points);
+                        else sameColor[color] = [points];
+                        polygons.splice(k, 1);
+                        k = 0;
+                    } else {
+                        k++;
+                    }
+                }
+                setData((prevData) => [...prevData, [Number(line[i][0]), sameColor]]);
+                setLabel((prevLabel) => [...prevLabel, [Number(line[i][0]), labels]]);
+                i = j;
+            }
+        }
+    };
 
-  useEffect(() => {
-    findZoom();
-  }, [findZoom, data]);
+    const parseFile = async (url, key) => {
+        setData([]);
+        setLabel([]);
+        setIsDataFetching(true);
+        const _cached = await db.get(url);
+        if (_cached.length) {
+            getData(url, _cached[0].data, true);
+        } else {
+            if (key) {
+                const response = await axios({
+                    url,
+                    method: 'GET',
+                    responseType: 'blob',
+                });
+                const decrypted = decryptPrivateMap(response.data, key);
+                decrypted &&
+                Papa.parse(decrypted, {
+                    complete: (result) => getData(url, result.data, false),
+                });
+            } else {
+                Papa.parse(url, {
+                    download: true,
+                    complete: (result) => getData(url, result.data, false),
+                });
+            }
+        }
+    };
 
-  useEffect(() => {
-    map &&
-      map.on('zoom', function () {
+    const findZoomLevels = useCallback(() => {
+        const result = [];
+        data.map((element) => result.push(element[0]));
+        return result;
+    }, [data]);
+
+    const findZoom = useCallback(() => {
+        const inverseZoomLevel = 10 * Math.pow(2, -(map && map.getZoom()));
+        const zoomLevels = data && findZoomLevels();
+        for (let i = 0; i < zoomLevels.length - 1; i++) {
+            if (inverseZoomLevel <= zoomLevels[i]) {
+                setZoom(i);
+                break;
+            } else if (
+                inverseZoomLevel > zoomLevels[i] &&
+                inverseZoomLevel <= zoomLevels[i + 1]
+            ) {
+                setZoom(i + 1);
+                break;
+            } else {
+                setZoom(zoomLevels.length - 1)
+            }
+        }
+    }, [map, data, findZoomLevels]);
+
+    useEffect(() => {
         findZoom();
-      });
-  });
+    }, [findZoom, data]);
 
-  const hasPrivateAccess = () => {
-    return (
-      user &&
-      user.permissions.filter((perm) => perm === 'webmap').length &&
-      user.permissions.some((perm) => {
-        return perm.includes('maps_');
-      })
-    );
-  };
+    useEffect(() => {
+        map &&
+        map.on('zoom', function () {
+            findZoom();
+        });
+    });
 
-  useEffect(() => {
-    dispatch(fetchMaps());
-    hasPrivateAccess() && dispatch(fetchPrivateMaps(token));
-    setMap(
-      new window.L.Map('map', {
-        key: process.env.REACT_APP_MAP_TOKEN,
-        maptype: 'dreamy',
-        poi: true,
-        traffic: false,
-        zoomControl: false,
-        center: [32.4279, 53.688],
-        zoom: 4.2,
-      })
-    );
-  }, [dispatch]);
+    const hasPrivateAccess = () => {
+        return (
+            user &&
+            user.permissions.filter((perm) => perm === 'webmap').length &&
+            user.permissions.some((perm) => {
+                return perm.includes('maps_');
+            })
+        );
+    };
 
-  useEffect(() => {
-    mapList && setChosenMap(mapList[0]);
-  }, [mapList]);
+    useEffect(() => {
+        dispatch(fetchMaps());
+        hasPrivateAccess() && dispatch(fetchPrivateMaps(token));
+        setMap(
+            new window.L.Map('map', {
+                key: process.env.REACT_APP_MAP_TOKEN,
+                maptype: 'dreamy',
+                poi: true,
+                traffic: false,
+                zoomControl: false,
+                center: [32.4279, 53.688],
+                zoom: 4.2,
+            })
+        );
+    }, [dispatch]);
 
-  useEffect(() => {
-    chosenMap &&
-      parseFile(
-        `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${chosenMap.version}.csv`,
-        chosenMap.key
-      );
-  }, [chosenMap]);
+    useEffect(() => {
+        mapList && setChosenMap(mapList[0]);
+    }, [mapList]);
 
-  useEffect(() => {
-    clearPolygon();
-    if (!((data || {})[zoom] || [])[1]) {
-      return;
-    }
-    for (let key in data[zoom][1]) {
-      if (Object.prototype.hasOwnProperty.call(data[zoom][1], key))
-        drawPolygon(key, data[zoom][1][key]);
-    }
-  }, [map, zoom, data, clearPolygon, drawPolygon]);
+    useEffect(() => {
+        chosenMap &&
+        parseFile(
+            `${process.env.REACT_APP_MAP_CDN}${chosenMap.id}.${chosenMap.version}.csv`,
+            chosenMap.key
+        );
+    }, [chosenMap]);
 
-  useEffect(() => {
-    clearLabel();
-    if (!((label || {})[zoom] || [])[1]) {
-      return;
-    }
-    // TODO clean this shit
-    let root = document.documentElement;
-    root.style.setProperty('--label-color', '#000000');
-    root.style.setProperty('--label-size', 10);
-    for (let entry of label[zoom][1]){
-      window.L.marker(entry.point, {
-        opacity: 0,
-      }).bindTooltip(entry.text, {
-        permanent: true,
-        className: 'map-label',
-        direction: 'top',
-      }).addTo(map);
-    }
-  }, [map, label, zoom, clearLabel]);
+    useEffect(() => {
+        clearPolygon();
+        if (!((data || {})[zoom] || [])[1]) {
+            return;
+        }
+        for (let key in data[zoom][1]) {
+            if (Object.prototype.hasOwnProperty.call(data[zoom][1], key))
+                drawPolygon(key, data[zoom][1][key]);
+        }
+    }, [map, zoom, data, clearPolygon, drawPolygon]);
 
-  const handleLocate = async () => {
-    const myLatLngLocation = await utility.getCurrentPosition();
-    map.flyTo(myLatLngLocation, 15);
-  };
+    useEffect(() => {
+        clearLabel();
+        if (!((label || {})[zoom] || [])[1]) {
+            return;
+        }
+        // TODO clean this shit
+        let root = document.documentElement;
+        root.style.setProperty('--label-color', '#000000');
+        root.style.setProperty('--label-size', 10);
+        for (let entry of label[zoom][1]) {
+            window.L.marker(entry.point, {
+                opacity: 0,
+            }).bindTooltip(entry.text, {
+                permanent: true,
+                className: 'map-label',
+                direction: 'top',
+            }).addTo(map);
+        }
+    }, [map, label, zoom, clearLabel]);
 
-  const clickMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    const handleLocate = async () => {
+        const myLatLngLocation = await utility.getCurrentPosition();
+        map.flyTo(myLatLngLocation, 15);
+    };
 
-  const closeMenu = (value) => {
-    value && setChosenMap(value);
-    setAnchorEl(null);
-  };
+    const clickMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
-  const renderMenu = () => {
-    return (
-      <Menu
-        classes={{
-          paper: 'map-menu',
-        }}
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={() => closeMenu()}
-      >
-        {mapList &&
-          mapList.map((item) => {
-            return (
-              <MenuItem
-                key={item.id}
-                classes={{ root: 'map-menu-item' }}
-                onClick={() => closeMenu(item)}
-              >
-                {item.name}
-              </MenuItem>
-            );
-          })}
-      </Menu>
-    );
-  };
+    const closeMenu = (value) => {
+        value && setChosenMap(value);
+        setAnchorEl(null);
+    };
 
-  return (
-    <div className={`contentWrapper MapWrapper`}>
-      <div className="alerts">
-        <Collapse
-          className="map-alert-wrapper"
-          in={isDataFetching || isMapFetching || isPrivateMapFetching}
-          addEndListener={null}
-        >
-          <Alert
-            severity="info"
-            action={
-              <IconButton
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setIsDataFetching(false);
+    const renderMenu = () => {
+        return (
+            <Menu
+                classes={{
+                    paper: 'map-menu',
                 }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-          >
-            تا دریافت اطلاعات منتظر بمانید.
-          </Alert>
-        </Collapse>
-        {serverError && (
-          <Collapse
-            className="map-alert-wrapper"
-            in={vpnAlert}
-            addEndListener={null}
-          >
-            <Alert
-              severity="warning"
-              action={
-                <IconButton
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setVpnAlert(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={() => closeMenu()}
             >
-              در صورت اتصال، vpn دستگاه را قطع کنید.
-            </Alert>
-          </Collapse>
-        )}
-      </div>
-      <div className="map-button-wrapper">
-        <button
-          type="button"
-          className="map-button"
-          onClick={() => handleLocate()}
-        >
-          <MyLocationIcon />
-        </button>
-        <button
-          type="button"
-          name="chosenMap"
-          className="map-button type"
-          onClick={(e) => clickMenu(e)}
-        >
-          <div>{(chosenMap || {}).name}</div>
-          <ExpandMoreIcon />
-        </button>
-      </div>
-      <div
-        id="map"
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          width: '100vw',
-          height: '100vh',
-          zIndex: 0,
-        }}
-      />
-      <div className="comment-wrapper">
-        <div className="map-comment">{(chosenMap || {}).comment || 'ــ'}</div>
-      </div>
-      <div className="logo-wrapper right">
-        <img src={logo} alt="" />
-      </div>
-      <div className="logo-wrapper left">
-        <img src={neshanLogo} alt="" />
-      </div>
-      {renderMenu()}
-    </div>
-  );
+                {mapList &&
+                mapList.map((item) => {
+                    return (
+                        <MenuItem
+                            key={item.id}
+                            classes={{root: 'map-menu-item'}}
+                            onClick={() => closeMenu(item)}
+                        >
+                            {item.name}
+                        </MenuItem>
+                    );
+                })}
+            </Menu>
+        );
+    };
+
+    return (
+        <div className={`contentWrapper MapWrapper`}>
+            <div className="alerts">
+                <Collapse
+                    className="map-alert-wrapper"
+                    in={isDataFetching || isMapFetching || isPrivateMapFetching}
+                    addEndListener={null}
+                >
+                    <Alert
+                        severity="info"
+                        action={
+                            <IconButton
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setIsDataFetching(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit"/>
+                            </IconButton>
+                        }
+                    >
+                        تا دریافت اطلاعات منتظر بمانید.
+                    </Alert>
+                </Collapse>
+                {serverError && (
+                    <Collapse
+                        className="map-alert-wrapper"
+                        in={vpnAlert}
+                        addEndListener={null}
+                    >
+                        <Alert
+                            severity="warning"
+                            action={
+                                <IconButton
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setVpnAlert(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit"/>
+                                </IconButton>
+                            }
+                        >
+                            در صورت اتصال، vpn دستگاه را قطع کنید.
+                        </Alert>
+                    </Collapse>
+                )}
+            </div>
+            <div className="map-button-wrapper">
+                <button
+                    type="button"
+                    className="map-button"
+                    onClick={() => handleLocate()}
+                >
+                    <MyLocationIcon/>
+                </button>
+                <button
+                    type="button"
+                    name="chosenMap"
+                    className="map-button type"
+                    onClick={(e) => clickMenu(e)}
+                >
+                    <div>{(chosenMap || {}).name}</div>
+                    <ExpandMoreIcon/>
+                </button>
+            </div>
+            <div
+                id="map"
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    right: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    zIndex: 0,
+                }}
+            />
+            <div className="comment-wrapper">
+                <div className="map-comment">{(chosenMap || {}).comment || 'ــ'}</div>
+            </div>
+            <div className="logo-wrapper right">
+                <img src={logo} alt=""/>
+            </div>
+            <div className="logo-wrapper left">
+                <img src={neshanLogo} alt=""/>
+            </div>
+            {renderMenu()}
+        </div>
+    );
 }
 
 export default Map;
