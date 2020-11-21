@@ -46,8 +46,10 @@ function Map() {
             if (map && polygons) {
                 for (let polygon of polygons) {
                     let tooltip = null;
+                    let width = null;
                     if (isNaN(polygon[polygon.length - 1][0])) {
                         tooltip = polygon[polygon.length - 1][0];
+                        width = polygon[polygon.length - 1][1];
                         polygon = polygon.slice(0, polygon.length - 1);
                     }
                     window.L.polygon([polygon], {
@@ -56,7 +58,7 @@ function Map() {
                         stroke: false,
                         fillOpacity: Number(color) / 0x1000000 / 255.0,
                     }).on('click', function (e) {
-                        showTooltip(tooltip, e)
+                        showTooltip(tooltip, width, e)
                     }).addTo(map);
                 }
             }
@@ -66,12 +68,13 @@ function Map() {
 
     var popup = map && window.L.popup();
 
-    function showTooltip(tooltip, e) {
+    function showTooltip(tooltip, width, e) {
         if (tooltip !== null) {
             let url = `${process.env.REACT_APP_MAP_IMAGE_CDN}${tooltip}`;
             popup
                 .setLatLng(e.latlng)
-                .setContent("<div><img class='tooltip' alt=\"stats\" src=" + url + " /> </div>")
+                .setContent("<div>" +
+                    "<img style=\"max-width: 1000px; width: " + width + "px;\" alt=\"stats\" src=" + url + " /> </div>")
                 .openOn(map);
         }
     }
@@ -138,9 +141,7 @@ function Map() {
                 polygons.push(line[i].slice(1));
             }
             if (line[i][0] === 'S') {
-                let polygon = line[i].slice(1);
-                polygon.push(...[""])
-                sPolygons.push(polygon);
+                sPolygons.push(line[i].slice(1));
             }
             if (line[i][0] === 'L') {
                 labels.push({
