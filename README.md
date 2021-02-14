@@ -1,3 +1,3 @@
 # mask app
 This is an opensource development of Mask App, 
-We are fighting against Cornoa
+We are fighting against Corona
